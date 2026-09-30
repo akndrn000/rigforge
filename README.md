@@ -1,5 +1,13 @@
 # RigForge
 
+*Ubah data avatar Roblox jadi script Lua siap pakai.*
+
+![React 19](https://img.shields.io/badge/React-19-61DAFB?logo=react&logoColor=white) ![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?logo=typescript&logoColor=white) ![Vite](https://img.shields.io/badge/Vite-646CFF?logo=vite&logoColor=white) ![License: MIT](https://img.shields.io/badge/License-MIT-green)
+
+**[Demo Live](https://rigforge-lemon.vercel.app)** • **[Laporkan Bug](https://github.com/akndrn000/rigforge/issues)** • **[Struktur Proyek](#-struktur-proyek)**
+
+<!-- Tambahkan screenshot aplikasi di sini, contoh: ![Screenshot](./public/screenshot.png) -->
+
 Konverter data mentah avatar Roblox menjadi script Lua untuk Roblox Studio. Semua proses berjalan di browser, tanpa server dan tanpa login. Satu halaman, satu alat: tempel data di kiri, salin hasil Lua di kanan.
 
 **Parser tidak diubah** (aturan pencocokan token, `DynamicHead`, varian TShirt, dan seterusnya). **Generator memakai template universal**:
@@ -12,7 +20,25 @@ Konverter data mentah avatar Roblox menjadi script Lua untuk Roblox Studio. Semu
 
 Tes di `src/lib/converter.test.ts` mengunci perilaku ini, termasuk bahwa input tanpa ID menghasilkan template persis seperti yang ditentukan (26 kasus snapshot di `src/lib/__fixtures__/golden.json`).
 
-## Isi halaman
+## Daftar Isi
+
+- [💡 Kenapa RigForge?](#-kenapa-rigforge)
+- [🧩 Isi Halaman](#-isi-halaman)
+- [🧰 Teknologi](#-teknologi)
+- [💻 Menjalankan di Komputer](#-menjalankan-di-komputer)
+- [🌐 Deploy ke Vercel](#-deploy-ke-vercel)
+  - [Domain sendiri](#domain-sendiri)
+- [📁 Struktur Proyek](#-struktur-proyek)
+- [🎨 Kustomisasi](#-kustomisasi)
+- [📝 Catatan](#-catatan)
+- [📄 Lisensi](#-lisensi)
+- [🙏 Dibuat dengan](#-dibuat-dengan)
+
+## 💡 Kenapa RigForge?
+
+RigForge mengubah data mentah avatar Roblox menjadi script Lua siap pakai untuk Roblox Studio. Semua proses berjalan di browser, tanpa server dan tanpa login. Satu halaman, satu alat: tempel data di kiri, salin hasil Lua di kanan.
+
+## 🧩 Isi Halaman
 
 Situs ini hanya punya satu halaman tanpa routing (tidak ada hash URL, tidak ada library routing):
 
@@ -24,14 +50,14 @@ Situs ini hanya punya satu halaman tanpa routing (tidak ada hash URL, tidak ada 
 
 Tema terang/gelap bisa ditukar lewat tombol di header dan tersimpan di `localStorage`. Kedua mode memakai token warna yang sama per peran (lihat `src/styles/tokens.css`).
 
-## Teknologi
+## 🧰 Teknologi
 
 - Vite + React 19 + TypeScript
 - CSS biasa dengan design token, gaya neobrutalism (border tebal, hard shadow tanpa blur, aksen kuning)
 - Font di-host sendiri lewat Fontsource (tanpa Google Fonts)
 - Vitest untuk tes logika
 
-## Menjalankan di komputer
+## 💻 Menjalankan di Komputer
 
 Butuh Node.js 20.19 atau lebih baru.
 
@@ -43,7 +69,7 @@ npm run build      # hasil di folder dist
 npm run preview    # coba hasil build di http://localhost:4173
 ```
 
-## Deploy ke Vercel
+## 🌐 Deploy ke Vercel
 
 **Lewat GitHub (disarankan)**
 
@@ -68,7 +94,7 @@ SITE_URL = https://domainkamu.com
 
 Tanpa variable ini, build otomatis memakai URL produksi dari Vercel (`VERCEL_PROJECT_PRODUCTION_URL`). `robots.txt` dan `sitemap.xml` dibuat saat build oleh plugin di `vite.config.ts`.
 
-## Struktur proyek
+## 📁 Struktur Proyek
 
 ```
 src/
@@ -88,14 +114,22 @@ src/
 public/                 favicon, ikon iOS, gambar Open Graph
 ```
 
-## Kustomisasi
+## 🎨 Kustomisasi
 
 - **Warna dan font:** `src/styles/tokens.css`. Semua kotak (input, tombol, panel) memakai `--bw`/`--bw-strong` untuk ketebalan border dan `--shadow*` untuk hard shadow; varian terang dan gelap diatur di blok `:root` dan `[data-theme='dark']`.
 - **Teks halaman:** `src/components/Converter.tsx`, `Header.tsx`, `Footer.tsx`.
 - **Nilai Scaling di Lua** (BodyType, Depth, Height, dan seterusnya) dan warna kulit bawaan (`Pastel orange`) ditulis tetap di `converter.ts` (konstanta `SCALING` dan `DEFAULT_SKIN_TONE`). Jika diubah, perbarui `golden.json` karena outputnya ikut berubah.
 - **Gambar pratinjau link** (`public/og-image.png`, 1200x630) bisa diganti dengan desain sendiri.
 
-## Catatan
+## 📝 Catatan
 
 - Nama "Roblox" adalah merek dagang Roblox Corporation, dipakai hanya untuk menjelaskan fungsi alat. Footer memuat pernyataan bahwa situs ini tidak berafiliasi.
 - Situs tidak memakai analytics atau pelacak apa pun. Data yang ditempel tidak dikirim ke mana-mana.
+
+## 📄 Lisensi
+
+Proyek ini berlisensi MIT — lihat file [LICENSE](./LICENSE).
+
+## 🙏 Dibuat dengan
+
+Dibuat dengan Vite, React, dan TypeScript.
