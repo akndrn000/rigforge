@@ -1,11 +1,10 @@
 import type { ReactNode } from 'react'
 
 /** Set ikon sendiri: stroke 1.6 dan sudut membulat, dipakai untuk judul panel,
- *  tombol aksi, serta status di footer panel. */
+ *  tombol aksi, serta badge status di statusbar. */
 export type IconName =
   | 'moon' | 'prompt' | 'brackets' | 'trash' | 'download' | 'copy' | 'sample' | 'refresh'
-  | 'info' | 'arrow' | 'arrow-right' | 'check' | 'shield' | 'sun' | 'target'
-  | 'file' | 'layers' | 'chevron' | 'user' | 'alert'
+  | 'info' | 'arrow' | 'check' | 'sun' | 'alert'
 
 const PATHS: Record<IconName, ReactNode> = {
   moon: (
@@ -67,7 +66,7 @@ const PATHS: Record<IconName, ReactNode> = {
     </>
   ),
   info: (<><circle cx="12" cy="12" r="9" /><line x1="12" y1="15.5" x2="12" y2="11" /><circle cx="12" cy="8" r="0.8" fill="currentColor" stroke="none" /></>),
-  // Segitiga berisi seru: status gagal, dipakai pill di footer panel output.
+  // Segitiga berisi seru: status gagal, dipakai badge di statusbar.
   alert: (
     <>
       <path d="M12 4.2L21 19.4H3z" />
@@ -76,39 +75,25 @@ const PATHS: Record<IconName, ReactNode> = {
     </>
   ),
   arrow: (<><line x1="4.5" y1="12" x2="18" y2="12" /><path d="M13.5 6.5L19 12l-5.5 5.5" /></>),
-  'arrow-right': (<><line x1="4.5" y1="12" x2="18" y2="12" /><path d="M13.5 6.5L19 12l-5.5 5.5" /></>),
   check: <path d="M4.5 12.5l4.5 4.5L19.5 7" />,
-  shield: (
-    <>
-      <path d="M12 3.2l7.2 2.7v6.2c0 5-3 7.9-7.2 9.7-4.2-1.8-7.2-4.7-7.2-9.7V5.9z" />
-      <path d="M8.8 12l2.3 2.3 4.1-4.3" />
-    </>
-  ),
   sun: (
     <>
       <circle cx="12" cy="12" r="3.6" />
       <path d="M12 2.8v2.1M12 19.1v2.1M4.6 4.6l1.5 1.5M17.9 17.9l1.5 1.5M2.8 12h2.1M19.1 12h2.1M4.6 19.4l1.5-1.5M17.9 6.1l1.5-1.5" strokeDasharray="0 4.2" strokeLinecap="round" />
     </>
   ),
-  target: (<><circle cx="12" cy="12" r="9" strokeDasharray="2 4.5" /><circle cx="12" cy="12" r="5" /><circle cx="12" cy="12" r="1.4" fill="currentColor" stroke="none" /></>),
-  file: (<><path d="M13.5 3H7a1.6 1.6 0 0 0-1.6 1.6v14.8A1.6 1.6 0 0 0 7 21h10a1.6 1.6 0 0 0 1.6-1.6V7.2z" /><path d="M13.5 3v3.8a1 1 0 0 0 1 1H18" /><line x1="8.6" y1="13" x2="15.4" y2="13" /><line x1="8.6" y1="16.4" x2="13" y2="16.4" /></>),
-  layers: (<><path d="M12 3.5l8.2 4.5L12 12.5 3.8 8z" /><path d="M4.5 12.2L12 16.3l7.5-4.1" /><path d="M4.5 15.9L12 20l7.5-4.1" /></>),
-  chevron: <path d="M6.5 9.5L12 15l5.5-5.5" />,
-  user: (<><path d="M19 20.5v-1.8a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v1.8" /><circle cx="12" cy="7.5" r="3.6" /></>),
 }
 
 interface IconProps {
   name: IconName
   size?: number
-  /** Isi solid (dipakai untuk logo bulan). */
-  filled?: boolean
   className?: string
 }
 
-export function Icon({ name, size = 16, filled = false, className }: IconProps) {
+export function Icon({ name, size = 16, className }: IconProps) {
   return (
     <svg
-      className={['icon', filled ? 'icon--filled' : '', className ?? ''].filter(Boolean).join(' ')}
+      className={['icon', className ?? ''].filter(Boolean).join(' ')}
       width={size}
       height={size}
       viewBox="0 0 24 24"

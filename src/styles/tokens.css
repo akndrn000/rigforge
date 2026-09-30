@@ -1,42 +1,40 @@
 :root {
   color-scheme: light;
 
-  /* Neobrutalism terang: kertas kuning pucat, hitam pekat untuk semua garis,
-     satu aksen kuning terang. Tanpa gradien, tanpa shadow blur. */
+  /* Neobrutalism terang: kertas kuning pucat untuk halaman, putih untuk panel,
+     SATU aksen kuning terang, hitam pekat untuk semua garis struktural.
+     Tanpa gradien, tanpa shadow blur. */
   --bg: #fff8e7;
-  --bg-alt: #ffffff;
   --surface: #ffffff;
-  --surface-2: #fff1b8;
+  --surface-2: #efece2;
   --ink: #101010;
-  --ink-2: #2b2b2b;
   --muted: #565656;
-  --line: #101010;
-  --line-strong: #101010;
 
-  /* Aksen tunggal: kuning terang (kesan peralatan/workshop) + hitam pekat. */
+  /* Satu sumber warna border struktural, dipakai dengan --bw / --bw-lg
+     di SELURUH halaman dan di KEDUA mode tema. */
+  --line: #101010;
+
+  /* Satu sumber warna kuning. */
   --accent: #ffd400;
   --accent-hover: #ffe44d;
   --accent-ink: #101010;
-  --accent-text: #101010;
-  --accent-soft: #fff1b8;
 
-  /* Isi inverse (tombol "Salin Kode", bar footer): gelap di tema terang. */
-  --inverse-bg: #101010;
-  --inverse-ink: #ffd400;
-
+  /* Warna semantik (badge status, ikon). */
   --danger: #ff4d3d;
   --ok: #2fbf71;
-  --warn: #ff9e00;
   --pill-ink: #101010;
 
   --swatch-line: #101010;
 
-  /* Panel kode/output: balapan gelap agar monospace tetap terasa "editor". */
+  /* Panel kode/output Lua. */
   --code-bg: #141414;
   --code-ink: #f5f2e8;
   --code-muted: #a8a29a;
-  --code-line: #101010;
-  --code-ok: #4ade80;
+
+  /* Footer: latar gelap tetap di kedua mode, dipisah border kuning tebal. */
+  --footer-bg: #101010;
+  --footer-ink: #f5f2e8;
+  --footer-muted: #a8a29a;
 
   /* Hard shadow: offset solid tanpa blur. */
   --shadow-color: #101010;
@@ -58,42 +56,33 @@
   --header-h: 76px;
   --container: 1180px;
 
-  /* Ritme vertikal halaman tunggal (alat + footer). */
+  /* Ritme vertikal halaman tunggal (statusbar, alat, footer). */
   --space-section-sm: 32px;
   --space-section-md: 48px;
-  --space-section-lg: 64px;
   --space-section-head: 24px;
   --space-section-sub: 12px;
-  --space-section-micro: 6px;
 }
 
 [data-theme='dark'] {
   color-scheme: dark;
 
   /* Neobrutalism gelap: latar hampir hitam, garis terang tebal, hard shadow
-     hitam yang tetap terbaca karena permukaan lebih terang dari latarnya. */
+     hitam yang tetap terbaca karena permukaan lebih terang dari latarnya.
+     Peran yang sama memakai nama token yang sama dengan mode terang. */
   --bg: #151618;
-  --bg-alt: #1b1d1f;
   --surface: #232527;
   --surface-2: #303236;
   --ink: #f5f2e8;
-  --ink-2: #dcd8cc;
   --muted: #a6a297;
+
   --line: #f5f2e8;
-  --line-strong: #f5f2e8;
 
   --accent: #ffd400;
   --accent-hover: #ffe44d;
   --accent-ink: #101010;
-  --accent-text: #ffd400;
-  --accent-soft: #3a3208;
-
-  --inverse-bg: #ffd400;
-  --inverse-ink: #101010;
 
   --danger: #ff6b5e;
   --ok: #4ade80;
-  --warn: #ffb020;
   --pill-ink: #101010;
 
   --swatch-line: #f5f2e8;
@@ -101,8 +90,10 @@
   --code-bg: #0a0a0a;
   --code-ink: #f5f2e8;
   --code-muted: #9a968e;
-  --code-line: #f5f2e8;
-  --code-ok: #4ade80;
+
+  --footer-bg: #1b1d1f;
+  --footer-ink: #f5f2e8;
+  --footer-muted: #9a968e;
 
   --shadow-color: #000000;
 }
@@ -111,6 +102,5 @@
   :root {
     --space-section-sm: 24px;
     --space-section-md: 36px;
-    --space-section-lg: 48px;
   }
 }

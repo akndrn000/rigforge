@@ -12,10 +12,10 @@ export function Header() {
           <span className="brand__mark">
             <Icon name="brackets" size={20} />
           </span>
-          <span className="brand__text">
-            <span className="brand__name">RigForge</span>
+          <div className="brand__text">
+            <h1 className="brand__name">RigForge</h1>
             <span className="brand__tag">Ubah data avatar Roblox jadi script Lua siap pakai.</span>
-          </span>
+          </div>
         </div>
 
         <button

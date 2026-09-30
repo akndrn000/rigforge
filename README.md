@@ -14,15 +14,15 @@ Tes di `src/lib/converter.test.ts` mengunci perilaku ini, termasuk bahwa input t
 
 ## Isi halaman
 
-Situs hanya punya satu halaman tanpa routing (tidak ada hash URL, tidak ada library routing):
+Situs ini hanya punya satu halaman tanpa routing (tidak ada hash URL, tidak ada library routing):
 
-- Input data mentah + tombol **Contoh Data** (dari `src/lib/sample.ts`).
-- Tombol **Generate Paksa** untuk memuat ulang konversi tanpa menunggu debounce.
+- **Statusbar** tipis di bawah header: badge baris data, karakter hasil, status konversi (Siap/Kosong/Gagal/Memproses), deteksi bagian tubuh, dan tombol utama **Generate Paksa**.
+- Input data mentah + tombol **Contoh Data** (dari `src/lib/sample.ts`); keterangan format singkat ada di dalam panel ("satu token per baris `Token: id1, id2`, atau tempel blob `AccessoryBlob Data`").
 - Panel output Lua dengan tombol **Salin Kode** dan **Unduh .lua**.
-- Ringkasan hasil deteksi (bagian tubuh, warna kulit, pakaian, aksesori).
-- Bantuan format singkat di atas form: satu token per baris `Token: id1, id2`, atau tempel blob `AccessoryBlob Data` apa adanya.
+- Ringkasan hasil deteksi (bagian tubuh, warna kulit, pakaian, aksesori) di bawah panel.
+- Footer latar gelap dengan border kuning tebal: disclaimer merek dagang Roblox dan catatan privasi.
 
-Tema terang/gelap bisa ditukar lewat tombol di header dan tersimpan di `localStorage`.
+Tema terang/gelap bisa ditukar lewat tombol di header dan tersimpan di `localStorage`. Kedua mode memakai token warna yang sama per peran (lihat `src/styles/tokens.css`).
 
 ## Teknologi
 

@@ -8,6 +8,7 @@ html {
   scroll-behavior: smooth;
   scroll-padding-top: calc(var(--header-h) + 16px);
   -webkit-text-size-adjust: 100%;
+  scrollbar-color: var(--line) var(--bg);
 }
 
 body {
@@ -79,7 +80,7 @@ pre {
 code {
   font-size: 0.88em;
   font-weight: 600;
-  background: var(--accent-soft);
+  background: var(--surface-2);
   border: 2px solid var(--line);
   border-radius: 3px;
   padding: 0 5px;
@@ -91,6 +92,8 @@ code {
   color: var(--accent-ink);
 }
 
+/* Satu cincin fokus untuk semua elemen: --ink (hitam di terang, krem di gelap),
+   dengan varian --code-ink untuk permukaan panel kode yang lebih gelap. */
 :focus-visible {
   outline: 3px solid var(--ink);
   outline-offset: 2px;
@@ -129,16 +132,6 @@ code {
   stroke-linecap: round;
   stroke-linejoin: round;
 }
-.icon--filled {
-  fill: currentColor;
-  stroke: none;
-}
-.icon--warn {
-  color: var(--warn);
-}
-.icon--ok {
-  color: var(--code-ok);
-}
 
 .mono {
   font-family: var(--font-mono);
@@ -147,14 +140,6 @@ code {
   font-family: var(--font-mono);
   font-size: 11px;
   font-weight: 600;
-}
-.text-ok {
-  color: var(--code-ok);
-  font-weight: 700;
-}
-.text-danger {
-  color: var(--danger);
-  font-weight: 700;
 }
 
 @media (max-width: 900px) {

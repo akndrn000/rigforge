@@ -1,3 +1,76 @@
+/* ============ Statusbar (di bawah header) ============ */
+.statusbar {
+  background: var(--bg);
+  border-bottom: var(--bw-lg) solid var(--line);
+}
+.statusbar__in {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px 16px;
+  padding-block: 10px;
+}
+.statusbar__badges {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+
+/* Badge: kotak kecil border tebal, netral (hitam/putih/abu) kecuali status semantik. */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 1.2;
+  padding: 5px 9px;
+  border: 2px solid var(--line);
+  border-radius: 3px;
+  background: var(--surface);
+  color: var(--ink);
+  white-space: nowrap;
+}
+.badge .icon {
+  width: 13px;
+  height: 13px;
+}
+.badge--ok {
+  background: var(--ok);
+  color: var(--pill-ink);
+}
+.badge--err {
+  background: var(--danger);
+  color: var(--pill-ink);
+}
+.badge--empty {
+  background: var(--surface-2);
+  color: var(--muted);
+}
+.badge--pending {
+  background: var(--surface-2);
+  color: var(--ink);
+}
+.badge__dot {
+  width: 7px;
+  height: 7px;
+  flex: none;
+  background: var(--ink);
+  animation: pending-pulse 0.85s ease-in-out infinite alternate;
+}
+@keyframes pending-pulse {
+  from {
+    opacity: 0.25;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
 /* ============ Tombol ============ */
 .btn {
   display: inline-flex;
@@ -34,6 +107,7 @@
   font-size: 13px;
   padding: 7px 11px;
 }
+/* Aksen kuning hanya untuk aksi utama: Generate Paksa dan Salin Kode. */
 .btn--primary {
   background: var(--accent);
   color: var(--accent-ink);
@@ -57,13 +131,6 @@
 .btn--sample {
   background: var(--surface-2);
 }
-.btn--sample:hover {
-  background: var(--accent-soft);
-}
-.btn--accent {
-  background: var(--inverse-bg);
-  color: var(--inverse-ink);
-}
 .btn--copy {
   min-width: 124px;
 }
@@ -84,10 +151,12 @@
   transition:
     transform 0.08s ease,
     box-shadow 0.08s ease,
-    background-color 0.12s ease;
+    background-color 0.12s ease,
+    color 0.12s ease;
 }
 .icon-btn:hover {
-  background: var(--accent);
+  background: var(--ink);
+  color: var(--bg);
 }
 .icon-btn:active {
   transform: translate(3px, 3px);
@@ -123,7 +192,7 @@
   height: 40px;
   flex: none;
   background: var(--accent);
-  color: var(--ink);
+  color: var(--accent-ink);
   border: var(--bw) solid var(--line);
   border-radius: var(--radius);
   box-shadow: var(--shadow-sm);
@@ -155,28 +224,6 @@
   padding-block: var(--space-section-sm) var(--space-section-md);
 }
 
-.tool-head {
-  margin-bottom: var(--space-section-head);
-}
-.tool-head h1 {
-  display: inline-block;
-  max-width: 100%;
-  margin-bottom: var(--space-section-head);
-  padding: 6px 14px 8px;
-  background: var(--accent);
-  color: var(--accent-ink);
-  border: var(--bw-lg) solid var(--line);
-  border-radius: var(--radius);
-  box-shadow: var(--shadow-lg);
-  font-size: clamp(1.55rem, 5.4vw, 2.7rem);
-  font-weight: 800;
-}
-.tool-head__hint {
-  max-width: 78ch;
-  font-size: clamp(14px, 3vw, 15.5px);
-  color: var(--ink-2);
-}
-
 /* ============ Bangku kerja (input → output) ============ */
 .bench {
   position: relative;
@@ -192,7 +239,7 @@
   left: 50%;
   top: 0;
   bottom: 0;
-  width: 3px;
+  width: var(--bw);
   transform: translateX(-1.5px);
   background: var(--line);
   pointer-events: none;
@@ -207,11 +254,11 @@
   width: 40px;
   height: 40px;
   transform: translate(-50%, -50%);
-  background: var(--accent);
+  background: var(--surface);
+  color: var(--ink);
   border: var(--bw) solid var(--line);
   border-radius: var(--radius);
   box-shadow: var(--shadow-sm);
-  color: var(--ink);
   pointer-events: none;
 }
 
@@ -227,23 +274,17 @@
   overflow: hidden;
   box-shadow: var(--shadow-lg);
 }
-.pane__head,
-.pane__foot {
+/* Kedua kepala panel memakai aturan yang sama persis agar garis pembatas
+   bawahnya sejajar horizontal (min-height, padding, font identik). */
+.pane__head {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: clamp(6px, 2vw, 12px);
-  padding: clamp(8px, 2.2vw, 12px) clamp(10px, 3vw, 16px);
-}
-.pane__head {
   min-height: 52px;
+  padding: clamp(8px, 2.2vw, 12px) clamp(10px, 3vw, 16px);
   background: var(--surface-2);
   border-bottom: var(--bw) solid var(--line);
-}
-.pane__foot {
-  border-top: var(--bw) solid var(--line);
-  font-size: clamp(11px, 2.4vw, 12.5px);
-  color: var(--muted);
 }
 .pane__title {
   display: flex;
@@ -272,46 +313,14 @@
   gap: clamp(4px, 1.4vw, 8px);
   flex: none;
 }
-.pane__meta {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 6px 12px;
-  min-width: 0;
-}
 
-.chip {
-  font-family: var(--font-mono);
-  font-size: clamp(9.5px, 2.2vw, 11px);
-  font-weight: 600;
-  color: var(--ink);
-  background: var(--surface-2);
-  border: 2px solid var(--line);
-  border-radius: 3px;
-  padding: clamp(3px, 1vw, 4px) clamp(6px, 1.6vw, 9px);
-  white-space: nowrap;
-}
-.chip--pending {
-  display: inline-flex;
-  align-items: center;
-  gap: 7px;
-  background: var(--accent);
-}
-.chip--pending::before {
-  content: '';
-  width: 7px;
-  height: 7px;
-  flex: none;
-  background: var(--ink);
-  animation: pending-pulse 0.85s ease-in-out infinite alternate;
-}
-@keyframes pending-pulse {
-  from {
-    opacity: 0.25;
-  }
-  to {
-    opacity: 1;
-  }
+/* Keterangan format singkat, menempel di dalam panel input. */
+.pane__note {
+  padding: 9px clamp(10px, 3vw, 16px);
+  background: var(--surface);
+  font-size: 12.5px;
+  line-height: 1.55;
+  color: var(--muted);
 }
 
 /* ============ Editor (textarea) ============ */
@@ -345,7 +354,7 @@
   opacity: 0.85;
 }
 .editor textarea:focus-visible {
-  outline: 3px solid var(--accent);
+  outline: 3px solid var(--ink);
   outline-offset: -3px;
 }
 
@@ -358,20 +367,11 @@
   background: var(--code-bg);
   border-color: color-mix(in srgb, var(--code-ink) 35%, transparent);
 }
-.pane--output .pane__foot {
-  border-color: color-mix(in srgb, var(--code-ink) 35%, transparent);
-  color: var(--code-muted);
-}
 .pane--output .pane__title {
   color: var(--code-ink);
 }
 .pane--output .pane__title .icon {
-  color: var(--code-ok);
-}
-.pane--output .chip {
-  background: transparent;
-  color: var(--code-ink);
-  border-color: color-mix(in srgb, var(--code-ink) 45%, transparent);
+  color: var(--ok);
 }
 .pane--output .editor textarea {
   color: var(--code-ink);
@@ -396,23 +396,17 @@
   transform: translate(3px, 3px);
   box-shadow: 0 0 0 var(--code-ink);
 }
-.pane--output .btn--accent {
-  background: var(--inverse-bg);
-  color: var(--inverse-ink);
-  border-color: var(--code-ink);
-  box-shadow: 3px 3px 0 var(--code-ink);
+.pane--output .btn--primary {
+  background: var(--accent);
+  color: var(--accent-ink);
 }
-.pane--output .btn--accent:hover {
+.pane--output .btn--primary:hover {
   background: var(--accent-hover);
   color: var(--accent-ink);
-  box-shadow: 5px 5px 0 var(--code-ink);
 }
-.pane--output .btn--accent .text-ok,
-.pane--output .btn--accent .icon--ok {
-  color: var(--inverse-ink);
-}
-.pane--output .status-pill {
-  border-color: var(--code-ink);
+/* Fokus di permukaan gelap memakai warna tinta kode agar tetap terlihat. */
+.pane--output :focus-visible {
+  outline-color: var(--code-ink);
 }
 .editor--flash textarea {
   animation: flash 0.7s ease-out;
@@ -424,39 +418,6 @@
   to {
     background: transparent;
   }
-}
-
-/* ============ Pill status ============ */
-.status-pill {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  font-family: var(--font-mono);
-  font-size: clamp(9.5px, 2.2vw, 11px);
-  font-weight: 700;
-  line-height: 1.2;
-  padding: clamp(3px, 1vw, 4px) clamp(7px, 1.8vw, 10px);
-  border: 2px solid transparent;
-  border-radius: 3px;
-  color: var(--pill-ink);
-  white-space: nowrap;
-}
-.status-pill .icon {
-  width: 14px;
-  height: 14px;
-  color: var(--pill-ink);
-}
-.status-pill--ok {
-  background: var(--ok);
-}
-.status-pill--empty {
-  background: var(--surface-2);
-}
-.status-pill--empty .icon {
-  color: var(--muted);
-}
-.status-pill--err {
-  background: var(--danger);
 }
 
 /* ============ Ringkasan deteksi ============ */
@@ -501,10 +462,12 @@
 }
 
 /* ============ Footer ============ */
+/* Latar gelap di kedua mode tema, dipisahkan border kuning tebal.
+   Satu-satunya aksen kuning di footer: border-top dan nama RigForge. */
 .site-footer {
-  background: var(--inverse-bg);
-  color: var(--inverse-ink);
-  border-top: var(--bw-lg) solid var(--line);
+  background: var(--footer-bg);
+  color: var(--footer-ink);
+  border-top: var(--bw-lg) solid var(--accent);
 }
 .site-footer__grid {
   display: grid;
@@ -514,17 +477,18 @@
 }
 .site-footer .brand__name {
   font-size: 22px;
+  color: var(--accent);
 }
 .site-footer__brand p {
   margin-top: var(--space-section-sub);
   max-width: 34ch;
   font-size: 14px;
-  color: color-mix(in srgb, var(--inverse-ink) 78%, var(--inverse-bg));
+  color: var(--footer-muted);
 }
 .site-footer__legal {
   font-size: 13.5px;
   max-width: 48ch;
-  color: color-mix(in srgb, var(--inverse-ink) 78%, var(--inverse-bg));
+  color: var(--footer-muted);
 }
 .site-footer__bar {
   display: flex;
@@ -532,10 +496,10 @@
   justify-content: space-between;
   gap: 16px;
   padding-block: var(--space-section-sub) var(--space-section-head);
-  border-top: var(--bw) solid color-mix(in srgb, var(--inverse-ink) 45%, var(--inverse-bg));
+  border-top: var(--bw) solid color-mix(in srgb, var(--footer-ink) 35%, var(--footer-bg));
   font-size: 13px;
   font-weight: 600;
-  color: color-mix(in srgb, var(--inverse-ink) 78%, var(--inverse-bg));
+  color: var(--footer-muted);
 }
 
 /* ============ Responsif ============ */
@@ -564,7 +528,7 @@
     top: 50%;
     bottom: auto;
     width: auto;
-    height: 3px;
+    height: var(--bw);
     transform: translateY(-1.5px);
   }
   .bench__seam .icon {
@@ -585,18 +549,8 @@
   .editor textarea {
     padding: 14px 16px;
   }
-  .pane__foot--input {
-    flex-wrap: wrap;
-  }
-  .pane__foot--input .btn {
-    width: 100%;
-    white-space: normal;
-    text-align: center;
-  }
-  .pane__foot--output {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 6px;
+  .statusbar__run {
+    flex: 1 1 100%;
   }
   .summary {
     grid-template-columns: 1fr;
@@ -615,8 +569,7 @@
   .btn--copy {
     min-width: 0;
   }
-  .pane__head,
-  .pane__foot {
+  .pane__head {
     padding-inline: 8px;
     gap: 6px;
   }
