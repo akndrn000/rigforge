@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>RigForge | Ubah data avatar Roblox jadi script Lua siap pakai</title>
+    <meta
+      name="description"
+      content="RigForge mengubah data mentah avatar Roblox menjadi script Lua siap pakai untuk Roblox Studio. Tempel data, salin atau unduh hasilnya. Semua diproses di browser, tanpa login."
+    />
+    <meta name="theme-color" content="#fff8e7" />
+    <link rel="canonical" href="__SITE_URL__/" />
+
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="RigForge" />
+    <meta property="og:locale" content="id_ID" />
+    <meta property="og:title" content="RigForge | Ubah data avatar Roblox jadi script Lua siap pakai" />
+    <meta
+      property="og:description"
+      content="Tempel data mentah avatar, dapatkan ModuleScript Lua yang rapi untuk Roblox Studio. Diproses di browser."
+    />
+    <meta property="og:url" content="__SITE_URL__/" />
+    <meta property="og:image" content="__SITE_URL__/og-image.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="RigForge" />
+    <meta name="twitter:description" content="Ubah data avatar Roblox jadi script Lua, langsung di browser." />
+    <meta name="twitter:image" content="__SITE_URL__/og-image.png" />
+
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "RigForge",
+        "url": "__SITE_URL__/",
+        "applicationCategory": "DeveloperApplication",
+        "operatingSystem": "Web",
+        "inLanguage": "id",
+        "description": "Konverter data mentah avatar Roblox menjadi script Lua untuk Roblox Studio."
+      }
+    </script>
+
+    <!-- Terapkan tema sebelum render pertama agar tidak berkedip -->
+    <script>
+      ;(function () {
+        try {
+          var t = localStorage.getItem('rl-theme')
+          if (t !== 'light' && t !== 'dark') {
+            t = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
+          }
+          document.documentElement.setAttribute('data-theme', t)
+        } catch (e) {
+          document.documentElement.setAttribute('data-theme', 'light')
+        }
+      })()
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <noscript>Situs ini membutuhkan JavaScript untuk mengonversi data avatar di browser Anda.</noscript>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

@@ -1,0 +1,675 @@
+/* ============ Tombol ============ */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-width: 0;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.15;
+  white-space: nowrap;
+  text-decoration: none;
+  padding: 10px 16px;
+  border: var(--bw) solid var(--line);
+  border-radius: var(--radius);
+  background: var(--surface);
+  color: var(--ink);
+  box-shadow: var(--shadow-sm);
+  cursor: pointer;
+  transition:
+    transform 0.08s ease,
+    box-shadow 0.08s ease,
+    background-color 0.12s ease;
+}
+.btn:hover {
+  transform: translate(-1px, -1px);
+  box-shadow: 5px 5px 0 var(--shadow-color);
+}
+.btn:active {
+  transform: translate(3px, 3px);
+  box-shadow: var(--shadow-press);
+}
+.btn--sm {
+  font-size: 13px;
+  padding: 7px 11px;
+}
+.btn--primary {
+  background: var(--accent);
+  color: var(--accent-ink);
+}
+.btn--primary:hover {
+  background: var(--accent-hover);
+}
+.btn--ghost {
+  background: var(--surface);
+  color: var(--muted);
+}
+.btn--ghost:hover {
+  color: var(--ink);
+}
+.btn--danger {
+  color: var(--danger);
+}
+.btn--danger:hover {
+  color: var(--danger);
+}
+.btn--sample {
+  background: var(--surface-2);
+}
+.btn--sample:hover {
+  background: var(--accent-soft);
+}
+.btn--accent {
+  background: var(--inverse-bg);
+  color: var(--inverse-ink);
+}
+.btn--copy {
+  min-width: 124px;
+}
+
+/* ============ Ikon tombol ============ */
+.icon-btn {
+  display: inline-grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  flex: none;
+  border: var(--bw) solid var(--line);
+  border-radius: var(--radius);
+  background: var(--surface);
+  color: var(--ink);
+  box-shadow: var(--shadow-sm);
+  cursor: pointer;
+  transition:
+    transform 0.08s ease,
+    box-shadow 0.08s ease,
+    background-color 0.12s ease;
+}
+.icon-btn:hover {
+  background: var(--accent);
+}
+.icon-btn:active {
+  transform: translate(3px, 3px);
+  box-shadow: var(--shadow-press);
+}
+
+/* ============ Header ============ */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  min-height: var(--header-h);
+  background: var(--bg);
+  border-bottom: var(--bw-lg) solid var(--line);
+}
+.site-header__in {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding-block: 14px;
+}
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  min-width: 0;
+}
+.brand__mark {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  flex: none;
+  background: var(--accent);
+  color: var(--ink);
+  border: var(--bw) solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-sm);
+}
+.brand__text {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+.brand__name {
+  font-family: var(--font-display);
+  font-size: 24px;
+  font-weight: 800;
+  letter-spacing: -0.035em;
+  line-height: 1.05;
+  white-space: nowrap;
+}
+.brand__tag {
+  font-size: 13px;
+  line-height: 1.35;
+  color: var(--muted);
+}
+
+/* ============ Bagian ============ */
+.section {
+  padding-block: var(--space-section-md);
+}
+.section--tool {
+  padding-block: var(--space-section-sm) var(--space-section-md);
+}
+
+.tool-head {
+  margin-bottom: var(--space-section-head);
+}
+.tool-head h1 {
+  display: inline-block;
+  max-width: 100%;
+  margin-bottom: var(--space-section-head);
+  padding: 6px 14px 8px;
+  background: var(--accent);
+  color: var(--accent-ink);
+  border: var(--bw-lg) solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-lg);
+  font-size: clamp(1.55rem, 5.4vw, 2.7rem);
+  font-weight: 800;
+}
+.tool-head__hint {
+  max-width: 78ch;
+  font-size: clamp(14px, 3vw, 15.5px);
+  color: var(--ink-2);
+}
+
+/* ============ Bangku kerja (input → output) ============ */
+.bench {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+  height: clamp(520px, 74vh, 700px);
+  height: clamp(520px, 74dvh, 700px);
+}
+.bench::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  transform: translateX(-1.5px);
+  background: var(--line);
+  pointer-events: none;
+}
+.bench__seam {
+  position: absolute;
+  z-index: 2;
+  left: 50%;
+  top: 50%;
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  transform: translate(-50%, -50%);
+  background: var(--accent);
+  border: var(--bw) solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-sm);
+  color: var(--ink);
+  pointer-events: none;
+}
+
+/* ============ Panel ============ */
+.pane {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  min-height: 0;
+  background: var(--surface);
+  border: var(--bw-lg) solid var(--line);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-lg);
+}
+.pane__head,
+.pane__foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: clamp(6px, 2vw, 12px);
+  padding: clamp(8px, 2.2vw, 12px) clamp(10px, 3vw, 16px);
+}
+.pane__head {
+  min-height: 52px;
+  background: var(--surface-2);
+  border-bottom: var(--bw) solid var(--line);
+}
+.pane__foot {
+  border-top: var(--bw) solid var(--line);
+  font-size: clamp(11px, 2.4vw, 12.5px);
+  color: var(--muted);
+}
+.pane__title {
+  display: flex;
+  align-items: center;
+  gap: clamp(6px, 1.6vw, 9px);
+  min-width: 0;
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(13px, 2.6vw, 15px);
+  font-weight: 800;
+  letter-spacing: -0.015em;
+  line-height: 1.25;
+  color: var(--ink);
+}
+.pane__title .icon {
+  color: var(--ink);
+}
+.pane__title span {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.pane__tools {
+  display: flex;
+  align-items: center;
+  gap: clamp(4px, 1.4vw, 8px);
+  flex: none;
+}
+.pane__meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 12px;
+  min-width: 0;
+}
+
+.chip {
+  font-family: var(--font-mono);
+  font-size: clamp(9.5px, 2.2vw, 11px);
+  font-weight: 600;
+  color: var(--ink);
+  background: var(--surface-2);
+  border: 2px solid var(--line);
+  border-radius: 3px;
+  padding: clamp(3px, 1vw, 4px) clamp(6px, 1.6vw, 9px);
+  white-space: nowrap;
+}
+.chip--pending {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  background: var(--accent);
+}
+.chip--pending::before {
+  content: '';
+  width: 7px;
+  height: 7px;
+  flex: none;
+  background: var(--ink);
+  animation: pending-pulse 0.85s ease-in-out infinite alternate;
+}
+@keyframes pending-pulse {
+  from {
+    opacity: 0.25;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* ============ Editor (textarea) ============ */
+.editor {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+}
+.editor textarea {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: clamp(10px, 2.6vw, 16px) clamp(12px, 3.4vw, 24px);
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  color: var(--ink);
+  font-family: var(--font-mono);
+  font-size: clamp(11.5px, 2.6vw, 13px);
+  line-height: 1.65;
+  tab-size: 4;
+  resize: none;
+  outline: none;
+  scrollbar-width: thin;
+  scrollbar-color: var(--line) transparent;
+}
+.editor textarea::placeholder {
+  color: var(--muted);
+  opacity: 0.85;
+}
+.editor textarea:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: -3px;
+}
+
+/* ============ Panel output (blok kode gelap) ============ */
+.pane--output {
+  background: var(--code-bg);
+  color: var(--code-ink);
+}
+.pane--output .pane__head {
+  background: var(--code-bg);
+  border-color: color-mix(in srgb, var(--code-ink) 35%, transparent);
+}
+.pane--output .pane__foot {
+  border-color: color-mix(in srgb, var(--code-ink) 35%, transparent);
+  color: var(--code-muted);
+}
+.pane--output .pane__title {
+  color: var(--code-ink);
+}
+.pane--output .pane__title .icon {
+  color: var(--code-ok);
+}
+.pane--output .chip {
+  background: transparent;
+  color: var(--code-ink);
+  border-color: color-mix(in srgb, var(--code-ink) 45%, transparent);
+}
+.pane--output .editor textarea {
+  color: var(--code-ink);
+  white-space: pre;
+  overflow: auto;
+  scrollbar-color: color-mix(in srgb, var(--code-ink) 45%, transparent) transparent;
+}
+.pane--output .editor textarea::placeholder {
+  color: var(--code-muted);
+}
+.pane--output .btn {
+  background: var(--code-bg);
+  color: var(--code-ink);
+  border-color: var(--code-ink);
+  box-shadow: 3px 3px 0 var(--code-ink);
+}
+.pane--output .btn:hover {
+  background: color-mix(in srgb, var(--code-ink) 16%, var(--code-bg));
+  box-shadow: 5px 5px 0 var(--code-ink);
+}
+.pane--output .btn:active {
+  transform: translate(3px, 3px);
+  box-shadow: 0 0 0 var(--code-ink);
+}
+.pane--output .btn--accent {
+  background: var(--inverse-bg);
+  color: var(--inverse-ink);
+  border-color: var(--code-ink);
+  box-shadow: 3px 3px 0 var(--code-ink);
+}
+.pane--output .btn--accent:hover {
+  background: var(--accent-hover);
+  color: var(--accent-ink);
+  box-shadow: 5px 5px 0 var(--code-ink);
+}
+.pane--output .btn--accent .text-ok,
+.pane--output .btn--accent .icon--ok {
+  color: var(--inverse-ink);
+}
+.pane--output .status-pill {
+  border-color: var(--code-ink);
+}
+.editor--flash textarea {
+  animation: flash 0.7s ease-out;
+}
+@keyframes flash {
+  from {
+    background: color-mix(in srgb, var(--accent) 45%, transparent);
+  }
+  to {
+    background: transparent;
+  }
+}
+
+/* ============ Pill status ============ */
+.status-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-mono);
+  font-size: clamp(9.5px, 2.2vw, 11px);
+  font-weight: 700;
+  line-height: 1.2;
+  padding: clamp(3px, 1vw, 4px) clamp(7px, 1.8vw, 10px);
+  border: 2px solid transparent;
+  border-radius: 3px;
+  color: var(--pill-ink);
+  white-space: nowrap;
+}
+.status-pill .icon {
+  width: 14px;
+  height: 14px;
+  color: var(--pill-ink);
+}
+.status-pill--ok {
+  background: var(--ok);
+}
+.status-pill--empty {
+  background: var(--surface-2);
+}
+.status-pill--empty .icon {
+  color: var(--muted);
+}
+.status-pill--err {
+  background: var(--danger);
+}
+
+/* ============ Ringkasan deteksi ============ */
+.summary {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 14px;
+  margin-top: var(--space-section-head);
+}
+.summary__item {
+  padding: 12px 14px;
+  background: var(--surface);
+  border: var(--bw) solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-sm);
+}
+.summary dt {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--muted);
+}
+.summary dd {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 4px;
+  font-size: 15px;
+  font-weight: 700;
+  overflow-wrap: anywhere;
+}
+.swatch {
+  width: 16px;
+  height: 16px;
+  border: 2px solid var(--swatch-line);
+  flex: none;
+}
+.summary__note {
+  margin-top: var(--space-section-head);
+  font-size: 13.5px;
+  color: var(--muted);
+}
+
+/* ============ Footer ============ */
+.site-footer {
+  background: var(--inverse-bg);
+  color: var(--inverse-ink);
+  border-top: var(--bw-lg) solid var(--line);
+}
+.site-footer__grid {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr 1fr;
+  gap: var(--space-section-md);
+  padding-block: var(--space-section-md) var(--space-section-sm);
+}
+.site-footer .brand__name {
+  font-size: 22px;
+}
+.site-footer__brand p {
+  margin-top: var(--space-section-sub);
+  max-width: 34ch;
+  font-size: 14px;
+  color: color-mix(in srgb, var(--inverse-ink) 78%, var(--inverse-bg));
+}
+.site-footer__legal {
+  font-size: 13.5px;
+  max-width: 48ch;
+  color: color-mix(in srgb, var(--inverse-ink) 78%, var(--inverse-bg));
+}
+.site-footer__bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding-block: var(--space-section-sub) var(--space-section-head);
+  border-top: var(--bw) solid color-mix(in srgb, var(--inverse-ink) 45%, var(--inverse-bg));
+  font-size: 13px;
+  font-weight: 600;
+  color: color-mix(in srgb, var(--inverse-ink) 78%, var(--inverse-bg));
+}
+
+/* ============ Responsif ============ */
+@media (max-width: 900px) {
+  .summary {
+    grid-template-columns: 1fr 1fr;
+  }
+  .summary__item:last-child {
+    grid-column: span 2;
+  }
+  .site-footer__grid {
+    grid-template-columns: 1fr;
+    gap: var(--space-section-sm);
+  }
+}
+
+@media (max-width: 767px) {
+  .bench {
+    grid-template-columns: 1fr;
+    height: auto;
+    gap: 44px;
+  }
+  .bench::after {
+    left: 0;
+    right: 0;
+    top: 50%;
+    bottom: auto;
+    width: auto;
+    height: 3px;
+    transform: translateY(-1.5px);
+  }
+  .bench__seam .icon {
+    transform: rotate(90deg);
+  }
+  .pane {
+    height: clamp(300px, 46vh, 420px);
+  }
+}
+
+@media (max-width: 640px) {
+  .brand__name {
+    font-size: 20px;
+  }
+  .brand__tag {
+    display: none;
+  }
+  .editor textarea {
+    padding: 14px 16px;
+  }
+  .pane__foot--input {
+    flex-wrap: wrap;
+  }
+  .pane__foot--input .btn {
+    width: 100%;
+    white-space: normal;
+    text-align: center;
+  }
+  .pane__foot--output {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+  }
+  .summary {
+    grid-template-columns: 1fr;
+  }
+  .summary__item:last-child {
+    grid-column: auto;
+  }
+  .site-footer__bar {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+  }
+}
+
+@media (max-width: 480px) {
+  .btn--copy {
+    min-width: 0;
+  }
+  .pane__head,
+  .pane__foot {
+    padding-inline: 8px;
+    gap: 6px;
+  }
+  .pane__tools {
+    gap: 4px;
+  }
+  .editor textarea {
+    padding-inline: 8px;
+  }
+}
+
+/* Area aman perangkat berponi (viewport-fit=cover) */
+.site-header {
+  padding-top: env(safe-area-inset-top, 0px);
+}
+.container {
+  padding-left: max(24px, env(safe-area-inset-left, 0px));
+  padding-right: max(24px, env(safe-area-inset-right, 0px));
+}
+@media (max-width: 640px) {
+  .container {
+    padding-left: max(16px, env(safe-area-inset-left, 0px));
+    padding-right: max(16px, env(safe-area-inset-right, 0px));
+  }
+}
+
+/* Layar sentuh: font input minimal ~14px dan target sentuh 44px */
+@media (pointer: coarse) {
+  .pane--input .editor textarea {
+    font-size: clamp(13px, 3.4vw, 16px);
+    line-height: 1.55;
+  }
+  .btn,
+  .icon-btn {
+    min-height: 44px;
+  }
+  .icon-btn {
+    min-width: 44px;
+  }
+  .btn--sm {
+    min-height: 40px;
+  }
+  .pane__tools {
+    gap: 8px;
+  }
+}
+
+/* HP landscape: ruang vertikal sempit, header ikut tergulir */
+@media (max-height: 500px) and (max-width: 900px) {
+  .site-header {
+    position: static;
+  }
+  .pane {
+    height: min(460px, 78vh);
+  }
+}

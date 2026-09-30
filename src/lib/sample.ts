@@ -1,0 +1,4 @@
+/** Data contoh (sama persis dengan tombol "Contoh Data" pada versi HTML asli). */
+export const SAMPLE_DATA = `FaceAccessory: 90044197280959, 15873662828Head: 78735857422004LeftArm: 112297878053271LeftLeg: 79451724456958RightArm: 79491745439615RightLeg: 77175185781817Torso: 114206707267907TShirt: 74448624601125Pants: 123983419326582Shirt: 11875410852Body Color: 242,215,205 (#F2D7CD)AccessoryBlob Data:
+
+[{"Order":5,"Scale":{"X":1,"Y":1,"Z":1,"Vector3":true},"AssetId":101044039646662,"Position":{"X":0,"Y":0,"Z":0,"Vector3":true},"Rotation":{"X":0,"Y":0,"Z":0,"Vector3":true},"IsLayered":true,"Puffiness":0.5,"AccessoryType":"Pants"},{"Order":6,"Scale":{"X":1,"Y":1,"Z":1,"Vector3":true},"AssetId":84002486919913,"Position":{"X":0,"Y":0,"Z":0,"Vector3":true},"Rotation":{"X":0,"Y":0,"Z":0,"Vector3":true},"IsLayered":true,"Puffiness":0.5,"AccessoryType":"Shirt"}]`
