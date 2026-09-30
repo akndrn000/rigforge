@@ -17,10 +17,10 @@ Tes di `src/lib/converter.test.ts` mengunci perilaku ini, termasuk bahwa input t
 Situs ini hanya punya satu halaman tanpa routing (tidak ada hash URL, tidak ada library routing):
 
 - **Statusbar** tipis di bawah header: badge baris data, karakter hasil, status konversi (Siap/Kosong/Gagal/Memproses), deteksi bagian tubuh, dan tombol utama **Generate Paksa**.
-- Input data mentah + tombol **Contoh Data** (dari `src/lib/sample.ts`); keterangan format singkat ada di dalam panel ("satu token per baris `Token: id1, id2`, atau tempel blob `AccessoryBlob Data`").
+- Input data mentah + tombol **Contoh Data** (dari `src/lib/sample.ts`); contoh format singkat (`Head: …`, `TShirt: …`, `Body Color: …`) ada di placeholder dalam panel.
 - Panel output Lua dengan tombol **Salin Kode** dan **Unduh .lua**.
 - Ringkasan hasil deteksi (bagian tubuh, warna kulit, pakaian, aksesori) di bawah panel.
-- Footer latar gelap dengan border kuning tebal: disclaimer merek dagang Roblox dan catatan privasi.
+- Footer latar gelap dengan garis atas mengikuti tema: disclaimer merek dagang Roblox dan catatan privasi.
 
 Tema terang/gelap bisa ditukar lewat tombol di header dan tersimpan di `localStorage`. Kedua mode memakai token warna yang sama per peran (lihat `src/styles/tokens.css`).
 
@@ -90,7 +90,7 @@ public/                 favicon, ikon iOS, gambar Open Graph
 
 ## Kustomisasi
 
-- **Warna dan font:** `src/styles/tokens.css`. Semua kotak (input, tombol, panel) memakai `--bw`/`--bw-lg` untuk ketebalan border dan `--shadow*` untuk hard shadow; varian terang dan gelap diatur di blok `:root` dan `[data-theme='dark']`.
+- **Warna dan font:** `src/styles/tokens.css`. Semua kotak (input, tombol, panel) memakai `--bw`/`--bw-strong` untuk ketebalan border dan `--shadow*` untuk hard shadow; varian terang dan gelap diatur di blok `:root` dan `[data-theme='dark']`.
 - **Teks halaman:** `src/components/Converter.tsx`, `Header.tsx`, `Footer.tsx`.
 - **Nilai Scaling di Lua** (BodyType, Depth, Height, dan seterusnya) dan warna kulit bawaan (`Pastel orange`) ditulis tetap di `converter.ts` (konstanta `SCALING` dan `DEFAULT_SKIN_TONE`). Jika diubah, perbarui `golden.json` karena outputnya ikut berubah.
 - **Gambar pratinjau link** (`public/og-image.png`, 1200x630) bisa diganti dengan desain sendiri.

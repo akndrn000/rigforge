@@ -1,106 +1,166 @@
+/* =============================================================
+   RigForge — token neobrutalism.
+
+   File ini SATU-SATUNYA tempat warna, garis, radius, shadow,
+   spacing, dan tipografi didefinisikan. Komponen hanya memakai
+   var(...): tidak ada warna hardcode di CSS/JSX lain.
+
+   Blok [data-theme='dark'] mengganti nilai pada nama yang sama,
+   sehingga toggle tema mengubah SELURUH halaman — garis, border,
+   shadow, chip, scrollbar, area kode, dan footer.
+
+   Skala lengkap (border, font, spasi, radius, kontras) tercatat
+   di docs/DESIGN.md — baca sebelum menambah komponen baru.
+   ============================================================= */
+
 :root {
   color-scheme: light;
 
-  /* Neobrutalism terang: kertas kuning pucat untuk halaman, putih untuk panel,
-     SATU aksen kuning terang, hitam pekat untuk semua garis struktural.
-     Tanpa gradien, tanpa shadow blur. */
-  --bg: #fff8e7;
+  /* ---------- Palet terang: kertas hangat + tinta hitam ---------- */
+  --bg: #fff7e4;
   --surface: #ffffff;
-  --surface-2: #efece2;
-  --ink: #101010;
-  --muted: #565656;
+  --surface-2: #f1ebdc;
+  --ink: #0f0f0f;
+  --muted: #55514a;
 
-  /* Satu sumber warna border struktural, dipakai dengan --bw / --bw-lg
-     di SELURUH halaman dan di KEDUA mode tema. */
-  --line: #101010;
+  /* Semua garis struktural memakai token ini (ikut tema). */
+  --line: #0f0f0f;
 
-  /* Satu sumber warna kuning. */
+  /* Satu aksen: kuning. */
   --accent: #ffd400;
   --accent-hover: #ffe44d;
-  --accent-ink: #101010;
+  --accent-ink: #0f0f0f;
 
-  /* Warna semantik (badge status, ikon). */
-  --danger: #ff4d3d;
+  /* Semantik: sukses dan bahaya (dipakai chip + tombol salin). */
   --ok: #2fbf71;
-  --pill-ink: #101010;
+  --ok-ink: #0f0f0f;
+  --danger: #ff5140;
+  --danger-ink: #0f0f0f;
 
-  --swatch-line: #101010;
+  /* Area kode = permukaan sekunder: satu tingkat dari badan panel
+     (--surface), tetap satu keluarga warna di kedua tema — bukan
+     negatif/inversi. Badan input --surface, badan output --code-bg;
+     teks dan garis kode memakai token halaman (--ink/--muted/--line)
+     sehingga kontras terjaga otomatis mengikuti tema. */
+  --code-bg: var(--surface-2);
+  --code-ink: var(--ink);
+  --code-muted: var(--muted);
+  --code-line: var(--line);
 
-  /* Panel kode/output Lua. */
-  --code-bg: #141414;
-  --code-ink: #f5f2e8;
-  --code-muted: #a8a29a;
+  /* Footer: pita gelap di kedua tema, dipisah garis bertema.
+     40% campuran → rasio ±3,5:1 terhadap latar footer (≥3:1). */
+  --footer-bg: #0f0f0f;
+  --footer-ink: #f5f1e6;
+  --footer-muted: #a8a39a;
+  --footer-line: color-mix(in srgb, var(--footer-ink) 40%, var(--footer-bg));
 
-  /* Footer: latar gelap tetap di kedua mode, dipisah border kuning tebal. */
-  --footer-bg: #101010;
-  --footer-ink: #f5f2e8;
-  --footer-muted: #a8a29a;
+  /* Shadow solid tanpa blur + cincin fokus, dua token ikut tema. */
+  --shadow-color: #0f0f0f;
+  --focus: #0f0f0f;
 
-  /* Hard shadow: offset solid tanpa blur. */
-  --shadow-color: #101010;
-  --shadow: 4px 4px 0 var(--shadow-color);
-  --shadow-sm: 3px 3px 0 var(--shadow-color);
-  --shadow-lg: 7px 7px 0 var(--shadow-color);
-  --shadow-press: 0 0 0 var(--shadow-color);
+  /* Scrollbar (Firefox via scrollbar-color, WebKit via ::-webkit). */
+  --scroll-track: #f1ebdc;
+  --scroll-thumb: #0f0f0f;
 
-  /* Ketebalan garis. */
+  /* ---------- Geometri seragam untuk SEMUA komponen ----------
+     Dua ketebalan garis saja:
+       --bw        → kotak biasa: panel, badge, kartu, tombol biasa,
+                     garis pemisah (kepala panel, footer, header)
+       --bw-strong → elemen ditekankan: tombol aksi utama
+                     (Generate Paksa / Salin Kode / status Salin)
+                     dan cincin fokus keyboard
+     Jangan pernah memakai nilai border lain di komponen. */
   --bw: 3px;
-  --bw-lg: 4px;
+  --bw-strong: 4px;
+  --radius: 0; /* satu radius: tajam (semua kotak, termasuk titik sambungan) */
+  --tap: 44px; /* tinggi kontrol: seragam untuk semua tombol + target sentuh */
+  --shadow: 4px 4px 0 var(--shadow-color);
+  --shadow-lift: 2px 2px 0 var(--shadow-color);
+  --shadow-press: 0 0 0 var(--shadow-color);
+  --shift-lift: -2px;
+  --shift-press: 2px;
 
+  /* ---------- Skala spacing: 4 / 8 / 12 / 16 / 24 / 32 / 48 ----------
+     HANYA kelipatan ini untuk jarak antar elemen dan padding komponen.
+     Set padding baku:
+       badge & tombol --sm 8/12 · tombol 8/16 · kepala panel 8/12
+       kartu ringkasan 12/16 · editor 16/24 · container 24 (16 di mobile) */
+  --s1: 4px;
+  --s2: 8px;
+  --s3: 12px;
+  --s4: 16px;
+  --s5: 24px;
+  --s6: 32px;
+  --s7: 48px;
+
+  /* ---------- Keluarga huruf ---------- */
   --font-display: 'Archivo Variable', 'Archivo', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
   --font-ui: 'IBM Plex Sans Variable', 'IBM Plex Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
   --font-mono: 'JetBrains Mono Variable', 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
 
-  --radius: 4px;
-  --radius-lg: 4px;
-  --header-h: 76px;
-  --container: 1180px;
+  /* ---------- Tipografi: satu skala, satu peran per tingkat ----------
+     --fs-sm   13px → label kecil / meta / badge / hint / tombol kecil
+     --fs-md   15px → body normal & kontrol (paragraf, tombol, isi panel)
+     --fs-lg   17px → judul panel & nilai statistik kartu ringkasan
+     --fs-xl   22px → judul sekunder (nama brand footer, brand di mobile)
+     --fs-2xl  26px → nama brand utama
+     --fs-code 14px → isi area kode (monospace)
+     Elemen dengan peran yang sama memakai tingkat yang sama;
+     tidak ada ukuran font hardcode di komponen. */
+  --fs-sm: 13px; /* hint, label, chip, catatan, badge, tombol --sm */
+  --fs-md: 15px; /* isi teks (body) dan tombol */
+  --fs-lg: 17px; /* judul panel, nilai statistik */
+  --fs-xl: 22px; /* judul footer / nilai besar / brand sekunder */
+  --fs-2xl: 26px; /* nama produk */
+  --fs-code: 14px; /* isi area kode */
 
-  /* Ritme vertikal halaman tunggal (statusbar, alat, footer). */
-  --space-section-sm: 32px;
-  --space-section-md: 48px;
-  --space-section-head: 24px;
-  --space-section-sub: 12px;
+  --container: 1180px;
+  --header-h: 75px;
 }
 
+/* =============================================================
+   Mode gelap: nama token sama, nilai berbeda.
+   Latar hitam pekat, garis dan shadow terang (kuning) agar
+   tetap terlihat; area kode = permukaan sekunder (--surface-2),
+   satu tingkat dari badan panel — satu kesatuan visual dengan
+   panel input, bukan tempelan tema terang di tengah tema gelap.
+   ============================================================= */
 [data-theme='dark'] {
   color-scheme: dark;
 
-  /* Neobrutalism gelap: latar hampir hitam, garis terang tebal, hard shadow
-     hitam yang tetap terbaca karena permukaan lebih terang dari latarnya.
-     Peran yang sama memakai nama token yang sama dengan mode terang. */
-  --bg: #151618;
-  --surface: #232527;
-  --surface-2: #303236;
-  --ink: #f5f2e8;
-  --muted: #a6a297;
+  --bg: #0d0d0e;
+  --surface: #1a1b1d;
+  --surface-2: #26282b;
+  --ink: #f5f1e6;
+  --muted: #a9a49a;
 
-  --line: #f5f2e8;
+  --line: #f5f1e6;
 
   --accent: #ffd400;
   --accent-hover: #ffe44d;
-  --accent-ink: #101010;
+  --accent-ink: #0f0f0f;
 
-  --danger: #ff6b5e;
   --ok: #4ade80;
-  --pill-ink: #101010;
+  --ok-ink: #0f0f0f;
+  --danger: #ff6b5e;
+  --danger-ink: #0f0f0f;
 
-  --swatch-line: #f5f2e8;
+  /* Satu keluarga dengan halaman: badan output --surface-2,
+     teks dan garis kode mengikuti token halaman. */
+  --code-bg: var(--surface-2);
+  --code-ink: var(--ink);
+  --code-muted: var(--muted);
+  --code-line: var(--line);
 
-  --code-bg: #0a0a0a;
-  --code-ink: #f5f2e8;
-  --code-muted: #9a968e;
+  --footer-bg: #161719;
+  --footer-ink: #f5f1e6;
+  --footer-muted: #a9a49a;
+  --footer-line: color-mix(in srgb, var(--footer-ink) 40%, var(--footer-bg));
 
-  --footer-bg: #1b1d1f;
-  --footer-ink: #f5f2e8;
-  --footer-muted: #9a968e;
+  /* Shadow terang (aksen) supaya offset tetap terbaca di latar hitam. */
+  --shadow-color: #ffd400;
+  --focus: #f5f1e6;
 
-  --shadow-color: #000000;
-}
-
-@media (max-width: 900px) {
-  :root {
-    --space-section-sm: 24px;
-    --space-section-md: 36px;
-  }
+  --scroll-track: #1a1b1d;
+  --scroll-thumb: #f5f1e6;
 }

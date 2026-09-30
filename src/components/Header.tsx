@@ -3,6 +3,7 @@ import { Icon } from './Icon'
 
 export function Header() {
   const { theme, toggle } = useTheme()
+  const label = theme === 'dark' ? 'gelap' : 'terang'
   const next = theme === 'dark' ? 'terang' : 'gelap'
 
   return (
@@ -20,12 +21,15 @@ export function Header() {
 
         <button
           type="button"
-          className="icon-btn"
-          onClick={toggle}
-          aria-label={`Ganti ke tema ${next}`}
+          role="switch"
+          aria-checked={theme === 'dark'}
+          aria-label={`Tema ${label}`}
           title={`Ganti ke tema ${next}`}
+          className="icon-btn icon-btn--wide"
+          onClick={toggle}
         >
-          <Icon name={theme === 'dark' ? 'sun' : 'moon'} size={18} />
+          <Icon name={theme === 'dark' ? 'moon' : 'sun'} size={20} />
+          <span className="hide-xs">{label}</span>
         </button>
       </div>
     </header>

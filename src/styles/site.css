@@ -1,63 +1,222 @@
-/* ============ Statusbar (di bawah header) ============ */
-.statusbar {
+/* =============================================================
+   Komponen UI RigForge.
+   Aturan tetap (detail di docs/DESIGN.md):
+   - border: --bw (3px) untuk kotak biasa, --bw-strong (4px) untuk
+     tombol aksi utama dan cincin fokus. Tidak ada nilai lain.
+   - radius: --radius (0) di semua kotak.
+   - spasi: hanya token --s1…--s7 (kelipatan 4px).
+   - font: hanya --fs-sm…--fs-2xl, satu tingkat per peran.
+   - tinggi tombol: --tap (44px) di semua breakpoint.
+   State: hover (angkat + shadow menyusut), active (tekan ke
+   bawah, shadow hilang), focus-visible (cincin token), disabled.
+   ============================================================= */
+
+/* ============ Header ============ */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
   background: var(--bg);
-  border-bottom: var(--bw-lg) solid var(--line);
+  border-bottom: var(--bw) solid var(--line);
+  padding-top: env(safe-area-inset-top, 0px);
+}
+.site-header__in {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s4);
+  min-height: calc(var(--header-h) - var(--bw));
+  padding-block: var(--s3);
+}
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s3);
+  min-width: 0;
+}
+.brand__mark {
+  display: grid;
+  place-items: center;
+  width: var(--tap);
+  height: var(--tap);
+  flex: none;
+  background: var(--accent);
+  color: var(--accent-ink);
+  border: var(--bw) solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+.brand__text {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+.brand__name {
+  font-family: var(--font-display);
+  font-size: var(--fs-2xl);
+  font-weight: 800;
+  letter-spacing: -0.035em;
+  line-height: 1.05;
+  white-space: nowrap;
+}
+.brand__tag {
+  font-size: var(--fs-sm);
+  line-height: 1.4;
+  color: var(--muted);
+}
+
+/* ============ Tombol + tombol ikon (state bersama) ============ */
+.btn,
+.icon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--s2);
+  min-height: var(--tap);
+  border: var(--bw) solid var(--line);
+  border-radius: var(--radius);
+  background: var(--surface);
+  color: var(--ink);
+  box-shadow: var(--shadow);
+  font-weight: 700;
+  line-height: 1.2;
+  cursor: pointer;
+  transition:
+    transform 0.1s ease,
+    box-shadow 0.1s ease,
+    background-color 0.12s ease,
+    color 0.12s ease,
+    border-color 0.12s ease;
+}
+.btn {
+  min-width: 0;
+  padding: var(--s2) var(--s4);
+  font-family: var(--font-ui);
+  font-size: var(--fs-md);
+  white-space: nowrap;
+  text-decoration: none;
+}
+.icon-btn {
+  width: var(--tap);
+  height: var(--tap);
+  flex: none;
+  padding-inline: var(--s3);
+  font-family: var(--font-mono);
+  font-size: var(--fs-sm);
+}
+.icon-btn--wide {
+  width: auto;
+  min-width: var(--tap);
+  gap: var(--s2);
+}
+
+.btn:hover:not(:disabled),
+.icon-btn:hover:not(:disabled) {
+  transform: translate(var(--shift-lift), var(--shift-lift));
+  box-shadow: var(--shadow-lift);
+}
+.btn:active:not(:disabled),
+.icon-btn:active:not(:disabled) {
+  transform: translate(var(--shift-press), var(--shift-press));
+  box-shadow: var(--shadow-press);
+  transition-duration: 0.04s;
+}
+
+.btn--sm {
+  padding: var(--s2) var(--s3);
+  font-size: var(--fs-sm);
+}
+/* Aksen kuning hanya untuk aksi utama: Generate Paksa dan Salin Kode.
+   Border --bw-strong: satu-satunya kotak dengan garis lebih tebal,
+   dipertahankan di status "Tersalin!" agar tinggi/lebar tidak melompat. */
+.btn--primary {
+  background: var(--accent);
+  color: var(--accent-ink);
+  border-width: var(--bw-strong);
+}
+.btn--primary:hover:not(:disabled) {
+  background: var(--accent-hover);
+}
+.btn--sample {
+  background: var(--surface-2);
+}
+.btn--danger {
+  background: var(--danger);
+  color: var(--danger-ink);
+}
+.btn--copy {
+  min-width: 136px;
+}
+/* Salin Kode berhasil: umpan balik hijau yang jelas. */
+.btn--copied {
+  background: var(--ok);
+  color: var(--ok-ink);
+  border-width: var(--bw-strong);
+}
+
+.icon-btn:hover:not(:disabled) {
+  background: var(--ink);
+  color: var(--bg);
+}
+
+/* ============ Statusbar (baris pembaca mesin) ============ */
+/* Tanpa border-bottom: jarak antar-bilah diatur oleh padding blok ini
+   (16px) + padding atas section--tool, supaya selalu jatuh di skala
+   (lihat ritme halaman di bawah). */
+.statusbar {
+  background: var(--surface);
 }
 .statusbar__in {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
-  gap: 10px 16px;
-  padding-block: 10px;
+  gap: var(--s3) var(--s4);
+  padding-block: var(--s4);
 }
 .statusbar__badges {
   display: flex;
+  flex: 1 1 0;
   flex-wrap: wrap;
   align-items: center;
-  gap: 8px;
+  gap: var(--s2);
   min-width: 0;
 }
 
-/* Badge: kotak kecil border tebal, netral (hitam/putih/abu) kecuali status semantik. */
+/* Chip status: kotak border --bw + hard shadow, seperti komponen lain.
+   Semua badge memakai padding & tinggi yang sama persis. */
 .badge {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
+  gap: var(--s2);
+  padding: var(--s2) var(--s3);
   font-family: var(--font-mono);
-  font-size: 11px;
+  font-size: var(--fs-sm);
   font-weight: 600;
-  line-height: 1.2;
-  padding: 5px 9px;
-  border: 2px solid var(--line);
-  border-radius: 3px;
+  line-height: 1.3;
+  border: var(--bw) solid var(--line);
+  border-radius: var(--radius);
   background: var(--surface);
   color: var(--ink);
+  box-shadow: var(--shadow);
   white-space: nowrap;
-}
-.badge .icon {
-  width: 13px;
-  height: 13px;
 }
 .badge--ok {
   background: var(--ok);
-  color: var(--pill-ink);
+  color: var(--ok-ink);
 }
 .badge--err {
   background: var(--danger);
-  color: var(--pill-ink);
+  color: var(--danger-ink);
 }
-.badge--empty {
-  background: var(--surface-2);
-  color: var(--muted);
-}
+.badge--empty,
 .badge--pending {
   background: var(--surface-2);
   color: var(--ink);
 }
 .badge__dot {
-  width: 7px;
-  height: 7px;
+  width: 9px;
+  height: 9px;
   flex: none;
   background: var(--ink);
   animation: pending-pulse 0.85s ease-in-out infinite alternate;
@@ -71,178 +230,33 @@
   }
 }
 
-/* ============ Tombol ============ */
-.btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  min-width: 0;
-  font-size: 14px;
-  font-weight: 700;
-  line-height: 1.15;
-  white-space: nowrap;
-  text-decoration: none;
-  padding: 10px 16px;
-  border: var(--bw) solid var(--line);
-  border-radius: var(--radius);
-  background: var(--surface);
-  color: var(--ink);
-  box-shadow: var(--shadow-sm);
-  cursor: pointer;
-  transition:
-    transform 0.08s ease,
-    box-shadow 0.08s ease,
-    background-color 0.12s ease;
-}
-.btn:hover {
-  transform: translate(-1px, -1px);
-  box-shadow: 5px 5px 0 var(--shadow-color);
-}
-.btn:active {
-  transform: translate(3px, 3px);
-  box-shadow: var(--shadow-press);
-}
-.btn--sm {
-  font-size: 13px;
-  padding: 7px 11px;
-}
-/* Aksen kuning hanya untuk aksi utama: Generate Paksa dan Salin Kode. */
-.btn--primary {
-  background: var(--accent);
-  color: var(--accent-ink);
-}
-.btn--primary:hover {
-  background: var(--accent-hover);
-}
-.btn--ghost {
-  background: var(--surface);
-  color: var(--muted);
-}
-.btn--ghost:hover {
-  color: var(--ink);
-}
-.btn--danger {
-  color: var(--danger);
-}
-.btn--danger:hover {
-  color: var(--danger);
-}
-.btn--sample {
-  background: var(--surface-2);
-}
-.btn--copy {
-  min-width: 124px;
-}
-
-/* ============ Ikon tombol ============ */
-.icon-btn {
-  display: inline-grid;
-  place-items: center;
-  width: 42px;
-  height: 42px;
-  flex: none;
-  border: var(--bw) solid var(--line);
-  border-radius: var(--radius);
-  background: var(--surface);
-  color: var(--ink);
-  box-shadow: var(--shadow-sm);
-  cursor: pointer;
-  transition:
-    transform 0.08s ease,
-    box-shadow 0.08s ease,
-    background-color 0.12s ease,
-    color 0.12s ease;
-}
-.icon-btn:hover {
-  background: var(--ink);
-  color: var(--bg);
-}
-.icon-btn:active {
-  transform: translate(3px, 3px);
-  box-shadow: var(--shadow-press);
-}
-
-/* ============ Header ============ */
-.site-header {
-  position: sticky;
-  top: 0;
-  z-index: 50;
-  min-height: var(--header-h);
-  background: var(--bg);
-  border-bottom: var(--bw-lg) solid var(--line);
-}
-.site-header__in {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 20px;
-  padding-block: 14px;
-}
-.brand {
-  display: inline-flex;
-  align-items: center;
-  gap: 14px;
-  min-width: 0;
-}
-.brand__mark {
-  display: grid;
-  place-items: center;
-  width: 40px;
-  height: 40px;
-  flex: none;
-  background: var(--accent);
-  color: var(--accent-ink);
-  border: var(--bw) solid var(--line);
-  border-radius: var(--radius);
-  box-shadow: var(--shadow-sm);
-}
-.brand__text {
-  display: flex;
-  flex-direction: column;
-  min-width: 0;
-}
-.brand__name {
-  font-family: var(--font-display);
-  font-size: 24px;
-  font-weight: 800;
-  letter-spacing: -0.035em;
-  line-height: 1.05;
-  white-space: nowrap;
-}
-.brand__tag {
-  font-size: 13px;
-  line-height: 1.35;
-  color: var(--muted);
-}
-
-/* ============ Bagian ============ */
+/* ============ Ritme halaman ============
+   Semua jarak antar-bagian jatuh di skala --s1…--s7:
+   header → bar badge        = --s4 (padding atas statusbar)
+   bar badge → bangku kerja  = --s4 + --s6 = --s7 (48px)
+   bangku kerja → kartu      = --s5 (24px)
+   kartu → catatan           = --s4 (16px)
+   catatan → footer          = --s7 (48px) */
 .section {
-  padding-block: var(--space-section-md);
+  padding-block: var(--s7);
 }
 .section--tool {
-  padding-block: var(--space-section-sm) var(--space-section-md);
+  padding-block: var(--s6) var(--s7);
 }
 
 /* ============ Bangku kerja (input → output) ============ */
+/* Panel berdempetan tanpa gap: border kanan panel input adalah
+   SATU-satunya garis pemisah (panel output border-left: 0), jadi
+   kedua kolom tepat 1fr — lebar seimbang, tanpa garis ganda.
+   align-items: stretch + satu baris grid → kedua panel SELALU sama
+   tinggi mengikuti tinggi bangku; di mobile keduanya memakai clamp()
+   yang sama sehingga sejajar pada segala isi konten. */
 .bench {
   position: relative;
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 40px;
-  height: clamp(520px, 74vh, 700px);
-  height: clamp(520px, 74dvh, 700px);
-}
-.bench::after {
-  content: '';
-  position: absolute;
-  left: 50%;
-  top: 0;
-  bottom: 0;
-  width: var(--bw);
-  transform: translateX(-1.5px);
-  background: var(--line);
-  pointer-events: none;
+  align-items: stretch;
+  height: clamp(520px, 72dvh, 700px);
 }
 .bench__seam {
   position: absolute;
@@ -254,11 +268,14 @@
   width: 40px;
   height: 40px;
   transform: translate(-50%, -50%);
-  background: var(--surface);
-  color: var(--ink);
+  background: var(--accent);
+  color: var(--accent-ink);
   border: var(--bw) solid var(--line);
   border-radius: var(--radius);
-  box-shadow: var(--shadow-sm);
+  /* Chip berdiri di atas dua slab yang satu tingkat beda:
+     shadow memakai aksen agar tetap terbaca di keduanya. */
+  --shadow-color: var(--accent);
+  box-shadow: var(--shadow);
   pointer-events: none;
 }
 
@@ -269,37 +286,37 @@
   min-width: 0;
   min-height: 0;
   background: var(--surface);
-  border: var(--bw-lg) solid var(--line);
-  border-radius: var(--radius-lg);
+  border: var(--bw) solid var(--line);
+  border-radius: var(--radius);
   overflow: hidden;
-  box-shadow: var(--shadow-lg);
+  box-shadow: var(--shadow);
 }
-/* Kedua kepala panel memakai aturan yang sama persis agar garis pembatas
-   bawahnya sejajar horizontal (min-height, padding, font identik). */
+
+/* Kepala panel memakai latar --surface-2 dengan SATU garis bawah
+   sebagai pemisah ke area editor. min-height memuat satu baris
+   kontrol --tap + padding --s4 → tinggi kepala sama di kedua panel
+   (judul sejajar di sisi kanan-sebelah seam). */
 .pane__head {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: clamp(6px, 2vw, 12px);
-  min-height: 52px;
-  padding: clamp(8px, 2.2vw, 12px) clamp(10px, 3vw, 16px);
+  gap: var(--s2) var(--s3);
+  min-height: calc(var(--tap) + var(--s4));
+  padding: var(--s2) var(--s3);
   background: var(--surface-2);
   border-bottom: var(--bw) solid var(--line);
 }
 .pane__title {
   display: flex;
   align-items: center;
-  gap: clamp(6px, 1.6vw, 9px);
+  gap: var(--s2);
   min-width: 0;
   margin: 0;
   font-family: var(--font-display);
-  font-size: clamp(13px, 2.6vw, 15px);
+  font-size: var(--fs-lg);
   font-weight: 800;
-  letter-spacing: -0.015em;
-  line-height: 1.25;
-  color: var(--ink);
-}
-.pane__title .icon {
+  letter-spacing: -0.02em;
+  line-height: 1.2;
   color: var(--ink);
 }
 .pane__title span {
@@ -307,20 +324,15 @@
   overflow: hidden;
   text-overflow: ellipsis;
 }
+/* Semua tombol alat setinggi --tap: selain target sentuh, ini yang
+   menjamin tinggi kepala kedua panel identik walau satu tombol
+   berborder --bw-strong. */
 .pane__tools {
   display: flex;
-  align-items: center;
-  gap: clamp(4px, 1.4vw, 8px);
+  align-items: stretch;
+  min-height: var(--tap);
+  gap: var(--s2);
   flex: none;
-}
-
-/* Keterangan format singkat, menempel di dalam panel input. */
-.pane__note {
-  padding: 9px clamp(10px, 3vw, 16px);
-  background: var(--surface);
-  font-size: 12.5px;
-  line-height: 1.55;
-  color: var(--muted);
 }
 
 /* ============ Editor (textarea) ============ */
@@ -335,169 +347,189 @@
   width: 100%;
   height: 100%;
   margin: 0;
-  padding: clamp(10px, 2.6vw, 16px) clamp(12px, 3.4vw, 24px);
+  padding: var(--s4) var(--s5);
   border: 0;
-  border-radius: 0;
+  border-radius: var(--radius);
   background: transparent;
   color: var(--ink);
   font-family: var(--font-mono);
-  font-size: clamp(11.5px, 2.6vw, 13px);
-  line-height: 1.65;
+  font-size: var(--fs-code);
+  line-height: 1.6;
   tab-size: 4;
   resize: none;
   outline: none;
-  scrollbar-width: thin;
-  scrollbar-color: var(--line) transparent;
 }
 .editor textarea::placeholder {
   color: var(--muted);
-  opacity: 0.85;
+  opacity: 1;
 }
 .editor textarea:focus-visible {
-  outline: 3px solid var(--ink);
-  outline-offset: -3px;
+  outline: var(--bw-strong) solid var(--focus);
+  outline-offset: calc(var(--bw) * -1);
 }
 
-/* ============ Panel output (blok kode gelap) ============ */
+/* ============ Panel output ============ */
+/* Area kode = permukaan sekunder: satu tingkat dari badan panel input,
+   tetap satu keluarga warna di kedua tema. Pembedanya halus — slab
+   --code-bg + monospace + perkakas — bukan inversi total. Semua warnanya
+   dari pasangan token --code-* yang mengikuti token halaman. */
 .pane--output {
+  border-left: 0;
   background: var(--code-bg);
   color: var(--code-ink);
 }
+/* Garis bawah kepala ikut --code-line: seam token ini menjaga semua
+   garis di dalam panel output konsisten (saat ini = --line, tetap
+   satu keluarga dengan halaman). */
 .pane--output .pane__head {
   background: var(--code-bg);
-  border-color: color-mix(in srgb, var(--code-ink) 35%, transparent);
+  color: var(--code-muted);
+  border-bottom-color: var(--code-line);
 }
 .pane--output .pane__title {
   color: var(--code-ink);
-}
-.pane--output .pane__title .icon {
-  color: var(--ok);
 }
 .pane--output .editor textarea {
   color: var(--code-ink);
   white-space: pre;
   overflow: auto;
-  scrollbar-color: color-mix(in srgb, var(--code-ink) 45%, transparent) transparent;
 }
 .pane--output .editor textarea::placeholder {
   color: var(--code-muted);
 }
-.pane--output .btn {
+.pane--output .editor textarea:focus-visible {
+  outline-color: var(--code-line);
+}
+.pane--output .editor {
+  --scroll-track: var(--code-bg);
+  --scroll-thumb: var(--code-line);
+}
+/* Tombol di atas slab kode: garis dan shadow memakai --code-line
+   supaya kontras tetap terbaca di slab yang satu tingkat beda. */
+.pane--output .btn,
+.pane--output .icon-btn {
   background: var(--code-bg);
   color: var(--code-ink);
-  border-color: var(--code-ink);
-  box-shadow: 3px 3px 0 var(--code-ink);
+  border-color: var(--code-line);
+  --shadow-color: var(--code-line);
 }
-.pane--output .btn:hover {
-  background: color-mix(in srgb, var(--code-ink) 16%, var(--code-bg));
-  box-shadow: 5px 5px 0 var(--code-ink);
-}
-.pane--output .btn:active {
-  transform: translate(3px, 3px);
-  box-shadow: 0 0 0 var(--code-ink);
+.pane--output .btn:hover:not(:disabled):not(.btn--copied),
+.pane--output .icon-btn:hover:not(:disabled) {
+  background: color-mix(in srgb, var(--code-line) 18%, var(--code-bg));
 }
 .pane--output .btn--primary {
   background: var(--accent);
   color: var(--accent-ink);
 }
-.pane--output .btn--primary:hover {
+.pane--output .btn--primary:hover:not(:disabled) {
   background: var(--accent-hover);
-  color: var(--accent-ink);
 }
-/* Fokus di permukaan gelap memakai warna tinta kode agar tetap terlihat. */
+.pane--output .btn--copied {
+  background: var(--ok);
+  color: var(--ok-ink);
+}
 .pane--output :focus-visible {
-  outline-color: var(--code-ink);
+  outline-color: var(--code-line);
 }
+
 .editor--flash textarea {
   animation: flash 0.7s ease-out;
 }
 @keyframes flash {
   from {
-    background: color-mix(in srgb, var(--accent) 45%, transparent);
+    background-color: color-mix(in srgb, var(--accent) 55%, transparent);
   }
   to {
-    background: transparent;
+    background-color: transparent;
   }
 }
 
-/* ============ Ringkasan deteksi ============ */
+/* ============ Kartu statistik ============ */
 .summary {
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  gap: 14px;
-  margin-top: var(--space-section-head);
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: var(--s4);
+  margin-top: var(--s5);
 }
 .summary__item {
-  padding: 12px 14px;
+  min-width: 0;
+  padding: var(--s3) var(--s4);
   background: var(--surface);
   border: var(--bw) solid var(--line);
   border-radius: var(--radius);
-  box-shadow: var(--shadow-sm);
+  box-shadow: var(--shadow);
 }
 .summary dt {
   font-family: var(--font-mono);
-  font-size: 11px;
+  font-size: var(--fs-sm);
   font-weight: 600;
+  line-height: 1.4;
   color: var(--muted);
 }
 .summary dd {
   display: flex;
   align-items: center;
-  gap: 8px;
-  margin-top: 4px;
-  font-size: 15px;
-  font-weight: 700;
+  gap: var(--s2);
+  margin-top: var(--s1);
+  font-family: var(--font-display);
+  font-size: var(--fs-lg);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1.25;
   overflow-wrap: anywhere;
 }
 .swatch {
-  width: 16px;
-  height: 16px;
-  border: 2px solid var(--swatch-line);
+  width: 18px;
+  height: 18px;
   flex: none;
+  border: var(--bw) solid var(--line);
 }
 .summary__note {
-  margin-top: var(--space-section-head);
-  font-size: 13.5px;
+  margin-top: var(--s4);
+  font-size: var(--fs-sm);
   color: var(--muted);
 }
 
 /* ============ Footer ============ */
-/* Latar gelap di kedua mode tema, dipisahkan border kuning tebal.
-   Satu-satunya aksen kuning di footer: border-top dan nama RigForge. */
+/* Pita gelap di kedua tema; garis atasnya memakai --line sehingga
+   ikut berganti tema (tidak ada aksen kuning permanen). */
 .site-footer {
   background: var(--footer-bg);
   color: var(--footer-ink);
-  border-top: var(--bw-lg) solid var(--accent);
+  border-top: var(--bw) solid var(--line);
 }
 .site-footer__grid {
   display: grid;
   grid-template-columns: 1.2fr 1fr 1fr;
-  gap: var(--space-section-md);
-  padding-block: var(--space-section-md) var(--space-section-sm);
+  gap: var(--s6);
+  padding-block: var(--s6) var(--s5);
+  /* Pemisah baris legal memakai border-bottom, sama seperti bahasa
+     desain di tempat lain (header, kepala panel). */
+  border-bottom: var(--bw) solid var(--footer-line);
 }
 .site-footer .brand__name {
-  font-size: 22px;
+  font-size: var(--fs-xl);
   color: var(--accent);
 }
 .site-footer__brand p {
-  margin-top: var(--space-section-sub);
-  max-width: 34ch;
-  font-size: 14px;
+  margin-top: var(--s3);
+  max-width: 40ch;
+  font-size: var(--fs-md);
   color: var(--footer-muted);
 }
 .site-footer__legal {
-  font-size: 13.5px;
-  max-width: 48ch;
+  font-size: var(--fs-sm);
+  line-height: 1.6;
+  max-width: 52ch;
   color: var(--footer-muted);
 }
 .site-footer__bar {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 16px;
-  padding-block: var(--space-section-sub) var(--space-section-head);
-  border-top: var(--bw) solid color-mix(in srgb, var(--footer-ink) 35%, var(--footer-bg));
-  font-size: 13px;
+  gap: var(--s4);
+  padding-block: var(--s3) var(--s5);
+  font-size: var(--fs-sm);
   font-weight: 600;
   color: var(--footer-muted);
 }
@@ -505,49 +537,54 @@
 /* ============ Responsif ============ */
 @media (max-width: 900px) {
   .summary {
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
   .summary__item:last-child {
     grid-column: span 2;
   }
   .site-footer__grid {
     grid-template-columns: 1fr;
-    gap: var(--space-section-sm);
+    gap: var(--s5);
   }
 }
 
 @media (max-width: 767px) {
+  /* --s4 + --s4 = 32px: bar badge → panel tetap di skala. */
+  .section--tool {
+    padding-block: var(--s4) var(--s6);
+  }
   .bench {
     grid-template-columns: 1fr;
     height: auto;
-    gap: 44px;
-  }
-  .bench::after {
-    left: 0;
-    right: 0;
-    top: 50%;
-    bottom: auto;
-    width: auto;
-    height: var(--bw);
-    transform: translateY(-1.5px);
-  }
-  .bench__seam .icon {
-    transform: rotate(90deg);
+    gap: 0;
   }
   .pane {
     height: clamp(300px, 46vh, 420px);
   }
+  /* Panel bertumpuk: border bawah panel input menjadi garis
+     pemisah tunggal (panel output tanpa border atas). */
+  .pane--output {
+    border-left: var(--bw);
+    border-top: 0;
+  }
+  /* Chip seam naik ke atas garis sambung. Posisi 50% (seperti desktop)
+     akan jatuh di kepala panel output dan menutupi tombol Unduh/Salin;
+     dengan top ini badan chip + shadow-nya berhenti tepat di garis seam. */
+  .bench__seam {
+    top: calc(50% - 24px);
+  }
+  .bench__seam .icon {
+    transform: rotate(90deg);
+  }
 }
 
 @media (max-width: 640px) {
+  /* Brand mobile turun satu tingkat skala (26 → 22), bukan nilai acak. */
   .brand__name {
-    font-size: 20px;
+    font-size: var(--fs-xl);
   }
   .brand__tag {
     display: none;
-  }
-  .editor textarea {
-    padding: 14px 16px;
   }
   .statusbar__run {
     flex: 1 1 100%;
@@ -558,10 +595,13 @@
   .summary__item:last-child {
     grid-column: auto;
   }
+  .site-footer__grid {
+    padding-block: var(--s5) var(--s4);
+  }
   .site-footer__bar {
     flex-direction: column;
     align-items: flex-start;
-    gap: 6px;
+    gap: var(--s2);
   }
 }
 
@@ -570,54 +610,38 @@
     min-width: 0;
   }
   .pane__head {
-    padding-inline: 8px;
-    gap: 6px;
+    padding-inline: var(--s2);
   }
   .pane__tools {
-    gap: 4px;
+    gap: var(--s2);
   }
   .editor textarea {
-    padding-inline: 8px;
+    padding-inline: var(--s4);
   }
 }
 
-/* Area aman perangkat berponi (viewport-fit=cover) */
-.site-header {
-  padding-top: env(safe-area-inset-top, 0px);
-}
+/* ============ Area aman perangkat ============ */
 .container {
-  padding-left: max(24px, env(safe-area-inset-left, 0px));
-  padding-right: max(24px, env(safe-area-inset-right, 0px));
+  padding-left: max(var(--s5), env(safe-area-inset-left, 0px));
+  padding-right: max(var(--s5), env(safe-area-inset-right, 0px));
 }
 @media (max-width: 640px) {
   .container {
-    padding-left: max(16px, env(safe-area-inset-left, 0px));
-    padding-right: max(16px, env(safe-area-inset-right, 0px));
+    padding-left: max(var(--s4), env(safe-area-inset-left, 0px));
+    padding-right: max(var(--s4), env(safe-area-inset-right, 0px));
   }
 }
 
-/* Layar sentuh: font input minimal ~14px dan target sentuh 44px */
+/* Layar sentuh: teks tetap terbaca. Tinggi tombol sudah --tap (44px)
+   dari aturan dasar, jadi tidak ada min-height tambahan di sini. */
 @media (pointer: coarse) {
   .pane--input .editor textarea {
-    font-size: clamp(13px, 3.4vw, 16px);
+    font-size: clamp(14px, 3.4vw, 16px);
     line-height: 1.55;
-  }
-  .btn,
-  .icon-btn {
-    min-height: 44px;
-  }
-  .icon-btn {
-    min-width: 44px;
-  }
-  .btn--sm {
-    min-height: 40px;
-  }
-  .pane__tools {
-    gap: 8px;
   }
 }
 
-/* HP landscape: ruang vertikal sempit, header ikut tergulir */
+/* HP landscape: ruang vertikal sempit, header ikut tergulir. */
 @media (max-height: 500px) and (max-width: 900px) {
   .site-header {
     position: static;
@@ -625,4 +649,34 @@
   .pane {
     height: min(460px, 78vh);
   }
+}
+
+/* ============ Disabled (ditaruh terakhir agar menang) ============ */
+.btn:disabled,
+.icon-btn:disabled {
+  background: var(--surface-2);
+  color: var(--muted);
+  border-color: var(--line);
+  box-shadow: none;
+  transform: none;
+  cursor: not-allowed;
+}
+.btn--primary:disabled,
+.btn--copied:disabled,
+.btn--danger:disabled {
+  background: var(--surface-2);
+  color: var(--muted);
+}
+.pane--output .btn:disabled,
+.pane--output .icon-btn:disabled {
+  background: transparent;
+  color: var(--code-muted);
+  border-color: var(--code-muted);
+  box-shadow: none;
+  transform: none;
+}
+.pane--output .btn--primary:disabled,
+.pane--output .btn--copied:disabled {
+  background: transparent;
+  color: var(--code-muted);
 }

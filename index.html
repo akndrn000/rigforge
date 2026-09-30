@@ -8,7 +8,7 @@
       name="description"
       content="RigForge mengubah data mentah avatar Roblox menjadi script Lua siap pakai untuk Roblox Studio. Tempel data, salin atau unduh hasilnya. Semua diproses di browser, tanpa login."
     />
-    <meta name="theme-color" content="#fff8e7" />
+    <meta name="theme-color" content="#fff7e4" />
     <link rel="canonical" href="__SITE_URL__/" />
 
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
@@ -56,6 +56,13 @@
         } catch (e) {
           document.documentElement.setAttribute('data-theme', 'light')
         }
+        // Warna chrome browser diambil dari token --bg setelah CSS siap.
+        window.addEventListener('load', function () {
+          var meta = document.querySelector('meta[name="theme-color"]')
+          if (!meta) return
+          var bg = getComputedStyle(document.documentElement).getPropertyValue('--bg').trim()
+          if (bg) meta.setAttribute('content', bg)
+        })
       })()
     </script>
   </head>

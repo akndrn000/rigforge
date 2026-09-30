@@ -91,6 +91,7 @@ export function Converter() {
   const { summary } = result
   const badge = STATUS_BADGE[result.status]
   const skinIsHex = summary ? /^#[0-9A-F]{6}$/i.test(summary.skinTone) : false
+  const hasOutput = Boolean(result.lua)
 
   return (
     <>
@@ -146,17 +147,17 @@ export function Converter() {
                     <Icon name="sample" />
                     <span className="hide-sm">Contoh Data</span>
                   </button>
-                  <button type="button" className="btn btn--ghost btn--sm btn--danger" onClick={clearInput} aria-label="Reset">
+                  <button
+                    type="button"
+                    className="btn btn--sm btn--danger"
+                    onClick={clearInput}
+                    aria-label="Reset"
+                  >
                     <Icon name="trash" />
                     <span className="hide-sm">Reset</span>
                   </button>
                 </div>
               </div>
-
-              <p className="pane__note">
-                Satu token per baris <code>Token: id1, id2</code>, atau tempel blob{' '}
-                <code>AccessoryBlob Data</code>.
-              </p>
 
               <div className="editor">
                 <textarea
@@ -165,7 +166,7 @@ export function Converter() {
                   onChange={(e) => setRaw(e.target.value)}
                   spellCheck={false}
                   placeholder={
-                    'Tempel data mentah avatar di sini...\n\ncontoh:\nHead: 78735857422004\nTShirt: 74448624601125\nBody Color: 242,215,205 (#F2D7CD)'
+                    'Tempel data mentah avatar di sini...\n\nContoh:\nHead: 78735857422004\nTShirt: 74448624601125\nBody Color: 242,215,205 (#F2D7CD)'
                   }
                 />
               </div>
@@ -178,15 +179,23 @@ export function Converter() {
                   <span>Hasil Lua</span>
                 </div>
                 <div className="pane__tools">
-                  <button type="button" className="btn btn--sm" onClick={downloadLua} aria-label="Unduh .lua">
+                  <button
+                    type="button"
+                    className="btn btn--sm"
+                    onClick={downloadLua}
+                    aria-label="Unduh .lua"
+                    disabled={!hasOutput}
+                  >
                     <Icon name="download" />
                     <span className="hide-sm">Unduh .lua</span>
                   </button>
                   <button
                     type="button"
-                    className="btn btn--primary btn--sm btn--copy"
+                    className={
+                      copied ? 'btn btn--sm btn--copy btn--copied' : 'btn btn--primary btn--sm btn--copy'
+                    }
                     onClick={copyOutput}
-                    aria-live="polite"
+                    disabled={!hasOutput}
                   >
                     {copied ? (
                       <>
@@ -200,6 +209,9 @@ export function Converter() {
                       </>
                     )}
                   </button>
+                  <span className="sr-only" role="status">
+                    {copied ? 'Kode Lua berhasil disalin.' : ''}
+                  </span>
                 </div>
               </div>
 

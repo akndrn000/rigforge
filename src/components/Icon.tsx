@@ -1,7 +1,9 @@
 import type { ReactNode } from 'react'
 
-/** Set ikon sendiri: stroke 1.6 dan sudut membulat, dipakai untuk judul panel,
- *  tombol aksi, serta badge status di statusbar. */
+/** Set ikon sendiri: sudut membulat, stroke diatur sekali di
+ *  base.css (.icon { stroke-width: 2 }) supaya bobot semua ikon sama.
+ *  Dua tingkat ukuran saja: 16px untuk ikon inline (tombol, judul
+ *  panel, badge) dan 20px untuk kotak brand. */
 export type IconName =
   | 'moon' | 'prompt' | 'brackets' | 'trash' | 'download' | 'copy' | 'sample' | 'refresh'
   | 'info' | 'arrow' | 'check' | 'sun' | 'alert'
@@ -99,7 +101,6 @@ export function Icon({ name, size = 16, className }: IconProps) {
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
-      strokeWidth="1.6"
       strokeLinecap="round"
       strokeLinejoin="round"
       aria-hidden="true"

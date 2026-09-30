@@ -8,12 +8,43 @@ function readInitial(): Theme {
   return attr === 'dark' ? 'dark' : 'light'
 }
 
+/** Sinkronkan warna chrome browser (bilah atas perangkat) dengan token --bg,
+ *  supaya warnanya ikut berganti tema tanpa nilai hardcode. */
+function syncThemeColor() {
+  const meta = document.querySelector('meta[name="theme-color"]')
+  if (!meta) return
+  const bg = getComputedStyle(document.documentElement).getPropertyValue('--bg').trim()
+  if (bg) meta.setAttribute('content', bg)
+}
+
+function readStored(): string | null {
+  try {
+    return localStorage.getItem(STORAGE_KEY)
+  } catch {
+    return null
+  }
+}
+
 export function useTheme() {
   const [theme, setTheme] = useState<Theme>(readInitial)
 
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', theme)
+    syncThemeColor()
   }, [theme])
+
+  // Hormati preferensi sistem selama pengguna belum memilih tema sendiri.
+  useEffect(() => {
+    const mq = window.matchMedia('(prefers-color-scheme: dark)')
+    const onChange = (e: MediaQueryListEvent) => {
+      const stored = readStored()
+      if (stored !== 'light' && stored !== 'dark') {
+        setTheme(e.matches ? 'dark' : 'light')
+      }
+    }
+    mq.addEventListener('change', onChange)
+    return () => mq.removeEventListener('change', onChange)
+  }, [])
 
   const toggle = useCallback(() => {
     setTheme((current) => {
