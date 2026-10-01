@@ -1,51 +1,65 @@
-# RigForge
+<div align="center">
 
-*Ubah data avatar Roblox jadi script Lua siap pakai.*
+<img src="./docs/banner.svg" alt="RigForge: ubah data avatar Roblox jadi script Lua siap pakai" width="100%">
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-green)](./LICENSE) [![Live Demo](https://img.shields.io/badge/Demo-live-brightgreen)](https://rigforge-lemon.vercel.app) ![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?logo=typescript&logoColor=white) ![React 19](https://img.shields.io/badge/React-19-61DAFB?logo=react&logoColor=white) ![Vite](https://img.shields.io/badge/Vite-646CFF?logo=vite&logoColor=white) ![Vitest](https://img.shields.io/badge/Tested_with-Vitest-729B1B?logo=vitest&logoColor=white)
+<br>
 
-**[Demo Live](https://rigforge-lemon.vercel.app)** • **[Laporkan Bug](https://github.com/akndrn000/rigforge/issues)**
+[![Live Demo](https://img.shields.io/badge/demo-live-2ea44f?style=flat-square)](https://rigforge-lemon.vercel.app)
+![React](https://img.shields.io/badge/React-19-61DAFB?style=flat-square&logo=react&logoColor=black)
+![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=flat-square&logo=typescript&logoColor=white)
+![Vite](https://img.shields.io/badge/Vite-646CFF?style=flat-square&logo=vite&logoColor=white)
+![Vitest](https://img.shields.io/badge/tested_with-Vitest-6E9F18?style=flat-square&logo=vitest&logoColor=white)
+![Node](https://img.shields.io/badge/Node-22.x-339933?style=flat-square&logo=node.js&logoColor=white)
+[![License: MIT](https://img.shields.io/badge/license-MIT-2ea44f?style=flat-square)](./LICENSE)
 
-<p align="center">
-  <img src="./public/og-image.png" alt="RigForge: ubah data avatar Roblox jadi script Lua siap pakai" width="100%">
-</p>
+**[Demo Live](https://rigforge-lemon.vercel.app) · [Fitur](#fitur) · [Cara Pakai](#cara-pakai) · [Cara Kerja](#cara-kerja-konverter) · [Memulai](#memulai) · [Deploy](#deploy) · [Laporkan Bug](https://github.com/akndrn000/rigforge/issues)**
 
-RigForge mengubah data mentah avatar Roblox menjadi script Lua siap tempel di Roblox Studio. Ditujukan untuk pembuat game dan avatar yang ingin memindahkan tampilan avatar ke dalam script tanpa menyalin ID satu per satu. Semua proses berjalan di browser — tanpa server, tanpa login, tanpa data yang keluar dari perangkat.
+</div>
 
-## Daftar isi
+<br>
 
-- [Daftar isi](#daftar-isi)
-- [✨ Fitur utama](#-fitur-utama)
-- [🚀 Demo dan cara pakai](#-demo-dan-cara-pakai)
-- [⚙️ Cara kerja konverter](#-cara-kerja-konverter)
-- [🧰 Teknologi](#-teknologi)
-- [💻 Memulai](#-memulai)
-- [✅ Testing](#-testing)
-- [🌐 Deploy](#-deploy)
-  - [Domain sendiri](#domain-sendiri)
-- [📁 Struktur proyek](#-struktur-proyek)
-- [🎨 Kustomisasi](#-kustomisasi)
-- [🤝 Kontribusi](#-kontribusi)
-- [📄 Lisensi dan disclaimer](#-lisensi-dan-disclaimer)
+> Tempel data mentah avatar Roblox, dapatkan **script Lua siap tempel** untuk Roblox Studio. Semua diproses di browser: tanpa server, tanpa login, dan tidak ada data yang keluar dari perangkatmu.
 
-## ✨ Fitur utama
+<br>
 
-- 100% client-side dan privat: konversi sinkron di browser, tidak ada request jaringan untuk data.
-- Deteksi otomatis bagian tubuh (Head–Torso–lengan–kaki), warna kulit, pakaian klasik, pakaian berlapis, dan aksesori.
-- Template slot universal: setiap tipe punya jumlah slot minimum, sisa slot diisi `AssetId = 0`.
-- Tombol **Contoh Data** (dari `src/lib/sample.ts`), **Salin Kode**, **Unduh .lua** (`AvatarConfig.lua`), dan **Generate Paksa**.
-- Status konversi langsung: Kosong / Siap / Gagal / Memproses, plus ringkasan hasil deteksi.
-- Tema terang/gelap lewat tombol di header, tersimpan di `localStorage`.
+<div align="center">
+<img src="./docs/screenshot-light.png" alt="Tampilan RigForge tema terang dengan hasil konversi" width="49%">
+<img src="./docs/screenshot-dark.png" alt="Tampilan RigForge tema gelap" width="49%">
+<br>
+<sub>Tema terang dan gelap, memakai tombol <b>Contoh Data</b> bawaan aplikasi.</sub>
+</div>
 
-## 🚀 Demo dan cara pakai
+<br>
 
-Coba langsung di <https://rigforge-lemon.vercel.app>:
+## Ringkasan
+
+RigForge mengubah data mentah avatar Roblox menjadi script Lua. Ditujukan untuk pembuat game dan avatar yang ingin memindahkan tampilan avatar ke dalam script tanpa menyalin ID satu per satu.
+
+## Fitur
+
+| | |
+| --- | --- |
+| **100% client-side dan privat** | Konversi sinkron di browser, tidak ada request jaringan untuk data. |
+| **Deteksi otomatis** | Bagian tubuh (Head, Torso, lengan, kaki), warna kulit, pakaian klasik, pakaian berlapis, dan aksesori. |
+| **Template slot universal** | Setiap tipe punya jumlah slot minimum; sisa slot diisi `AssetId = 0`. |
+| **Aksi cepat** | **Contoh Data**, **Salin Kode**, **Unduh .lua** (`AvatarConfig.lua`), dan **Generate Paksa**. |
+| **Status langsung** | Kosong, Siap, Gagal, atau Memproses, plus ringkasan hasil deteksi. |
+| **Tema terang/gelap** | Tombol di header, pilihan tersimpan di `localStorage`. |
+
+## Cara Pakai
+
+Coba langsung di **<https://rigforge-lemon.vercel.app>**:
 
 1. Tempel data mentah avatar ke panel kiri (atau klik **Contoh Data**).
-2. Hasil Lua tersusun otomatis di panel kanan; klik **Generate Paksa** untuk menghitung ulang.
+2. Hasil Lua tersusun otomatis di panel kanan. Klik **Generate Paksa** untuk menghitung ulang.
 3. Klik **Salin Kode** atau **Unduh .lua**, lalu tempel ke Roblox Studio.
 
-Contoh input (dari `src/lib/__fixtures__/golden.json`, kasus "semua token badan + daftar + blob"):
+<details>
+<summary><b>Contoh input dan output</b></summary>
+
+<br>
+
+Input (dari `src/lib/__fixtures__/golden.json`, kasus "semua token badan + daftar + blob"):
 
 ```text
 Head: 123
@@ -63,7 +77,7 @@ FaceAccessory: 21, 22, 23
 AccessoryBlob Data: [{"AssetId":777,"AccessoryType":"Sweater"},{"AssetId":888,"AccessoryType":"Cape"}]
 ```
 
-Potongan output Lua yang dihasilkan:
+Potongan output Lua:
 
 ```lua
 Body = {
@@ -96,26 +110,39 @@ SkinTone = "#AABBCC",
 
 `Cape` tidak ada di template, jadi dibuatkan bagian baru di akhir `Accessories`.
 
-## ⚙️ Cara kerja konverter
+</details>
+
+## Cara Kerja Konverter
 
 Inti logika ada di `src/lib/converter.ts` (`convertAvatarData`).
 
-**Aturan parser:**
+```mermaid
+flowchart LR
+    A[Data mentah] --> B[Parser token]
+    B --> C[Deteksi warna kulit & blob]
+    C --> D[Generator template]
+    D --> E[Script Lua]
+```
+
+**Aturan parser**
 
 - Token dibaca case-insensitive dengan format `Nama: angka`, misalnya `Head: 123`, `Hat: 11, 12`.
 - `DynamicHead` diutamakan; `Head` dipakai hanya jika `DynamicHead` bernilai 0 atau tidak ada.
 - `TShirt` menerima varian `TShirt`, `T-Shirt`, dan `Tshirt`.
 - Warna kulit: hex dalam tanda kurung (`(#F2D7CD)`) diutamakan, lalu teks `Body Color:`, lalu bawaan `Pastel orange`.
-- `AccessoryBlob Data:` berisi JSON array item `{ AssetId, AccessoryType }`; blob rusak dicatat ke console dan diabaikan.
+- `AccessoryBlob Data:` berisi JSON array item `{ AssetId, AccessoryType }`. Blob rusak dicatat ke console dan diabaikan.
 
-**Aturan generator (template universal):**
+**Aturan generator (template universal)**
 
 - Setiap bagian punya jumlah slot minimum. ID mengisi slot dari atas ke bawah, sisa slot tetap `AssetId = 0`.
 - Jika ID melebihi jumlah slot, baris baru otomatis ditambahkan di bagian yang sama.
 - Tipe aksesori yang tidak ada di template dibuatkan bagian baru di akhir `Accessories`, sesuai urutan kemunculan.
 - Item blob bertipe aksesori digabung dengan daftar token bertipe sama; ID identik dalam satu bagian hanya ditulis sekali.
 
-Jumlah slot minimum per tipe:
+<details>
+<summary><b>Jumlah slot minimum per tipe</b></summary>
+
+<br>
 
 | Bagian `Layered` | Slot | Bagian `Accessories` | Slot |
 | --- | ---: | --- | ---: |
@@ -131,7 +158,9 @@ Jumlah slot minimum per tipe:
 
 Ubah jumlah slot di `LAYERED_GROUPS` / `ACCESSORY_GROUPS` bila template perlu disesuaikan.
 
-## 🧰 Teknologi
+</details>
+
+## Teknologi
 
 | Teknologi | Peran |
 | --- | --- |
@@ -142,16 +171,16 @@ Ubah jumlah slot di `LAYERED_GROUPS` / `ACCESSORY_GROUPS` bila template perlu di
 | Vitest | Tes logika konverter |
 | Vercel | Hosting demo |
 
-## 💻 Memulai
+## Memulai
 
 Prasyarat: Node.js 22 (sesuai `engines` di `package.json`).
 
 ```bash
+git clone https://github.com/akndrn000/rigforge.git
+cd rigforge
 npm install     # pasang dependensi
 npm run dev     # dev server di http://localhost:5173
 ```
-
-Semua script `npm`:
 
 | Perintah | Fungsi |
 | --- | --- |
@@ -161,7 +190,7 @@ Semua script `npm`:
 | `npm test` | Menjalankan tes sekali (`vitest run`) |
 | `npm run typecheck` | Pemeriksaan tipe saja, tanpa build |
 
-## ✅ Testing
+## Testing
 
 Tes ada di `src/lib/converter.test.ts` dan memakai Vitest:
 
@@ -173,26 +202,30 @@ Tes ada di `src/lib/converter.test.ts` dan memakai Vitest:
 npm test
 ```
 
-Bila perilaku konverter sengaja diubah, perbarui entri yang relevan di `golden.json` (input dan output yang diharapkan), lalu jalankan `npm test` lagi sampai semua kasus lolos.
+> [!NOTE]
+> Bila perilaku konverter sengaja diubah, perbarui entri yang relevan di `golden.json` (input dan output yang diharapkan), lalu jalankan `npm test` lagi sampai semua kasus lolos.
 
-## 🌐 Deploy
+## Deploy
 
-**Lewat GitHub (disarankan):**
+**Lewat GitHub (disarankan)**
 
 1. Push repo ini ke GitHub.
 2. Buka <https://vercel.com/new> dan impor repository tersebut.
 3. Vercel mendeteksi Vite otomatis (`vercel.json` sudah mengatur build, output `dist`, dan header keamanan). Klik **Deploy**.
 
-**Lewat Vercel CLI:**
+**Lewat Vercel CLI**
 
 ```bash
 npx vercel          # deploy pratinjau
 npx vercel --prod   # deploy produksi
 ```
 
-### Domain sendiri
+<details>
+<summary><b>Memakai domain sendiri</b></summary>
 
-Tambahkan domain di **Project > Settings > Domains**, lalu atur environment variable agar canonical, Open Graph, `robots.txt`, dan `sitemap.xml` memakai domain itu:
+<br>
+
+Tambahkan domain di **Project → Settings → Domains**, lalu atur environment variable agar canonical, Open Graph, `robots.txt`, dan `sitemap.xml` memakai domain itu:
 
 ```text
 SITE_URL = https://domainkamu.com
@@ -200,7 +233,12 @@ SITE_URL = https://domainkamu.com
 
 Tanpa variable ini, build memakai URL produksi Vercel (`VERCEL_PROJECT_PRODUCTION_URL`), atau `http://localhost:5173` saat pengembangan lokal. `robots.txt` dan `sitemap.xml` dibuat saat build oleh plugin `siteMeta` di `vite.config.ts`.
 
-## 📁 Struktur proyek
+</details>
+
+<details>
+<summary><b>Struktur proyek</b></summary>
+
+<br>
 
 ```text
 src/
@@ -227,35 +265,34 @@ public/
   favicon.svg             # Favicon
   apple-touch-icon.png    # Ikon iOS
   og-image.png            # Gambar pratinjau tautan (Open Graph)
+docs/
+  DESIGN.md               # Dokumentasi desain
+  banner.svg              # Banner README
+  screenshot-*.png        # Tangkapan layar README
 vite.config.ts            # Plugin React + siteMeta (SITE_URL, robots, sitemap)
 vercel.json               # Konfigurasi build dan header keamanan di Vercel
 LICENSE                   # Lisensi MIT
 ```
 
-## 🎨 Kustomisasi
+</details>
 
-- **Warna dan font:** `src/styles/tokens.css`. Ketebalan border (`--bw`/`--bw-strong`) dan hard shadow (`--shadow*`); varian terang dan gelap di blok `:root` dan `[data-theme='dark']`.
+## Kustomisasi
+
+- **Warna dan font:** `src/styles/tokens.css`. Ketebalan border (`--bw` / `--bw-strong`) dan hard shadow (`--shadow*`); varian terang dan gelap ada di blok `:root` dan `[data-theme='dark']`.
 - **Teks halaman:** `src/components/Converter.tsx`, `Header.tsx`, `Footer.tsx`.
 - **Nilai `Scaling`** (`BodyType`, `Depth`, `Height`, dst.) dan warna kulit bawaan (`Pastel orange`) ditulis tetap di `converter.ts` (konstanta `SCALING` dan `DEFAULT_SKIN_TONE`). Jika diubah, perbarui `golden.json` karena output ikut berubah.
 - **Gambar pratinjau tautan** (`public/og-image.png`) bisa diganti dengan desain sendiri.
 
-## 🤝 Kontribusi
+## Kontribusi
 
-Repo: <https://github.com/akndrn000/rigforge>. Temukan bug? Laporkan di [halaman issues](https://github.com/akndrn000/rigforge/issues).
+1. Fork repo ini dan buat branch dari `main`.
+2. Lakukan perubahan, lalu jalankan `npm test` dan `npm run typecheck`.
+3. Buka pull request dengan penjelasan singkat tentang perubahan dan alasannya.
 
-1. Clone dan masuk ke folder proyek:
+Menemukan bug? Laporkan di [halaman issues](https://github.com/akndrn000/rigforge/issues).
 
-   ```bash
-   git clone https://github.com/akndrn000/rigforge.git
-   cd rigforge
-   ```
+## Lisensi dan Disclaimer
 
-2. Buat branch dari `main`, lalu lakukan perubahan.
-3. Jalankan `npm test` dan `npm run typecheck`.
-4. Buka pull request dengan penjelasan singkat tentang perubahan dan alasannya.
-
-## 📄 Lisensi dan disclaimer
-
-Proyek ini berlisensi MIT — lihat file [LICENSE](./LICENSE).
+Dirilis di bawah **Lisensi MIT**. Lihat [LICENSE](./LICENSE).
 
 "Roblox" adalah merek dagang Roblox Corporation. Proyek ini alat independen dan tidak berafiliasi dengan Roblox Corporation. Situs tidak memakai analytics atau pelacak apa pun; data yang ditempel diproses di browser saja dan tidak dikirim ke mana-mana.
