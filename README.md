@@ -4,7 +4,7 @@
 
 <br>
 
-[![Live Demo](https://img.shields.io/badge/demo-live-2ea44f?style=flat-square)](https://rigforge-lemon.vercel.app)
+[![Live Demo](https://img.shields.io/badge/demo-live-2ea44f?style=flat-square)](https://akndrn000.github.io/rigforge/)
 ![React](https://img.shields.io/badge/React-19-61DAFB?style=flat-square&logo=react&logoColor=black)
 ![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=flat-square&logo=typescript&logoColor=white)
 ![Vite](https://img.shields.io/badge/Vite-646CFF?style=flat-square&logo=vite&logoColor=white)
@@ -48,7 +48,7 @@ RigForge mengubah data mentah avatar Roblox menjadi script Lua. Ditujukan untuk 
 
 ## Cara Pakai
 
-Coba langsung di **<https://rigforge-lemon.vercel.app>**:
+Coba langsung di **<https://akndrn000.github.io/rigforge/>**:
 
 1. Tempel data mentah avatar ke panel kiri (atau klik **Contoh Data**).
 2. Hasil Lua tersusun otomatis di panel kanan. Klik **Generate Paksa** untuk menghitung ulang.
