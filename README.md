@@ -4,7 +4,7 @@
 
 <br>
 
-[![Live demo](https://img.shields.io/badge/demo-rigforge--lemon.vercel.app-ffd60a?style=for-the-badge&labelColor=111111)](https://rigforge-lemon.vercel.app/)
+[![Live demo](https://img.shields.io/badge/demo-rigforge--mocha.vercel.app-ffd60a?style=for-the-badge&labelColor=111111)](https://rigforge-mocha.vercel.app/)
 
 ![Vite](https://img.shields.io/badge/Vite-646cff?style=flat-square&logo=vite&logoColor=white)
 ![React](https://img.shields.io/badge/React_19-20232a?style=flat-square&logo=react&logoColor=61dafb)
@@ -17,7 +17,7 @@
 **Ubah data mentah avatar Roblox menjadi script Lua untuk Roblox Studio.**
 Berjalan di browser Anda. Data yang ditempel tidak pernah melewati server.
 
-[Coba sekarang](https://rigforge-lemon.vercel.app/) ·
+[Coba sekarang](https://rigforge-mocha.vercel.app/) ·
 [Fitur](#fitur) ·
 [Cara pakai](#cara-pakai) ·
 [Format input](#format-input) ·
@@ -69,7 +69,7 @@ Ada tiga hal yang menjadi pegangan alat ini:
 
 <img src="docs/images/workflow.svg" alt="Alur kerja RigForge: tempel, konversi, tinjau, salin" width="100%">
 
-1. **Buka** [rigforge-lemon.vercel.app](https://rigforge-lemon.vercel.app/). Halaman langsung terisi Contoh Data dan hasilnya sudah tampil.
+1. **Buka** [rigforge-lemon.vercel.app](https://rigforge-mocha.vercel.app/). Halaman langsung terisi Contoh Data dan hasilnya sudah tampil.
 2. **Tempel** data mentah avatar di panel **Data mentah**. Klik **Reset** dulu bila ingin mulai dari kosong.
 3. **Lihat hasilnya** di panel **Hasil Lua**. Konversi berjalan otomatis setiap data berubah.
 4. Klik **Generate Paksa** bila ingin menjalankan ulang konversi saat itu juga.
