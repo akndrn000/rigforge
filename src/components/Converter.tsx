@@ -1,21 +1,10 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { convertAvatarData, type ConversionResult } from '../lib/converter'
 import { SAMPLE_DATA } from '../lib/sample'
-import { Icon, type IconName } from './Icon'
+import { Icon } from './Icon'
 
-/** Nama file unduhan (sama seperti versi HTML asli). */
-const DOWNLOAD_FILENAME = 'AvatarConfig.lua'
-
-/** Jeda sebelum konversi berjalan: paste besar tidak menahan render tiap ketikan,
- *  dan "Memproses…" punya waktu tampil dengan jujur (konversinya sinkron). */
+/** Jeda sebelum konversi berjalan: paste besar tidak menahan render tiap ketikan. */
 const DEBOUNCE_MS = 200
-
-/** Badge status di statusbar. Teks status converter (lineStat/charStat) tidak diubah. */
-const STATUS_BADGE: Record<ConversionResult['status'], { cls: string; icon: IconName; label: string }> = {
-  empty: { cls: 'badge badge--empty', icon: 'info', label: 'Kosong' },
-  ok: { cls: 'badge badge--ok', icon: 'check', label: 'Siap' },
-  error: { cls: 'badge badge--err', icon: 'alert', label: 'Gagal' },
-}
 
 export function Converter() {
   // Seperti versi asli: saat halaman dimuat, data contoh langsung terisi.
@@ -26,7 +15,23 @@ export function Converter() {
   const [forceRun, setForceRun] = useState(0)
   const [copied, setCopied] = useState(false)
   const [flash, setFlash] = useState(false)
+  // Lapisan gerak saja: putaran ikon Generate selama jendela visual.
+  const [spinning, setSpinning] = useState(false)
   const outputRef = useRef<HTMLTextAreaElement>(null)
+  // Ref visual (lepas-pasang class tanpa render ulang, tanpa konversi).
+  const benchRef = useRef<HTMLDivElement>(null)
+  const outPaneRef = useRef<HTMLElement>(null)
+  const firstResult = useRef(true)
+  const spinTimer = useRef<number | undefined>(undefined)
+  const copyTimer = useRef<number | undefined>(undefined)
+  const shakeTimer = useRef<number | undefined>(undefined)
+
+  /* Bersihkan timer visual saat lepas. */
+  useEffect(() => () => {
+    window.clearTimeout(spinTimer.current)
+    window.clearTimeout(copyTimer.current)
+    window.clearTimeout(shakeTimer.current)
+  }, [])
 
   useEffect(() => {
     if (raw === doneRaw) return
@@ -34,8 +39,16 @@ export function Converter() {
     return () => window.clearTimeout(id)
   }, [raw, doneRaw])
 
-  const pending = raw !== doneRaw
   const result = useMemo(() => convertAvatarData(doneRaw), [doneRaw, forceRun])
+
+  /* Setiap hasil baru tampil dari atas: kembalikan scroll editor output
+     ke 0 supaya tidak ada posisi scroll nyasar (khususnya horizontal). */
+  useEffect(() => {
+    const el = outputRef.current
+    if (!el) return
+    el.scrollTop = 0
+    el.scrollLeft = 0
+  }, [result.lua])
 
   useEffect(() => {
     if (forceRun === 0) return
@@ -44,6 +57,21 @@ export function Converter() {
     return () => window.clearTimeout(id)
   }, [forceRun])
 
+  /* Kedip lembut sekali tiap hasil berubah (visual saja): lepas-pasang
+     class sehingga animasi selalu mulai ulang; lewati render pertama
+     (sudah tercakup animasi masuk). Tidak memicu konversi tambahan. */
+  useEffect(() => {
+    if (firstResult.current) {
+      firstResult.current = false
+      return
+    }
+    const el = outPaneRef.current
+    if (!el) return
+    el.classList.remove('editor--pulse')
+    void el.offsetWidth
+    el.classList.add('editor--pulse')
+  }, [result.lua])
+
   /** Terapkan nilai sekaligus (Contoh Data / Reset): hasil muncul tanpa jeda debounce. */
   const applyRaw = (value: string) => {
     setRaw(value)
@@ -51,13 +79,30 @@ export function Converter() {
   }
 
   const loadSample = () => applyRaw(SAMPLE_DATA)
-  const clearInput = () => applyRaw('')
+  const clearInput = () => {
+    // Bergetar hanya bila ada isi yang dihapus (visual saja).
+    if (raw !== '') {
+      const bench = benchRef.current
+      if (bench) {
+        bench.classList.remove('is-shaking')
+        void bench.offsetWidth
+        bench.classList.add('is-shaking')
+        window.clearTimeout(shakeTimer.current)
+        shakeTimer.current = window.setTimeout(() => bench.classList.remove('is-shaking'), 300)
+      }
+    }
+    applyRaw('')
+  }
   const generateNow = () => {
     setDoneRaw(raw) // Generate tidak boleh tertahan debounce
     setForceRun((n) => n + 1)
+    // Ikon berputar selama jendela visual 500ms; konversi sendiri sinkron.
+    window.clearTimeout(spinTimer.current)
+    setSpinning(true)
+    spinTimer.current = window.setTimeout(() => setSpinning(false), 500)
   }
 
-  /** Hasil terbaru untuk aksi salin/unduh, walau debounce belum jalan. */
+  /** Hasil terbaru untuk aksi salin, walau debounce belum jalan. */
   const currentResult = (): ConversionResult => (raw === doneRaw ? result : convertAvatarData(raw))
 
   const copyOutput = async () => {
@@ -73,60 +118,18 @@ export function Converter() {
       document.execCommand('copy')
     }
     setCopied(true)
-    window.setTimeout(() => setCopied(false), 2000)
+    window.clearTimeout(copyTimer.current)
+    copyTimer.current = window.setTimeout(() => setCopied(false), 1500)
   }
 
-  const downloadLua = () => {
-    const lua = currentResult().lua
-    if (!lua) return
-    const blob = new Blob([lua], { type: 'text/plain' })
-    const url = URL.createObjectURL(blob)
-    const anchor = document.createElement('a')
-    anchor.href = url
-    anchor.download = DOWNLOAD_FILENAME
-    anchor.click()
-    window.setTimeout(() => URL.revokeObjectURL(url), 1000)
-  }
-
-  const { summary } = result
-  const badge = STATUS_BADGE[result.status]
-  const skinIsHex = summary ? /^#[0-9A-F]{6}$/i.test(summary.skinTone) : false
   const hasOutput = Boolean(result.lua)
+  const hasError = result.status === 'error'
 
   return (
     <>
-      <div className="statusbar">
-        <div className="container statusbar__in">
-          <div className="statusbar__badges">
-            <span className="badge">{result.lineStat}</span>
-            <span className="badge hide-xs">{result.charStat}</span>
-            {pending ? (
-              <span className="badge badge--pending" aria-live="polite">
-                <span className="badge__dot" aria-hidden="true" />
-                Memproses…
-              </span>
-            ) : (
-              <span className={badge.cls} aria-live="polite">
-                <Icon name={badge.icon} />
-                {badge.label}
-              </span>
-            )}
-            {summary && (
-              <span className="badge">
-                {summary.bodyParts.found} dari {summary.bodyParts.total} bagian tubuh
-              </span>
-            )}
-          </div>
-          <button type="button" className="btn btn--primary statusbar__run" onClick={generateNow}>
-            <Icon name="refresh" />
-            <span>Generate Paksa</span>
-          </button>
-        </div>
-      </div>
-
       <section className="section section--tool" aria-label="Konverter data avatar ke script Lua">
         <div className="container">
-          <div className="bench">
+          <div className="bench" ref={benchRef}>
             <div className="bench__seam" aria-hidden="true">
               <Icon name="arrow" />
             </div>
@@ -172,7 +175,12 @@ export function Converter() {
               </div>
             </section>
 
-            <section className="pane pane--output" aria-label="Hasil Lua">
+            <section className="pane pane--output" aria-label="Hasil Lua" ref={outPaneRef}>
+              <span className="deco-burst" aria-hidden="true">
+                <svg width="38" height="38" viewBox="0 0 100 100" fill="none" aria-hidden="true" focusable="false">
+                  <polygon points="50.0,2.0 59.8,13.3 74.0,8.4 76.9,23.1 91.6,26.0 86.7,40.2 98.0,50.0 86.7,59.8 91.6,74.0 76.9,76.9 74.0,91.6 59.8,86.7 50.0,98.0 40.2,86.7 26.0,91.6 23.1,76.9 8.4,74.0 13.3,59.8 2.0,50.0 13.3,40.2 8.4,26.0 23.1,23.1 26.0,8.4 40.2,13.3" fill="var(--c-orange)" stroke="var(--c-black)" strokeWidth="4" strokeLinejoin="round" />
+                </svg>
+              </span>
               <div className="pane__head">
                 <div className="pane__title">
                   <Icon name="brackets" />
@@ -181,33 +189,31 @@ export function Converter() {
                 <div className="pane__tools">
                   <button
                     type="button"
-                    className="btn btn--sm"
-                    onClick={downloadLua}
-                    aria-label="Unduh .lua"
-                    disabled={!hasOutput}
+                    className={
+                      spinning
+                        ? 'btn btn--primary btn--sm is-spinning'
+                        : 'btn btn--primary btn--sm'
+                    }
+                    onClick={generateNow}
+                    aria-label="Generate Paksa"
                   >
-                    <Icon name="download" />
-                    <span className="hide-sm">Unduh .lua</span>
+                    <Icon name="refresh" />
+                    <span>Generate Paksa</span>
                   </button>
                   <button
                     type="button"
                     className={
-                      copied ? 'btn btn--sm btn--copy btn--copied' : 'btn btn--primary btn--sm btn--copy'
+                      copied ? 'btn btn--sm btn--copy btn--copied' : 'btn btn--sm btn--copy'
                     }
                     onClick={copyOutput}
                     disabled={!hasOutput}
                   >
                     {copied ? (
-                      <>
-                        <Icon name="check" />
-                        <span>Tersalin!</span>
-                      </>
+                      <Icon name="check" className="icon--pop" />
                     ) : (
-                      <>
-                        <Icon name="copy" />
-                        <span>Salin Kode</span>
-                      </>
+                      <Icon name="copy" />
                     )}
+                    <span>Salin Kode</span>
                   </button>
                   <span className="sr-only" role="status">
                     {copied ? 'Kode Lua berhasil disalin.' : ''}
@@ -226,45 +232,13 @@ export function Converter() {
                   placeholder="Hasil Lua muncul di sini..."
                 />
               </div>
+              {hasError && (
+                <p className="pane__error" role="alert">
+                  {result.charStat}
+                </p>
+              )}
             </section>
           </div>
-
-          {summary && (
-            <dl className="summary" aria-label="Ringkasan hasil deteksi">
-              <div className="summary__item">
-                <dt>Bagian tubuh</dt>
-                <dd>
-                  {summary.bodyParts.found} dari {summary.bodyParts.total} terdeteksi
-                </dd>
-              </div>
-              <div className="summary__item">
-                <dt>Warna kulit</dt>
-                <dd>
-                  {skinIsHex && <span className="swatch" style={{ background: summary.skinTone }} aria-hidden="true" />}
-                  <span className="mono">{summary.skinTone}</span>
-                </dd>
-              </div>
-              <div className="summary__item">
-                <dt>Pakaian klasik</dt>
-                <dd>
-                  {summary.classic.found} dari {summary.classic.total} terdeteksi
-                </dd>
-              </div>
-              <div className="summary__item">
-                <dt>Pakaian berlapis</dt>
-                <dd>{summary.layered} item dari blob</dd>
-              </div>
-              <div className="summary__item">
-                <dt>Aksesori</dt>
-                <dd>{summary.accessories} item</dd>
-              </div>
-            </dl>
-          )}
-          {summary && (
-            <p className="summary__note">
-              Bagian yang tidak ditemukan berisi <code>0</code> atau <code>AssetId = 0</code>.
-            </p>
-          )}
         </div>
       </section>
     </>

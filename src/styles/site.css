@@ -1,345 +1,323 @@
 /* =============================================================
-   Komponen UI RigForge.
-   Aturan tetap (detail di docs/DESIGN.md):
-   - border: --bw (3px) untuk kotak biasa, --bw-strong (4px) untuk
-     tombol aksi utama dan cincin fokus. Tidak ada nilai lain.
-   - radius: --radius (0) di semua kotak.
-   - spasi: hanya token --s1…--s7 (kelipatan 4px).
-   - font: hanya --fs-sm…--fs-2xl, satu tingkat per peran.
-   - tinggi tombol: --tap (44px) di semua breakpoint.
-   State: hover (angkat + shadow menyusut), active (tekan ke
-   bawah, shadow hilang), focus-visible (cincin token), disabled.
+   Komponen UI RigForge — kulit neobrutalism MODERN.
+   Aturan tetap:
+   - border: --bw (3px), garis struktural besar --bw-lg (4px).
+   - radius: --radius-card (kartu 14px), --radius-ctl (kontrol 10px).
+   - shadow keras tanpa blur; warna bayangan ikut aturan 2a/2b
+     (lihat tokens.css): di atas blok cerah selalu #111, di atas
+     latar gelap (malam) berwarna ikut bloknya.
+   - font, spasi, dan breakpoint TIDAK diubah (kalibrasi StockMeta).
+   Nama class dipertahankan supaya markup TSX tidak berubah
+   (kecuali dekorasi stiker tanpa teks).
    ============================================================= */
 
-/* ============ Header ============ */
+/* ============ Header (±80px desktop, ±68px mobile) ============ */
 .site-header {
   position: sticky;
   top: 0;
   z-index: 50;
   background: var(--bg);
-  border-bottom: var(--bw) solid var(--line);
+  border-bottom: var(--bw-lg) solid var(--ink);
   padding-top: env(safe-area-inset-top, 0px);
 }
 .site-header__in {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: var(--s4);
-  min-height: calc(var(--header-h) - var(--bw));
-  padding-block: var(--s3);
+  gap: 16px;
+  padding-top: 16px;
+  padding-bottom: 16px;
 }
 .brand {
   display: inline-flex;
   align-items: center;
-  gap: var(--s3);
+  gap: 12px;
   min-width: 0;
 }
+/* Stiker logo: kotak kuning 48px miring -4deg, border + shadow #111
+   di kedua mode (berdiri di atas blok kuningnya sendiri, aturan 2a). */
 .brand__mark {
   display: grid;
   place-items: center;
-  width: var(--tap);
-  height: var(--tap);
+  width: 48px;
+  height: 48px;
   flex: none;
-  background: var(--accent);
-  color: var(--accent-ink);
-  border: var(--bw) solid var(--line);
-  border-radius: var(--radius);
-  box-shadow: var(--shadow);
+  background: var(--c-yellow);
+  color: var(--c-black);
+  border: var(--bw) solid var(--c-black);
+  border-radius: 12px;
+  box-shadow: 4px 4px 0 var(--c-black);
+  transform: rotate(-4deg);
+  transition: transform 0.15s ease;
+}
+.brand:hover .brand__mark {
+  transform: rotate(4deg);
+  animation: logo-wiggle 400ms var(--ease-pop);
 }
 .brand__text {
   display: flex;
   flex-direction: column;
   min-width: 0;
 }
+/* Wordmark 28px/800 + garis bawah marker (40% tinggi teks). */
 .brand__name {
-  font-family: var(--font-display);
-  font-size: var(--fs-2xl);
+  font-family: var(--font-mono);
+  font-size: 28px;
   font-weight: 800;
-  letter-spacing: -0.035em;
-  line-height: 1.05;
-  white-space: nowrap;
-}
-.brand__tag {
-  font-size: var(--fs-sm);
-  line-height: 1.4;
-  color: var(--muted);
-}
-
-/* ============ Tombol + tombol ikon (state bersama) ============ */
-.btn,
-.icon-btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: var(--s2);
-  min-height: var(--tap);
-  border: var(--bw) solid var(--line);
-  border-radius: var(--radius);
-  background: var(--surface);
-  color: var(--ink);
-  box-shadow: var(--shadow);
-  font-weight: 700;
+  letter-spacing: -0.03em;
   line-height: 1.2;
-  cursor: pointer;
-  transition:
-    transform 0.1s ease,
-    box-shadow 0.1s ease,
-    background-color 0.12s ease,
-    color 0.12s ease,
-    border-color 0.12s ease;
-}
-.btn {
-  min-width: 0;
-  padding: var(--s2) var(--s4);
-  font-family: var(--font-ui);
-  font-size: var(--fs-md);
+  color: var(--text);
   white-space: nowrap;
-  text-decoration: none;
+  background: linear-gradient(transparent 60%, var(--accent-3) 60%);
 }
-.icon-btn {
-  width: var(--tap);
-  height: var(--tap);
-  flex: none;
-  padding-inline: var(--s3);
-  font-family: var(--font-mono);
-  font-size: var(--fs-sm);
-}
-.icon-btn--wide {
-  width: auto;
-  min-width: var(--tap);
-  gap: var(--s2);
-}
-
-.btn:hover:not(:disabled),
-.icon-btn:hover:not(:disabled) {
-  transform: translate(var(--shift-lift), var(--shift-lift));
-  box-shadow: var(--shadow-lift);
-}
-.btn:active:not(:disabled),
-.icon-btn:active:not(:disabled) {
-  transform: translate(var(--shift-press), var(--shift-press));
-  box-shadow: var(--shadow-press);
-  transition-duration: 0.04s;
-}
-
-.btn--sm {
-  padding: var(--s2) var(--s3);
-  font-size: var(--fs-sm);
-}
-/* Aksen kuning hanya untuk aksi utama: Generate Paksa dan Salin Kode.
-   Border --bw-strong: satu-satunya kotak dengan garis lebih tebal,
-   dipertahankan di status "Tersalin!" agar tinggi/lebar tidak melompat. */
-.btn--primary {
-  background: var(--accent);
-  color: var(--accent-ink);
-  border-width: var(--bw-strong);
-}
-.btn--primary:hover:not(:disabled) {
-  background: var(--accent-hover);
-}
-.btn--sample {
-  background: var(--surface-2);
-}
-.btn--danger {
-  background: var(--danger);
-  color: var(--danger-ink);
-}
-.btn--copy {
-  min-width: 136px;
-}
-/* Salin Kode berhasil: umpan balik hijau yang jelas. */
-.btn--copied {
-  background: var(--ok);
-  color: var(--ok-ink);
-  border-width: var(--bw-strong);
-}
-
-.icon-btn:hover:not(:disabled) {
-  background: var(--ink);
-  color: var(--bg);
-}
-
-/* ============ Statusbar (baris pembaca mesin) ============ */
-/* Tanpa border-bottom: jarak antar-bilah diatur oleh padding blok ini
-   (16px) + padding atas section--tool, supaya selalu jatuh di skala
-   (lihat ritme halaman di bawah). */
-.statusbar {
-  background: var(--surface);
-}
-.statusbar__in {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--s3) var(--s4);
-  padding-block: var(--s4);
-}
-.statusbar__badges {
-  display: flex;
-  flex: 1 1 0;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: var(--s2);
-  min-width: 0;
-}
-
-/* Chip status: kotak border --bw + hard shadow, seperti komponen lain.
-   Semua badge memakai padding & tinggi yang sama persis. */
-.badge {
+/* Zigzag dekoratif di dekat logo: tanpa teks, non-interaktif. */
+.deco-zig {
   display: inline-flex;
-  align-items: center;
-  gap: var(--s2);
-  padding: var(--s2) var(--s3);
-  font-family: var(--font-mono);
-  font-size: var(--fs-sm);
-  font-weight: 600;
-  line-height: 1.3;
-  border: var(--bw) solid var(--line);
-  border-radius: var(--radius);
-  background: var(--surface);
-  color: var(--ink);
-  box-shadow: var(--shadow);
-  white-space: nowrap;
-}
-.badge--ok {
-  background: var(--ok);
-  color: var(--ok-ink);
-}
-.badge--err {
-  background: var(--danger);
-  color: var(--danger-ink);
-}
-.badge--empty,
-.badge--pending {
-  background: var(--surface-2);
-  color: var(--ink);
-}
-.badge__dot {
-  width: 9px;
-  height: 9px;
   flex: none;
-  background: var(--ink);
-  animation: pending-pulse 0.85s ease-in-out infinite alternate;
-}
-@keyframes pending-pulse {
-  from {
-    opacity: 0.25;
-  }
-  to {
-    opacity: 1;
-  }
-}
-
-/* ============ Ritme halaman ============
-   Semua jarak antar-bagian jatuh di skala --s1…--s7:
-   header → bar badge        = --s4 (padding atas statusbar)
-   bar badge → bangku kerja  = --s4 + --s6 = --s7 (48px)
-   bangku kerja → kartu      = --s5 (24px)
-   kartu → catatan           = --s4 (16px)
-   catatan → footer          = --s7 (48px) */
-.section {
-  padding-block: var(--s7);
-}
-.section--tool {
-  padding-block: var(--s6) var(--s7);
-}
-
-/* ============ Bangku kerja (input → output) ============ */
-/* Panel berdempetan tanpa gap: border kanan panel input adalah
-   SATU-satunya garis pemisah (panel output border-left: 0), jadi
-   kedua kolom tepat 1fr — lebar seimbang, tanpa garis ganda.
-   align-items: stretch + satu baris grid → kedua panel SELALU sama
-   tinggi mengikuti tinggi bangku; di mobile keduanya memakai clamp()
-   yang sama sehingga sejajar pada segala isi konten. */
-.bench {
-  position: relative;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  align-items: stretch;
-  height: clamp(520px, 72dvh, 700px);
-}
-.bench__seam {
-  position: absolute;
-  z-index: 2;
-  left: 50%;
-  top: 50%;
-  display: grid;
-  place-items: center;
-  width: 40px;
-  height: 40px;
-  transform: translate(-50%, -50%);
-  background: var(--accent);
-  color: var(--accent-ink);
-  border: var(--bw) solid var(--line);
-  border-radius: var(--radius);
-  /* Chip berdiri di atas dua slab yang satu tingkat beda:
-     shadow memakai aksen agar tetap terbaca di keduanya. */
-  --shadow-color: var(--accent);
-  box-shadow: var(--shadow);
+  margin-left: 4px;
   pointer-events: none;
 }
 
-/* ============ Panel ============ */
+/* ============ Tombol + tombol ikon ============ */
+.btn,
+.icon-btn {
+  --btn-shadow: var(--c-black);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: var(--tap);
+  border: var(--bw) solid var(--c-black);
+  border-radius: var(--radius-ctl);
+  background: var(--surface);
+  color: var(--text);
+  box-shadow: var(--shadow-ctl);
+  font-weight: 600;
+  line-height: var(--text-body-lh);
+  cursor: pointer;
+  transition: transform var(--dur-fast) var(--ease-pop), box-shadow var(--dur-fast) var(--ease-pop);
+}
+.btn {
+  min-width: 0;
+  padding: 13px 20px;
+  font-family: var(--font-mono);
+  font-size: var(--text-body);
+  white-space: nowrap;
+  text-decoration: none;
+}
+/* Tombol tema 48px persegi, sejajar vertikal dengan logo.
+   Di atas latar halaman: border ikut tema, bayangan hitam di siang
+   hari dan mint di malam hari (aturan 2b). */
+.icon-btn {
+  width: 48px;
+  height: 48px;
+  min-height: 0;
+  flex: none;
+  padding: 0;
+  border-color: var(--ink);
+  background: var(--surface);
+  box-shadow: 4px 4px 0 var(--btn-shadow);
+  font-family: var(--font-mono);
+  font-size: var(--text-small);
+}
+[data-theme='dark'] .site-header .icon-btn {
+  --btn-shadow: var(--c-mint);
+}
+
+/* Hover: geser (-2px, -2px), bayangan 7px.
+   Active: geser (+4px, +4px), bayangan hilang. */
+.btn:hover:not(:disabled),
+.icon-btn:hover:not(:disabled) {
+  transform: translate(-2px, -2px);
+  box-shadow: 7px 7px 0 var(--btn-shadow);
+}
+.btn:active:not(:disabled),
+.icon-btn:active:not(:disabled) {
+  transform: translate(4px, 4px);
+  box-shadow: none;
+}
+
+.btn--sm {
+  padding: 6px 12px;
+  font-size: var(--text-body);
+  min-height: 0;
+}
+/* Semua tombol header kartu di atas blok cerah: border + bayangan
+   #111 di kedua mode (aturan 2a). */
+.pane__head .btn {
+  border-color: var(--c-black);
+  --btn-shadow: var(--c-black);
+}
+/* Primer (Generate Paksa): mint, bobot 800. */
+.btn--primary {
+  background: var(--c-mint);
+  color: var(--c-black);
+  font-weight: 800;
+}
+/* Sekunder (Contoh Data, Salin Kode): putih. */
+.btn--sample {
+  background: #ffffff;
+  color: var(--c-black);
+}
+.btn--copy {
+  background: #ffffff;
+  color: var(--c-black);
+  min-width: 136px;
+}
+/* Bahaya (Reset): merah. */
+.btn--danger {
+  background: var(--c-red);
+  color: var(--c-black);
+}
+/* Salin berhasil: hijau status yang jelas. */
+.btn--copied {
+  background: var(--ok);
+  color: var(--ok-ink);
+}
+.btn--copied:hover:not(:disabled) {
+  background: var(--ok);
+}
+
+/* ============ Ritme halaman ============ */
+.section {
+  padding-top: 24px;
+  padding-bottom: 48px;
+}
+.section--tool {
+  padding-top: 18px;
+  padding-bottom: 24px;
+}
+
+/* ============ Bangku kerja (input kiri, output kanan) ============ */
+.bench {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr);
+  align-items: stretch;
+  gap: 18px;
+  height: clamp(520px, 72dvh, 700px);
+}
+/* Penghubung dua panel: kartu terpisah tidak butuh konektor
+   (murni dekoratif, aria-hidden) — disembunyikan. */
+.bench__seam {
+  display: none;
+}
+
+/* ============ Panel: kartu membulat + shadow keras ============ */
+/* overflow visible supaya stiker burst boleh sedikit keluar kartu;
+   yang butuh membulat hanya header berwarna (isi kartu transparan
+   / sewarna badan kartu sehingga sudut bawah aman). */
 .pane {
+  position: relative;
   display: flex;
   flex-direction: column;
   min-width: 0;
   min-height: 0;
   background: var(--surface);
-  border: var(--bw) solid var(--line);
-  border-radius: var(--radius);
-  overflow: hidden;
-  box-shadow: var(--shadow);
+  border: var(--bw) solid var(--ink);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-card);
+  transition: transform var(--dur-base) var(--ease-out);
+}
+/* Malam: border krem, bayangan berwarna ikut blok header (aturan 2b).
+   Siang: bayangan selalu hitam (lihat --shadow-card). */
+[data-theme='dark'] .pane--input {
+  box-shadow: 6px 6px 0 var(--c-pink);
+}
+[data-theme='dark'] .pane--output {
+  box-shadow: 6px 6px 0 var(--c-yellow);
 }
 
-/* Kepala panel memakai latar --surface-2 dengan SATU garis bawah
-   sebagai pemisah ke area editor. min-height memuat satu baris
-   kontrol --tap + padding --s4 → tinggi kepala sama di kedua panel
-   (judul sejajar di sisi kanan-sebelah seam). */
+/* Header kartu flat: Data mentah = pink, Hasil Lua = kuning.
+   Teks + garis #111 di kedua mode (berdiri di atas blok cerah). */
 .pane__head {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: var(--s2) var(--s3);
-  min-height: calc(var(--tap) + var(--s4));
-  padding: var(--s2) var(--s3);
-  background: var(--surface-2);
-  border-bottom: var(--bw) solid var(--line);
+  gap: 8px 12px;
+  flex-wrap: wrap;
+  min-height: 60px;
+  padding: 12px 16px;
+  border-bottom: var(--bw) solid var(--c-black);
+  border-radius: calc(var(--radius-card) - var(--bw)) calc(var(--radius-card) - var(--bw)) 0 0;
+  color: var(--c-black);
+}
+.pane--input .pane__head {
+  background: var(--c-pink);
+}
+.pane--output .pane__head {
+  background: var(--c-yellow);
 }
 .pane__title {
   display: flex;
   align-items: center;
-  gap: var(--s2);
+  gap: 8px;
   min-width: 0;
   margin: 0;
-  font-family: var(--font-display);
-  font-size: var(--fs-lg);
+  font-family: var(--font-mono);
+  font-size: var(--text-title);
   font-weight: 800;
-  letter-spacing: -0.02em;
-  line-height: 1.2;
-  color: var(--ink);
+  letter-spacing: -0.015em;
+  line-height: var(--text-title-lh);
+  color: inherit;
 }
 .pane__title span {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
-/* Semua tombol alat setinggi --tap: selain target sentuh, ini yang
-   menjamin tinggi kepala kedua panel identik walau satu tombol
-   berborder --bw-strong. */
 .pane__tools {
   display: flex;
   align-items: stretch;
-  min-height: var(--tap);
-  gap: var(--s2);
-  flex: none;
+  flex-wrap: wrap;
+  gap: 8px;
+  /* Boleh menyusut (bukan flex:none): tanpa shrink + min-width:0,
+     kotak tools menolak sempit sehingga wrap di dalamnya tak aktif. */
+  flex: 0 1 auto;
+  min-width: 0;
+}
+.pane__tools .btn {
+  flex: 1 0 auto;
+  /* Samakan tinggi baris tombol antar panel: tombol ikon-saja (teks
+     disembunyikan di layar kecil) setinggi tombol berteks (±35px). */
+  min-height: 35px;
 }
 
-/* ============ Editor (textarea) ============ */
+/* Stiker burst di sudut atas kanan header Hasil Lua: sepotong keluar
+   kartu, putar 12deg, tanpa teks, non-interaktif. */
+.deco-burst {
+  position: absolute;
+  top: -22px;
+  right: 10px;
+  z-index: 3;
+  display: block;
+  width: 38px;
+  height: 38px;
+  transform: rotate(12deg);
+  pointer-events: none;
+}
+
+/* Pola kolom identik saat panel sempit (keputusan dari lebar PANEL,
+   bukan lebar layar): judul di atas, tombol rata kiri di bawahnya. */
+.pane {
+  container-type: inline-size;
+}
+@container (max-width: 420px) {
+  .pane__head {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .pane__tools {
+    width: 100%;
+  }
+}
+
+/* ============ Editor (textarea menyatu isi kartu) ============ */
 .editor {
   position: relative;
   flex: 1;
   min-height: 0;
+  background: transparent;
 }
 .editor textarea {
   position: absolute;
@@ -347,89 +325,32 @@
   width: 100%;
   height: 100%;
   margin: 0;
-  padding: var(--s4) var(--s5);
+  padding: 13px 16px;
   border: 0;
-  border-radius: var(--radius);
+  border-radius: 0;
   background: transparent;
-  color: var(--ink);
+  color: var(--text);
   font-family: var(--font-mono);
-  font-size: var(--fs-code);
-  line-height: 1.6;
+  font-size: var(--text-body);
+  line-height: var(--text-body-lh);
   tab-size: 4;
   resize: none;
   outline: none;
+  /* Teks membungkus di dalam panel (pre-wrap + anywhere): tidak ada
+     scroll horizontal, indentasi tab tetap terlihat. Hanya tampilan —
+     nilai yang disalin tetap persis hasil konversi. */
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  word-break: break-word;
 }
 .editor textarea::placeholder {
   color: var(--muted);
   opacity: 1;
 }
-.editor textarea:focus-visible {
-  outline: var(--bw-strong) solid var(--focus);
-  outline-offset: calc(var(--bw) * -1);
-}
 
 /* ============ Panel output ============ */
-/* Area kode = permukaan sekunder: satu tingkat dari badan panel input,
-   tetap satu keluarga warna di kedua tema. Pembedanya halus — slab
-   --code-bg + monospace + perkakas — bukan inversi total. Semua warnanya
-   dari pasangan token --code-* yang mengikuti token halaman. */
-.pane--output {
-  border-left: 0;
-  background: var(--code-bg);
-  color: var(--code-ink);
-}
-/* Garis bawah kepala ikut --code-line: seam token ini menjaga semua
-   garis di dalam panel output konsisten (saat ini = --line, tetap
-   satu keluarga dengan halaman). */
-.pane--output .pane__head {
-  background: var(--code-bg);
-  color: var(--code-muted);
-  border-bottom-color: var(--code-line);
-}
-.pane--output .pane__title {
-  color: var(--code-ink);
-}
 .pane--output .editor textarea {
-  color: var(--code-ink);
-  white-space: pre;
   overflow: auto;
-}
-.pane--output .editor textarea::placeholder {
-  color: var(--code-muted);
-}
-.pane--output .editor textarea:focus-visible {
-  outline-color: var(--code-line);
-}
-.pane--output .editor {
-  --scroll-track: var(--code-bg);
-  --scroll-thumb: var(--code-line);
-}
-/* Tombol di atas slab kode: garis dan shadow memakai --code-line
-   supaya kontras tetap terbaca di slab yang satu tingkat beda. */
-.pane--output .btn,
-.pane--output .icon-btn {
-  background: var(--code-bg);
-  color: var(--code-ink);
-  border-color: var(--code-line);
-  --shadow-color: var(--code-line);
-}
-.pane--output .btn:hover:not(:disabled):not(.btn--copied),
-.pane--output .icon-btn:hover:not(:disabled) {
-  background: color-mix(in srgb, var(--code-line) 18%, var(--code-bg));
-}
-.pane--output .btn--primary {
-  background: var(--accent);
-  color: var(--accent-ink);
-}
-.pane--output .btn--primary:hover:not(:disabled) {
-  background: var(--accent-hover);
-}
-.pane--output .btn--copied {
-  background: var(--ok);
-  color: var(--ok-ink);
-}
-.pane--output :focus-visible {
-  outline-color: var(--code-line);
 }
 
 .editor--flash textarea {
@@ -437,171 +358,157 @@
 }
 @keyframes flash {
   from {
-    background-color: color-mix(in srgb, var(--accent) 55%, transparent);
+    background-color: var(--c-yellow);
   }
   to {
     background-color: transparent;
   }
 }
 
-/* ============ Kartu statistik ============ */
-.summary {
-  display: grid;
-  grid-template-columns: repeat(5, minmax(0, 1fr));
-  gap: var(--s4);
-  margin-top: var(--s5);
-}
-.summary__item {
-  min-width: 0;
-  padding: var(--s3) var(--s4);
+/* Pesan error di dalam panel output: merah teks (bukan merah isi tombol)
+   supaya ≥4,5:1 di atas permukaan terang. */
+.pane__error {
+  margin: 0;
+  padding: 8px 16px;
+  border-top: var(--bw) solid var(--ink);
   background: var(--surface);
-  border: var(--bw) solid var(--line);
-  border-radius: var(--radius);
-  box-shadow: var(--shadow);
-}
-.summary dt {
-  font-family: var(--font-mono);
-  font-size: var(--fs-sm);
+  color: var(--danger-text);
+  font-size: var(--text-meta);
   font-weight: 600;
-  line-height: 1.4;
-  color: var(--muted);
-}
-.summary dd {
-  display: flex;
-  align-items: center;
-  gap: var(--s2);
-  margin-top: var(--s1);
-  font-family: var(--font-display);
-  font-size: var(--fs-lg);
-  font-weight: 800;
-  letter-spacing: -0.02em;
-  line-height: 1.25;
-  overflow-wrap: anywhere;
-}
-.swatch {
-  width: 18px;
-  height: 18px;
-  flex: none;
-  border: var(--bw) solid var(--line);
-}
-.summary__note {
-  margin-top: var(--s4);
-  font-size: var(--fs-sm);
-  color: var(--muted);
 }
 
-/* ============ Footer ============ */
-/* Pita gelap di kedua tema; garis atasnya memakai --line sehingga
-   ikut berganti tema (tidak ada aksen kuning permanen). */
+/* ============ Footer: pita hitam + garis atas kuning 4px ============ */
 .site-footer {
   background: var(--footer-bg);
-  color: var(--footer-ink);
-  border-top: var(--bw) solid var(--line);
+  color: var(--footer-text);
+  border-top: var(--bw-lg) solid var(--c-yellow);
+}
+.site-footer__in {
+  padding-top: 8px;
+  padding-bottom: 8px;
+}
+@media (min-width: 640px) {
+  .site-footer__in {
+    padding-top: 12px;
+    padding-bottom: 12px;
+  }
 }
 .site-footer__grid {
   display: grid;
-  grid-template-columns: 1.2fr 1fr 1fr;
-  gap: var(--s6);
-  padding-block: var(--s6) var(--s5);
-  /* Pemisah baris legal memakai border-bottom, sama seperti bahasa
-     desain di tempat lain (header, kepala panel). */
-  border-bottom: var(--bw) solid var(--footer-line);
+  grid-template-columns: 1fr;
+  gap: 8px;
 }
-.site-footer .brand__name {
-  font-size: var(--fs-xl);
-  color: var(--accent);
+@media (min-width: 640px) {
+  .site-footer__grid {
+    gap: 12px;
+  }
 }
-.site-footer__brand p {
-  margin-top: var(--s3);
-  max-width: 40ch;
-  font-size: var(--fs-md);
-  color: var(--footer-muted);
+/* Tiga kolom di layar lebar, satu kolom rata kiri di bawah 900px. */
+@media (min-width: 900px) {
+  .site-footer__grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
 }
-.site-footer__legal {
-  font-size: var(--fs-sm);
-  line-height: 1.6;
-  max-width: 52ch;
-  color: var(--footer-muted);
+/* Penanda merek footer: kotak ikon 28px, gaya sama seperti header. */
+.site-footer__brandrow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+.site-footer .brand__mark {
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  box-shadow: 3px 3px 0 var(--c-black);
+}
+.site-footer__name {
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: var(--text-body);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1.5;
+  color: var(--c-yellow);
+}
+@media (min-width: 640px) {
+  .site-footer__name {
+    font-size: var(--text-title);
+  }
+}
+.site-footer__tag {
+  margin: 4px 0 0;
+  font-size: var(--text-small);
+  line-height: 1.5;
+  color: var(--footer-text);
+}
+.site-footer__text {
+  margin: 0;
+  min-width: 0;
+  max-width: 65ch;
+  font-size: var(--text-small);
+  line-height: 1.5;
+  color: var(--footer-text);
 }
 .site-footer__bar {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
-  gap: var(--s4);
-  padding-block: var(--s3) var(--s5);
-  font-size: var(--fs-sm);
-  font-weight: 600;
-  color: var(--footer-muted);
+  gap: 8px;
+  margin-top: 8px;
+  border-top: var(--bw) solid var(--footer-line);
+  padding-top: 8px;
+  font-size: var(--text-meta);
+  line-height: var(--text-meta-lh);
+  color: var(--footer-text);
 }
-
-/* ============ Responsif ============ */
-@media (max-width: 900px) {
-  .summary {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-  .summary__item:last-child {
-    grid-column: span 2;
-  }
-  .site-footer__grid {
-    grid-template-columns: 1fr;
-    gap: var(--s5);
+@media (min-width: 640px) {
+  .site-footer__bar {
+    margin-top: 12px;
   }
 }
 
-@media (max-width: 767px) {
-  /* --s4 + --s4 = 32px: bar badge → panel tetap di skala. */
+@media (max-width: 1120px) {
   .section--tool {
-    padding-block: var(--s4) var(--s6);
+    padding-top: 16px;
+    padding-bottom: 24px;
   }
   .bench {
     grid-template-columns: 1fr;
     height: auto;
-    gap: 0;
+    gap: 18px;
   }
   .pane {
     height: clamp(300px, 46vh, 420px);
   }
-  /* Panel bertumpuk: border bawah panel input menjadi garis
-     pemisah tunggal (panel output tanpa border atas). */
-  .pane--output {
-    border-left: var(--bw);
-    border-top: 0;
-  }
-  /* Chip seam naik ke atas garis sambung. Posisi 50% (seperti desktop)
-     akan jatuh di kepala panel output dan menutupi tombol Unduh/Salin;
-     dengan top ini badan chip + shadow-nya berhenti tepat di garis seam. */
-  .bench__seam {
-    top: calc(50% - 24px);
-  }
-  .bench__seam .icon {
-    transform: rotate(90deg);
-  }
 }
 
 @media (max-width: 640px) {
-  /* Brand mobile turun satu tingkat skala (26 → 22), bukan nilai acak. */
-  .brand__name {
-    font-size: var(--fs-xl);
+  .site-header__in {
+    padding-top: 14px;
+    padding-bottom: 14px;
   }
-  .brand__tag {
+  .brand__mark {
+    width: 40px;
+    height: 40px;
+  }
+  .brand__name {
+    font-size: 22px;
+  }
+  /* Dekorasi stiker disembunyikan di layar kecil. */
+  .deco-zig,
+  .deco-burst {
     display: none;
   }
-  .statusbar__run {
-    flex: 1 1 100%;
+  /* Judul panel mobile = text-body. */
+  .pane__title {
+    font-size: var(--text-body);
+    line-height: var(--text-body-lh);
   }
-  .summary {
-    grid-template-columns: 1fr;
-  }
-  .summary__item:last-child {
-    grid-column: auto;
-  }
-  .site-footer__grid {
-    padding-block: var(--s5) var(--s4);
-  }
-  .site-footer__bar {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: var(--s2);
+  /* Isian mobile 16px (tanpa auto-zoom iOS). */
+  .editor textarea {
+    font-size: 16px;
   }
 }
 
@@ -610,34 +517,17 @@
     min-width: 0;
   }
   .pane__head {
-    padding-inline: var(--s2);
-  }
-  .pane__tools {
-    gap: var(--s2);
+    padding: 8px 12px;
   }
   .editor textarea {
-    padding-inline: var(--s4);
+    padding: 13px 16px;
   }
 }
 
-/* ============ Area aman perangkat ============ */
-.container {
-  padding-left: max(var(--s5), env(safe-area-inset-left, 0px));
-  padding-right: max(var(--s5), env(safe-area-inset-right, 0px));
-}
-@media (max-width: 640px) {
-  .container {
-    padding-left: max(var(--s4), env(safe-area-inset-left, 0px));
-    padding-right: max(var(--s4), env(safe-area-inset-right, 0px));
-  }
-}
-
-/* Layar sentuh: teks tetap terbaca. Tinggi tombol sudah --tap (44px)
-   dari aturan dasar, jadi tidak ada min-height tambahan di sini. */
-@media (pointer: coarse) {
-  .pane--input .editor textarea {
-    font-size: clamp(14px, 3.4vw, 16px);
-    line-height: 1.55;
+/* Header kartu 69px di bawah 1120px ATAU pointer kasar (ritme sentuh). */
+@media (max-width: 1119px), (pointer: coarse) {
+  .pane__head {
+    min-height: 69px;
   }
 }
 
@@ -651,32 +541,157 @@
   }
 }
 
-/* ============ Disabled (ditaruh terakhir agar menang) ============ */
+/* ============ Disabled: opasitas turun, bayangan hilang ============ */
 .btn:disabled,
 .icon-btn:disabled {
-  background: var(--surface-2);
-  color: var(--muted);
-  border-color: var(--line);
+  opacity: 0.5;
   box-shadow: none;
   transform: none;
   cursor: not-allowed;
 }
-.btn--primary:disabled,
-.btn--copied:disabled,
-.btn--danger:disabled {
-  background: var(--surface-2);
-  color: var(--muted);
+
+/* =============================================================
+   Gerak — hanya transform + opacity, token dari tokens.css.
+   Masuk memakai fill backwards: setelah selesai tidak mengunci
+   transform, hover/active tetap bekerja. Total masuk ≤700ms.
+   Loop infinite tepat 3 (burst, zigzag, titik); berhenti otomatis
+   saat tab tak terlihat (perilaku bawaan CSS).
+   ============================================================= */
+
+/* ---------- A. Masuk saat halaman dimuat ---------- */
+.site-header {
+  animation: enter-down var(--dur-enter) var(--ease-out) backwards;
 }
-.pane--output .btn:disabled,
-.pane--output .icon-btn:disabled {
-  background: transparent;
-  color: var(--code-muted);
-  border-color: var(--code-muted);
-  box-shadow: none;
-  transform: none;
+@keyframes enter-down {
+  from { opacity: 0; transform: translateY(-16px); }
+  to { opacity: 1; transform: translateY(0); }
 }
-.pane--output .btn--primary:disabled,
-.pane--output .btn--copied:disabled {
-  background: transparent;
-  color: var(--code-muted);
+.site-header .brand__mark {
+  animation: enter-logo var(--dur-enter) var(--ease-pop) 80ms backwards;
+}
+@keyframes enter-logo {
+  from { opacity: 0; transform: scale(0.6) rotate(-20deg); }
+  to { opacity: 1; transform: scale(1) rotate(-4deg); }
+}
+.pane--input {
+  animation: enter-card var(--dur-base) var(--ease-pop) 150ms backwards;
+}
+.pane--output {
+  animation: enter-card var(--dur-base) var(--ease-pop) 250ms backwards;
+}
+@keyframes enter-card {
+  from { opacity: 0; transform: translateY(24px) scale(0.98); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+.site-footer {
+  animation: enter-up var(--dur-base) var(--ease-out) 350ms backwards;
+}
+@keyframes enter-up {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ---------- B. Loop dekoratif (pelan, transform saja) ---------- */
+/* Burst: svg dalam berputar, bungkus miring 12deg tetap. Hover kartu
+   mempercepat ke 8s; bentuk simetris 12 gerigi membuat peralihan
+   fase tak kentara. */
+.deco-burst svg {
+  animation: burst-spin var(--burst-dur, 24s) linear infinite;
+}
+@keyframes burst-spin {
+  to { transform: rotate(360deg); }
+}
+.pane--output:hover .deco-burst svg {
+  --burst-dur: 8s;
+}
+/* Zigzag: bergelombang horizontal ±3px. */
+.deco-zig svg {
+  animation: zig-sway 3s ease-in-out infinite alternate;
+}
+@keyframes zig-sway {
+  from { transform: translateX(-3px); }
+  to { transform: translateX(3px); }
+}
+
+/* ---------- C. Logo: goyang saat hover, lompat saat klik ---------- */
+@keyframes logo-wiggle {
+  0% { transform: rotate(-4deg); }
+  40% { transform: rotate(4deg); }
+  70% { transform: rotate(-2deg); }
+  100% { transform: rotate(4deg); }
+}
+.brand:active .brand__mark {
+  animation: logo-bounce var(--dur-base) var(--ease-out);
+}
+@keyframes logo-bounce {
+  0% { transform: translateY(0) rotate(-4deg); }
+  40% { transform: translateY(-4px) rotate(-4deg); }
+  100% { transform: translateY(0) rotate(-4deg); }
+}
+
+/* ---------- E. Generate: ikon berputar selama jendela visual ---------- */
+.btn--primary.is-spinning .icon {
+  animation: icon-spin 500ms linear infinite;
+}
+@keyframes icon-spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ---------- F. Salin: centang pop ---------- */
+.icon--pop {
+  animation: icon-pop 300ms var(--ease-pop);
+}
+@keyframes icon-pop {
+  0% { transform: scale(0.4); }
+  60% { transform: scale(1.15); }
+  100% { transform: scale(1); }
+}
+
+/* ---------- G. Tema: putar 180deg + kempis-mekar 350ms ---------- */
+.icon-btn.is-swapping .icon {
+  animation: icon-swap 350ms var(--ease-out);
+}
+@keyframes icon-swap {
+  0% { transform: rotate(0) scale(1); }
+  50% { transform: rotate(90deg) scale(0.3); }
+  100% { transform: rotate(180deg) scale(1); }
+}
+/* Transisi warna 300ms HANYA selama .theme-fade menempel di <html>. */
+.theme-fade body,
+.theme-fade .site-header,
+.theme-fade .pane,
+.theme-fade .site-footer {
+  transition: background-color 300ms ease, color 300ms ease, border-color 300ms ease;
+}
+.theme-fade .btn,
+.theme-fade .icon-btn {
+  transition:
+    transform var(--dur-fast) var(--ease-pop),
+    box-shadow var(--dur-fast) var(--ease-pop),
+    background-color 300ms ease, color 300ms ease, border-color 300ms ease;
+}
+
+/* ---------- H. Hasil berubah: kedip lembut sekali (opacity) ---------- */
+.pane--output.editor--pulse {
+  animation: pane-pulse 200ms ease-out;
+}
+@keyframes pane-pulse {
+  from { opacity: 0.55; }
+  to { opacity: 1; }
+}
+
+/* ---------- I. Kartu: lift tipis, bayangan tetap ---------- */
+.pane:hover {
+  transform: translateY(-2px);
+}
+
+/* ---------- J. Reset: kedua panel bergetar singkat ---------- */
+.bench.is-shaking .pane {
+  animation: pane-shake 240ms ease-out;
+}
+@keyframes pane-shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-4px); }
+  50% { transform: translateX(4px); }
+  75% { transform: translateX(-4px); }
 }

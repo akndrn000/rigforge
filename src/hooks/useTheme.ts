@@ -47,6 +47,11 @@ export function useTheme() {
   }, [])
 
   const toggle = useCallback(() => {
+    // Transisi warna 300ms khusus momen ganti tema (visual saja);
+    // dilepas lagi agar tidak berkedip saat load / tema sistem berubah.
+    const root = document.documentElement
+    root.classList.add('theme-fade')
+    window.setTimeout(() => root.classList.remove('theme-fade'), 300)
     setTheme((current) => {
       const next: Theme = current === 'dark' ? 'light' : 'dark'
       try {

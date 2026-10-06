@@ -1,9 +1,9 @@
 import type { ReactNode } from 'react'
 
-/** Set ikon sendiri: sudut membulat, stroke diatur sekali di
- *  base.css (.icon { stroke-width: 2 }) supaya bobot semua ikon sama.
- *  Dua tingkat ukuran saja: 16px untuk ikon inline (tombol, judul
- *  panel, badge) dan 20px untuk kotak brand. */
+/** Set ikon sendiri: stroke diatur sekali di
+ *  base.css (.icon { stroke-width: 2.5 }) supaya bobot semua ikon sama
+ *  dengan garis 3px. Ukuran lewat prop: 16px untuk ikon inline
+ *  (tombol, judul panel), 26px logo header, 24px tombol tema. */
 export type IconName =
   | 'moon' | 'prompt' | 'brackets' | 'trash' | 'download' | 'copy' | 'sample' | 'refresh'
   | 'info' | 'arrow' | 'check' | 'sun' | 'alert'
@@ -68,7 +68,7 @@ const PATHS: Record<IconName, ReactNode> = {
     </>
   ),
   info: (<><circle cx="12" cy="12" r="9" /><line x1="12" y1="15.5" x2="12" y2="11" /><circle cx="12" cy="8" r="0.8" fill="currentColor" stroke="none" /></>),
-  // Segitiga berisi seru: status gagal, dipakai badge di statusbar.
+  // Segitiga berisi seru untuk status gagal.
   alert: (
     <>
       <path d="M12 4.2L21 19.4H3z" />
