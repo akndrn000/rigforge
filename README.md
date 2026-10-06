@@ -42,8 +42,8 @@ RigForge mengubah data mentah avatar Roblox menjadi script Lua. Ditujukan untuk 
 | **100% client-side dan privat** | Konversi sinkron di browser, tidak ada request jaringan untuk data. |
 | **Deteksi otomatis** | Bagian tubuh (Head, Torso, lengan, kaki), warna kulit, pakaian klasik, pakaian berlapis, dan aksesori. |
 | **Template slot universal** | Setiap tipe punya jumlah slot minimum; sisa slot diisi `AssetId = 0`. |
-| **Aksi cepat** | **Contoh Data**, **Salin Kode**, **Unduh .lua** (`AvatarConfig.lua`), dan **Generate Paksa**. |
-| **Status langsung** | Kosong, Siap, Gagal, atau Memproses, plus ringkasan hasil deteksi. |
+| **Aksi cepat** | **Contoh Data**, **Generate Paksa**, dan **Salin Kode** di header panel Hasil Lua. |
+| **Pesan error** | Tampil di panel Hasil Lua saat konversi gagal. |
 | **Tema terang/gelap** | Tombol di header, pilihan tersimpan di `localStorage`. |
 
 ## Cara Pakai
@@ -52,7 +52,7 @@ Coba langsung di **<https://akndrn000.github.io/rigforge/>**:
 
 1. Tempel data mentah avatar ke panel kiri (atau klik **Contoh Data**).
 2. Hasil Lua tersusun otomatis di panel kanan. Klik **Generate Paksa** untuk menghitung ulang.
-3. Klik **Salin Kode** atau **Unduh .lua**, lalu tempel ke Roblox Studio.
+3. Klik **Salin Kode**, lalu tempel ke Roblox Studio.
 
 <details>
 <summary><b>Contoh input dan output</b></summary>
@@ -166,8 +166,8 @@ Ubah jumlah slot di `LAYERED_GROUPS` / `ACCESSORY_GROUPS` bila template perlu di
 | --- | --- |
 | Vite | Build dan dev server |
 | React 19 + TypeScript | UI satu halaman (`src/App.tsx`) |
-| CSS + design token (`src/styles/tokens.css`) | Styling neobrutalism (border tebal, hard shadow) |
-| Fontsource (Archivo, IBM Plex Sans, JetBrains Mono) | Font yang di-host sendiri, tanpa Google Fonts |
+| CSS + design token (`src/styles/tokens.css`) | Styling neobrutalism modern (blok pink/kuning/mint, radius 14/10px, bayangan keras berwarna) |
+| Fontsource (JetBrains Mono variable) | Satu font yang di-host sendiri, tanpa Google Fonts |
 | Vitest | Tes logika konverter |
 | Vercel | Hosting demo |
 
@@ -245,8 +245,8 @@ src/
   App.tsx                 # Susunan halaman tunggal: Header + Converter + Footer
   main.tsx                # Entry point React
   components/
-    Converter.tsx         # Alat utama: input, output, tombol aksi, ringkasan
-    Header.tsx            # Nama produk + tagline + tombol tema
+    Converter.tsx         # Alat utama: input, output, tombol aksi
+    Header.tsx            # Nama produk + tombol tema
     Footer.tsx            # Disclaimer merek dagang + catatan privasi
     Icon.tsx              # Set ikon SVG sendiri
   hooks/
@@ -278,7 +278,7 @@ LICENSE                   # Lisensi MIT
 
 ## Kustomisasi
 
-- **Warna dan font:** `src/styles/tokens.css`. Ketebalan border (`--bw` / `--bw-strong`) dan hard shadow (`--shadow*`); varian terang dan gelap ada di blok `:root` dan `[data-theme='dark']`.
+- **Warna dan font:** `src/styles/tokens.css`. Palet blok (`--c-yellow/pink/mint/blue/orange/red`), border tebal (`--bw` 3px, `--bw-lg` 4px), radius kartu 14px / kontrol 10px (`--radius-card/--radius-ctl`), bayangan keras (`--shadow-card/--shadow-ctl`, berwarna di mode malam); varian terang dan gelap ada di blok `:root` dan `[data-theme='dark']`. Detail peran tiap token ada di `docs/DESIGN.md`.
 - **Teks halaman:** `src/components/Converter.tsx`, `Header.tsx`, `Footer.tsx`.
 - **Nilai `Scaling`** (`BodyType`, `Depth`, `Height`, dst.) dan warna kulit bawaan (`Pastel orange`) ditulis tetap di `converter.ts` (konstanta `SCALING` dan `DEFAULT_SKIN_TONE`). Jika diubah, perbarui `golden.json` karena output ikut berubah.
 - **Gambar pratinjau tautan** (`public/og-image.png`) bisa diganti dengan desain sendiri.
@@ -295,4 +295,4 @@ Menemukan bug? Laporkan di [halaman issues](https://github.com/akndrn000/rigforg
 
 Dirilis di bawah **Lisensi MIT**. Lihat [LICENSE](./LICENSE).
 
-"Roblox" adalah merek dagang Roblox Corporation. Proyek ini alat independen dan tidak berafiliasi dengan Roblox Corporation. Situs tidak memakai analytics atau pelacak apa pun; data yang ditempel diproses di browser saja dan tidak dikirim ke mana-mana.
+"Roblox" adalah merek dagang Roblox Corporation. Proyek ini alat independen dan tidak berafiliasi dengan Roblox Corporation. Data yang ditempel diproses langsung di browser — tanpa server, tanpa analytics, tanpa pelacak.

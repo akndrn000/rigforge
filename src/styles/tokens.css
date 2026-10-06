@@ -1,166 +1,118 @@
 /* =============================================================
-   RigForge — token neobrutalism.
+   RigForge — token neobrutalism MODERN.
 
-   File ini SATU-SATUNYA tempat warna, garis, radius, shadow,
-   spacing, dan tipografi didefinisikan. Komponen hanya memakai
-   var(...): tidak ada warna hardcode di CSS/JSX lain.
+   SATU set nama peran untuk kedua mode; blok [data-theme='dark']
+   hanya mengganti nilainya. Komponen memakai var(...): tidak ada
+   warna hardcode di CSS/JSX lain (kecuali data contoh, mis. #F2D7CD).
 
-   Blok [data-theme='dark'] mengganti nilai pada nama yang sama,
-   sehingga toggle tema mengubah SELURUH halaman — garis, border,
-   shadow, chip, scrollbar, area kode, dan footer.
+   Palet blok cerah (--c-*) SAMA di kedua mode; yang berganti hanya
+   warna halaman (--bg/--surface/--ink/--text/--muted/--dot/--focus).
 
-   Skala lengkap (border, font, spasi, radius, kontras) tercatat
-   di docs/DESIGN.md — baca sebelum menambah komponen baru.
+   Aturan garis & bayangan (anti garis-ganda di mode malam):
+   a) Elemen di atas BLOK WARNA CERAH → border + bayangan SELALU
+      #111 di kedua mode (tombol di header kartu, ikon merek).
+   b) Kartu/panel + tombol tema di atas latar GELAP (mode malam) →
+      border krem 3px, bayangan BERWARNA ikut bloknya (input pink,
+      output kuning, tombol tema mint). Siang: bayangan selalu #111.
+   c) Tidak ada kombinasi border krem + bayangan krem di mana pun.
+
+   --focus = cincin fokus keyboard: biru cerah di malam hari,
+   navy di siang hari (biru cerah 1,9:1 di atas permukaan krem =
+   gagal; navy ≥3,4:1 di semua permukaan terang).
+   --danger-text = teks error (satu merah tak bisa 4,5:1 sekaligus
+   sebagai teks-di-putih dan alas-teks-hitam).
+   Skala tipografi (--text-*) TIDAK diubah: kalibrasi StockMeta.
+   Satu-satunya pengecualian ukuran font: wordmark header (28/22px).
    ============================================================= */
 
 :root {
   color-scheme: light;
 
-  /* ---------- Palet terang: kertas hangat + tinta hitam ---------- */
-  --bg: #fff7e4;
+  /* ---------- Palet blok cerah: sama di kedua mode ---------- */
+  --c-yellow: #ffd60a;
+  --c-blue: #8cb4ff;
+  --c-pink: #ff8fcb;
+  --c-mint: #7cf2b4;
+  --c-orange: #ff9f43;
+  --c-red: #ff5c5c;
+  --c-black: #111111;
+
+  /* ---------- Mode siang ---------- */
+  --bg: #fffbeb;
+  --dot: rgba(17, 17, 17, 0.14);
   --surface: #ffffff;
-  --surface-2: #f1ebdc;
-  --ink: #0f0f0f;
-  --muted: #55514a;
+  --surface-2: #fff7db;
+  --ink: #111111;
+  --text: #111111;
+  --muted: #4b4b55;
+  --focus: #1e3a8a;
+  --accent-3: #ff8fcb;
 
-  /* Semua garis struktural memakai token ini (ikut tema). */
-  --line: #0f0f0f;
-
-  /* Satu aksen: kuning. */
-  --accent: #ffd400;
-  --accent-hover: #ffe44d;
-  --accent-ink: #0f0f0f;
-
-  /* Semantik: sukses dan bahaya (dipakai chip + tombol salin). */
+  /* Status fungsional (bukan sisa gaya lama). */
   --ok: #2fbf71;
   --ok-ink: #0f0f0f;
-  --danger: #ff5140;
-  --danger-ink: #0f0f0f;
+  --danger-text: #b3261e;
 
-  /* Area kode = permukaan sekunder: satu tingkat dari badan panel
-     (--surface), tetap satu keluarga warna di kedua tema — bukan
-     negatif/inversi. Badan input --surface, badan output --code-bg;
-     teks dan garis kode memakai token halaman (--ink/--muted/--line)
-     sehingga kontras terjaga otomatis mengikuti tema. */
-  --code-bg: var(--surface-2);
-  --code-ink: var(--ink);
-  --code-muted: var(--muted);
-  --code-line: var(--line);
+  /* Footer: pita hitam di kedua mode. */
+  --footer-bg: #111111;
+  --footer-text: #f5f0e6;
+  --footer-line: color-mix(in srgb, #f5f0e6 40%, #111111);
 
-  /* Footer: pita gelap di kedua tema, dipisah garis bertema.
-     40% campuran → rasio ±3,5:1 terhadap latar footer (≥3:1). */
-  --footer-bg: #0f0f0f;
-  --footer-ink: #f5f1e6;
-  --footer-muted: #a8a39a;
-  --footer-line: color-mix(in srgb, var(--footer-ink) 40%, var(--footer-bg));
+  /* Scrollbar mengikuti token halaman. */
+  --scroll-track: var(--surface-2);
 
-  /* Shadow solid tanpa blur + cincin fokus, dua token ikut tema. */
-  --shadow-color: #0f0f0f;
-  --focus: #0f0f0f;
+  /* ---------- Gerak: hanya transform + opacity ---------- */
+  --ease-pop: cubic-bezier(.34, 1.56, .64, 1);
+  --ease-out: cubic-bezier(.22, 1, .36, 1);
+  --dur-fast: 120ms;
+  --dur-base: 220ms;
+  --dur-enter: 520ms;
 
-  /* Scrollbar (Firefox via scrollbar-color, WebKit via ::-webkit). */
-  --scroll-track: #f1ebdc;
-  --scroll-thumb: #0f0f0f;
-
-  /* ---------- Geometri seragam untuk SEMUA komponen ----------
-     Dua ketebalan garis saja:
-       --bw        → kotak biasa: panel, badge, kartu, tombol biasa,
-                     garis pemisah (kepala panel, footer, header)
-       --bw-strong → elemen ditekankan: tombol aksi utama
-                     (Generate Paksa / Salin Kode / status Salin)
-                     dan cincin fokus keyboard
-     Jangan pernah memakai nilai border lain di komponen. */
+  /* ---------- Geometri: garis tebal, radius, shadow keras ---------- */
   --bw: 3px;
-  --bw-strong: 4px;
-  --radius: 0; /* satu radius: tajam (semua kotak, termasuk titik sambungan) */
-  --tap: 44px; /* tinggi kontrol: seragam untuk semua tombol + target sentuh */
-  --shadow: 4px 4px 0 var(--shadow-color);
-  --shadow-lift: 2px 2px 0 var(--shadow-color);
-  --shadow-press: 0 0 0 var(--shadow-color);
-  --shift-lift: -2px;
-  --shift-press: 2px;
+  --bw-lg: 4px;
+  --radius-card: 14px;
+  --radius-ctl: 10px;
+  --radius-badge: 999px;
+  --shadow-card: 6px 6px 0 var(--c-black);
+  --shadow-ctl: 4px 4px 0 var(--c-black);
+  --shadow-hover: 7px 7px 0 var(--c-black);
+  --tap: 44px;
 
-  /* ---------- Skala spacing: 4 / 8 / 12 / 16 / 24 / 32 / 48 ----------
-     HANYA kelipatan ini untuk jarak antar elemen dan padding komponen.
-     Set padding baku:
-       badge & tombol --sm 8/12 · tombol 8/16 · kepala panel 8/12
-       kartu ringkasan 12/16 · editor 16/24 · container 24 (16 di mobile) */
-  --s1: 4px;
-  --s2: 8px;
-  --s3: 12px;
-  --s4: 16px;
-  --s5: 24px;
-  --s6: 32px;
-  --s7: 48px;
+  /* ---------- Satu font untuk seluruh halaman (tidak diubah) ---------- */
+  --font-mono: 'JetBrains Mono Variable', 'JetBrains Mono', ui-monospace,
+    SFMono-Regular, Menlo, Consolas, monospace;
 
-  /* ---------- Keluarga huruf ---------- */
-  --font-display: 'Archivo Variable', 'Archivo', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
-  --font-ui: 'IBM Plex Sans Variable', 'IBM Plex Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
-  --font-mono: 'JetBrains Mono Variable', 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-
-  /* ---------- Tipografi: satu skala, satu peran per tingkat ----------
-     --fs-sm   13px → label kecil / meta / badge / hint / tombol kecil
-     --fs-md   15px → body normal & kontrol (paragraf, tombol, isi panel)
-     --fs-lg   17px → judul panel & nilai statistik kartu ringkasan
-     --fs-xl   22px → judul sekunder (nama brand footer, brand di mobile)
-     --fs-2xl  26px → nama brand utama
-     --fs-code 14px → isi area kode (monospace)
-     Elemen dengan peran yang sama memakai tingkat yang sama;
-     tidak ada ukuran font hardcode di komponen. */
-  --fs-sm: 13px; /* hint, label, chip, catatan, badge, tombol --sm */
-  --fs-md: 15px; /* isi teks (body) dan tombol */
-  --fs-lg: 17px; /* judul panel, nilai statistik */
-  --fs-xl: 22px; /* judul footer / nilai besar / brand sekunder */
-  --fs-2xl: 26px; /* nama produk */
-  --fs-code: 14px; /* isi area kode */
-
-  --container: 1180px;
-  --header-h: 75px;
+  /* ---------- Tipografi: skala StockMeta, nilai asli (tidak diubah) ---------- */
+  --text-meta: clamp(12px, 11.5px + 0.15vw, 12.5px);
+  --text-meta-lh: 1.4;
+  --text-small: 13px;
+  --text-small-lh: 1.5;
+  --text-body: 14px;
+  --text-body-lh: 1.5;
+  --text-title: 16px;
+  --text-title-lh: 1.3;
+  --text-brand: 20px;
+  --text-brand-lh: 1.2;
 }
 
 /* =============================================================
-   Mode gelap: nama token sama, nilai berbeda.
-   Latar hitam pekat, garis dan shadow terang (kuning) agar
-   tetap terlihat; area kode = permukaan sekunder (--surface-2),
-   satu tingkat dari badan panel — satu kesatuan visual dengan
-   panel input, bukan tempelan tema terang di tengah tema gelap.
+   Mode malam: halaman gelap; blok cerah tetap sama.
+   --ink krem HANYA untuk border elemen di atas latar gelap;
+   bayangan elemen itu berwarna (aturan b), bukan krem.
    ============================================================= */
 [data-theme='dark'] {
   color-scheme: dark;
 
-  --bg: #0d0d0e;
-  --surface: #1a1b1d;
-  --surface-2: #26282b;
-  --ink: #f5f1e6;
-  --muted: #a9a49a;
-
-  --line: #f5f1e6;
-
-  --accent: #ffd400;
-  --accent-hover: #ffe44d;
-  --accent-ink: #0f0f0f;
+  --bg: #121212;
+  --dot: #2a2a2a;
+  --surface: #1c1c1c;
+  --surface-2: #242424;
+  --ink: #f5f0e6;
+  --text: #f5f0e6;
+  --muted: #b9b2a3;
+  --focus: var(--c-blue);
 
   --ok: #4ade80;
-  --ok-ink: #0f0f0f;
-  --danger: #ff6b5e;
-  --danger-ink: #0f0f0f;
-
-  /* Satu keluarga dengan halaman: badan output --surface-2,
-     teks dan garis kode mengikuti token halaman. */
-  --code-bg: var(--surface-2);
-  --code-ink: var(--ink);
-  --code-muted: var(--muted);
-  --code-line: var(--line);
-
-  --footer-bg: #161719;
-  --footer-ink: #f5f1e6;
-  --footer-muted: #a9a49a;
-  --footer-line: color-mix(in srgb, var(--footer-ink) 40%, var(--footer-bg));
-
-  /* Shadow terang (aksen) supaya offset tetap terbaca di latar hitam. */
-  --shadow-color: #ffd400;
-  --focus: #f5f1e6;
-
-  --scroll-track: #1a1b1d;
-  --scroll-thumb: #f5f1e6;
+  --danger-text: #ff5c5c;
 }
