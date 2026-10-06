@@ -1,58 +1,81 @@
 <div align="center">
 
-<img src="./docs/banner.svg" alt="RigForge: ubah data avatar Roblox jadi script Lua siap pakai" width="100%">
+<img src="docs/images/banner.svg" alt="RigForge: ubah data avatar Roblox jadi script Lua siap pakai" width="100%">
 
 <br>
 
-[![Live Demo](https://img.shields.io/badge/demo-live-2ea44f?style=flat-square)](https://akndrn000.github.io/rigforge/)
-![React](https://img.shields.io/badge/React-19-61DAFB?style=flat-square&logo=react&logoColor=black)
-![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=flat-square&logo=typescript&logoColor=white)
-![Vite](https://img.shields.io/badge/Vite-646CFF?style=flat-square&logo=vite&logoColor=white)
-![Vitest](https://img.shields.io/badge/tested_with-Vitest-6E9F18?style=flat-square&logo=vitest&logoColor=white)
-![Node](https://img.shields.io/badge/Node-22.x-339933?style=flat-square&logo=node.js&logoColor=white)
-[![License: MIT](https://img.shields.io/badge/license-MIT-2ea44f?style=flat-square)](./LICENSE)
+[![Live demo](https://img.shields.io/badge/demo-rigforge--lemon.vercel.app-ffd60a?style=for-the-badge&labelColor=111111)](https://rigforge-lemon.vercel.app/)
 
-**[Demo Live](https://rigforge-lemon.vercel.app) · [Fitur](#fitur) · [Cara Pakai](#cara-pakai) · [Cara Kerja](#cara-kerja-konverter) · [Memulai](#memulai) · [Deploy](#deploy) · [Laporkan Bug](https://github.com/akndrn000/rigforge/issues)**
+![Vite](https://img.shields.io/badge/Vite-646cff?style=flat-square&logo=vite&logoColor=white)
+![React](https://img.shields.io/badge/React_19-20232a?style=flat-square&logo=react&logoColor=61dafb)
+![TypeScript](https://img.shields.io/badge/TypeScript-3178c6?style=flat-square&logo=typescript&logoColor=white)
+![Vitest](https://img.shields.io/badge/Vitest-6e9f18?style=flat-square&logo=vitest&logoColor=white)
+![Node](https://img.shields.io/badge/Node_22-339933?style=flat-square&logo=node.js&logoColor=white)
+![Deploy](https://img.shields.io/badge/Vercel-000000?style=flat-square&logo=vercel&logoColor=white)
+
+[Bahasa Indonesia](README.md) · [English](README.en.md)
+
+**Ubah data mentah avatar Roblox menjadi script Lua yang siap ditempel ke Roblox Studio.**
+Berjalan di browser Anda. Data tidak pernah dikirim ke server.
+
+[Coba sekarang](https://rigforge-lemon.vercel.app/) ·
+[Fitur](#fitur) ·
+[Cara pakai](#cara-pakai) ·
+[Cara kerja](#cara-kerja-konverter) ·
+[Privasi](#privasi-dan-keamanan) ·
+[Pengembangan](#pengembangan-lokal) ·
+[Kontribusi](#kontribusi)
 
 </div>
 
-<br>
-
-> Tempel data mentah avatar Roblox, dapatkan **script Lua siap tempel** untuk Roblox Studio. Semua diproses di browser: tanpa server, tanpa login, dan tidak ada data yang keluar dari perangkatmu.
-
-<br>
-
-<div align="center">
-<img src="./docs/screenshot-light.png" alt="Tampilan RigForge tema terang dengan hasil konversi" width="49%">
-<img src="./docs/screenshot-dark.png" alt="Tampilan RigForge tema gelap" width="49%">
-<br>
-<sub>Tema terang dan gelap, memakai tombol <b>Contoh Data</b> bawaan aplikasi.</sub>
-</div>
-
-<br>
+---
 
 ## Ringkasan
 
-RigForge mengubah data mentah avatar Roblox menjadi script Lua. Ditujukan untuk pembuat game dan avatar yang ingin memindahkan tampilan avatar ke dalam script tanpa menyalin ID satu per satu.
+Memindahkan tampilan avatar ke dalam script berarti menyalin puluhan ID satu per satu dan menyusunnya sesuai template. RigForge membaca data mentah avatar Roblox, mengenali setiap bagiannya, lalu menyusun script Lua dengan struktur yang selalu sama.
+
+Ada tiga hal yang menjadi pegangan alat ini:
+
+- **Privat.** Seluruh proses berjalan di browser. Tidak ada server, tidak ada login, dan tidak ada data yang keluar dari perangkat Anda.
+- **Otomatis.** Bagian tubuh, warna kulit, pakaian klasik, pakaian berlapis, dan aksesori dikenali sendiri, termasuk dari blob `AccessoryBlob Data`.
+- **Konsisten.** Output memakai template slot universal dan dijaga oleh tes snapshot, sehingga hasilnya stabil dari waktu ke waktu.
+
+## Tampilan
+
+<table>
+  <tr>
+    <td width="50%" align="center"><img src="docs/images/preview-dark.png" alt="Pratinjau RigForge mode malam"><br><sub>Mode malam</sub></td>
+    <td width="50%" align="center"><img src="docs/images/preview-light.png" alt="Pratinjau RigForge mode siang"><br><sub>Mode siang</sub></td>
+  </tr>
+</table>
+
+<sub>Pratinjau memakai tombol <b>Contoh Data</b> bawaan aplikasi.</sub>
 
 ## Fitur
 
 | | |
-| --- | --- |
-| **100% client-side dan privat** | Konversi sinkron di browser, tidak ada request jaringan untuk data. |
+|---|---|
+| **100% di browser** | Konversi berjalan lokal tanpa request jaringan untuk data Anda. |
 | **Deteksi otomatis** | Bagian tubuh (Head, Torso, lengan, kaki), warna kulit, pakaian klasik, pakaian berlapis, dan aksesori. |
-| **Template slot universal** | Setiap tipe punya jumlah slot minimum; sisa slot diisi `AssetId = 0`. |
-| **Aksi cepat** | **Contoh Data**, **Generate Paksa**, dan **Salin Kode** di header panel Hasil Lua. |
-| **Pesan error** | Tampil di panel Hasil Lua saat konversi gagal. |
-| **Tema terang/gelap** | Tombol di header, pilihan tersimpan di `localStorage`. |
+| **Dukungan blob** | Membaca `AccessoryBlob Data` berformat JSON dan menggabungkannya dengan daftar token bertipe sama. |
+| **Template slot universal** | Setiap tipe punya jumlah slot minimum. Sisa slot diisi `AssetId = 0`, dan baris baru ditambahkan bila ID melebihi slot. |
+| **Hasil langsung** | Output tersusun otomatis sesaat setelah Anda menempel atau mengetik. |
+| **Aksi cepat** | Tombol **Contoh Data**, **Reset**, **Generate Paksa**, dan **Salin Kode**. |
+| **Pesan error jelas** | Kegagalan konversi tampil langsung di panel Hasil Lua. |
+| **Mode siang dan malam** | Mengikuti sistem, bisa diganti manual. Pilihan tersimpan di browser. |
+| **Tanpa pelacak** | Tidak ada analytics dan tidak ada skrip pihak ketiga. |
 
-## Cara Pakai
+## Cara pakai
 
-Coba langsung di **<https://akndrn000.github.io/rigforge/>**:
+<img src="docs/images/workflow.svg" alt="Alur kerja RigForge: tempel, deteksi, susun, salin" width="100%">
 
-1. Tempel data mentah avatar ke panel kiri (atau klik **Contoh Data**).
-2. Hasil Lua tersusun otomatis di panel kanan. Klik **Generate Paksa** untuk menghitung ulang.
-3. Klik **Salin Kode**, lalu tempel ke Roblox Studio.
+1. **Tempel** data mentah avatar ke panel **Data mentah**, atau klik **Contoh Data** untuk mencoba.
+2. **Lihat hasilnya.** Script Lua tersusun otomatis di panel **Hasil Lua**.
+3. Klik **Generate Paksa** bila Anda ingin menghitung ulang secara manual.
+4. Klik **Salin Kode**, lalu **tempel** ke Roblox Studio.
+
+> [!TIP]
+> Klik **Contoh Data** terlebih dulu untuk melihat format input dan bentuk output yang diharapkan. Tombol **Reset** mengosongkan kedua panel.
 
 <details>
 <summary><b>Contoh input dan output</b></summary>
@@ -112,32 +135,24 @@ SkinTone = "#AABBCC",
 
 </details>
 
-## Cara Kerja Konverter
+## Cara kerja konverter
 
-Inti logika ada di `src/lib/converter.ts` (`convertAvatarData`).
-
-```mermaid
-flowchart LR
-    A[Data mentah] --> B[Parser token]
-    B --> C[Deteksi warna kulit & blob]
-    C --> D[Generator template]
-    D --> E[Script Lua]
-```
+Inti logika ada di `src/lib/converter.ts` (fungsi `convertAvatarData`).
 
 **Aturan parser**
 
-- Token dibaca case-insensitive dengan format `Nama: angka`, misalnya `Head: 123`, `Hat: 11, 12`.
-- `DynamicHead` diutamakan; `Head` dipakai hanya jika `DynamicHead` bernilai 0 atau tidak ada.
+- Token dibaca tanpa membedakan huruf besar dan kecil, dengan format `Nama: angka`, misalnya `Head: 123` atau `Hat: 11, 12`.
+- `DynamicHead` diutamakan. `Head` dipakai hanya bila `DynamicHead` bernilai 0 atau tidak ada.
 - `TShirt` menerima varian `TShirt`, `T-Shirt`, dan `Tshirt`.
 - Warna kulit: hex dalam tanda kurung (`(#F2D7CD)`) diutamakan, lalu teks `Body Color:`, lalu bawaan `Pastel orange`.
-- `AccessoryBlob Data:` berisi JSON array item `{ AssetId, AccessoryType }`. Blob rusak dicatat ke console dan diabaikan.
+- `AccessoryBlob Data:` berisi JSON array item `{ AssetId, AccessoryType }`. Blob yang rusak dicatat ke console dan diabaikan.
 
 **Aturan generator (template universal)**
 
-- Setiap bagian punya jumlah slot minimum. ID mengisi slot dari atas ke bawah, sisa slot tetap `AssetId = 0`.
-- Jika ID melebihi jumlah slot, baris baru otomatis ditambahkan di bagian yang sama.
+- Setiap bagian punya jumlah slot minimum. ID mengisi slot dari atas ke bawah, dan sisa slot tetap `AssetId = 0`.
+- Bila ID melebihi jumlah slot, baris baru otomatis ditambahkan di bagian yang sama.
 - Tipe aksesori yang tidak ada di template dibuatkan bagian baru di akhir `Accessories`, sesuai urutan kemunculan.
-- Item blob bertipe aksesori digabung dengan daftar token bertipe sama; ID identik dalam satu bagian hanya ditulis sekali.
+- ID identik dalam satu bagian hanya ditulis sekali.
 
 <details>
 <summary><b>Jumlah slot minimum per tipe</b></summary>
@@ -145,7 +160,7 @@ flowchart LR
 <br>
 
 | Bagian `Layered` | Slot | Bagian `Accessories` | Slot |
-| --- | ---: | --- | ---: |
+|---|---:|---|---:|
 | LeftShoe | 2 | Hat | 3 |
 | RightShoe | 2 | Hair | 3 |
 | TShirt | 3 | Face | 7 |
@@ -156,143 +171,106 @@ flowchart LR
 | Sweater | 3 | Waist | 3 |
 | Jacket | 4 | | |
 
-Ubah jumlah slot di `LAYERED_GROUPS` / `ACCESSORY_GROUPS` bila template perlu disesuaikan.
+Jumlah slot diatur di `LAYERED_GROUPS` dan `ACCESSORY_GROUPS` pada `converter.ts`.
 
 </details>
 
-## Teknologi
+## Privasi dan keamanan
 
-| Teknologi | Peran |
-| --- | --- |
-| Vite | Build dan dev server |
-| React 19 + TypeScript | UI satu halaman (`src/App.tsx`) |
-| CSS + design token (`src/styles/tokens.css`) | Styling neobrutalism modern (blok pink/kuning/mint, radius 14/10px, bayangan keras berwarna) |
-| Fontsource (JetBrains Mono variable) | Satu font yang di-host sendiri, tanpa Google Fonts |
-| Vitest | Tes logika konverter |
-| Vercel | Hosting demo |
+<img src="docs/images/privacy.svg" alt="Data avatar diproses di browser dan tidak dikirim ke server mana pun" width="100%">
 
-## Memulai
+- Data yang Anda tempel diproses **langsung di browser**. Tidak ada request jaringan untuk data tersebut.
+- Aplikasi tidak memakai analytics maupun pelacak.
+- Satu-satunya data yang disimpan di browser adalah pilihan tema (kunci `rl-theme` di localStorage).
+- Hosting di Vercel menyertakan header keamanan: `X-Content-Type-Options`, `X-Frame-Options: DENY`, `Referrer-Policy`, dan `Permissions-Policy`.
 
-Prasyarat: Node.js 22 (sesuai `engines` di `package.json`).
+## Batasan yang diketahui
+
+- Data input harus memakai nama token yang dikenali parser. Baris yang tidak dikenali diabaikan.
+- Struktur dan jumlah slot output mengikuti template tetap. Perubahan template perlu mengubah kode dan snapshot tes.
+- Nilai `Scaling` dan warna kulit bawaan ditulis tetap di `converter.ts`.
+- Selalu uji script hasil di Roblox Studio Anda sebelum dipakai di proyek sungguhan.
+- Alat ini bersifat independen dan **tidak berafiliasi dengan Roblox Corporation**. "Roblox" adalah merek dagang Roblox Corporation.
+
+## Pengembangan lokal
+
+Prasyarat: Node.js 22 (sesuai `engines` di `package.json`) dan npm.
 
 ```bash
 git clone https://github.com/akndrn000/rigforge.git
 cd rigforge
-npm install     # pasang dependensi
-npm run dev     # dev server di http://localhost:5173
+npm install
+npm run dev        # http://localhost:5173
 ```
 
 | Perintah | Fungsi |
-| --- | --- |
-| `npm run dev` | Menjalankan dev server Vite |
-| `npm run build` | Typecheck (`tsc --noEmit`) lalu build produksi ke `dist` |
-| `npm run preview` | Mencoba hasil build di `http://localhost:4173` |
-| `npm test` | Menjalankan tes sekali (`vitest run`) |
-| `npm run typecheck` | Pemeriksaan tipe saja, tanpa build |
+|---|---|
+| `npm run dev` | Menjalankan dev server Vite. |
+| `npm run build` | Pemeriksaan tipe lalu build produksi ke `dist`. |
+| `npm run preview` | Mencoba hasil build di `http://localhost:4173`. |
+| `npm test` | Menjalankan semua tes sekali (Vitest). |
+| `npm run typecheck` | Pemeriksaan tipe saja, tanpa build. |
 
-## Testing
+Tidak ada environment variable yang dibutuhkan.
 
-Tes ada di `src/lib/converter.test.ts` dan memakai Vitest:
+### Testing
 
-- **Tes snapshot (26 kasus)** di `src/lib/__fixtures__/golden.json`: setiap kasus berisi `input`, `lineStat`, `charStat`, dan `lua` yang diharapkan. Output `convertAvatarData` harus sama persis.
-- **Tes perilaku template universal**: pengisian slot dari atas, baris tambahan saat ID melebihi slot, penggabungan token + blob, bagian baru untuk tipe tak dikenal, dan deduplikasi ID.
-- **Tes ringkasan deteksi**: jumlah bagian tubuh, warna kulit, pakaian klasik/berlapis, dan aksesori dari `SAMPLE_DATA`.
-
-```bash
-npm test
-```
+Tes ada di `src/lib/converter.test.ts` (saat ini 74 tes), termasuk **26 kasus snapshot** di `src/lib/__fixtures__/golden.json`. Setiap kasus berisi `input`, `lineStat`, `charStat`, dan `lua` yang diharapkan, dan output `convertAvatarData` harus sama persis.
 
 > [!NOTE]
-> Bila perilaku konverter sengaja diubah, perbarui entri yang relevan di `golden.json` (input dan output yang diharapkan), lalu jalankan `npm test` lagi sampai semua kasus lolos.
+> Bila perilaku konverter sengaja diubah, perbarui entri yang relevan di `golden.json`, lalu jalankan `npm test` lagi sampai semua kasus lolos.
 
-## Deploy
+### Struktur folder
 
-**Lewat GitHub (disarankan)**
+```
+src/
+  App.tsx          susunan halaman tunggal: Header, Converter, Footer
+  main.tsx         entry point React
+  components/      Converter, Header, Footer, Icon
+  hooks/           useTheme (tema siang/malam)
+  lib/             converter.ts (parser + generator), sample.ts, tes, __fixtures__/
+  styles/          tokens.css (token desain), base.css, site.css
+public/            favicon, brand.svg, apple-touch-icon, og-image
+docs/              DESIGN.md, export-assets.py, images/
+```
 
-1. Push repo ini ke GitHub.
-2. Buka <https://vercel.com/new> dan impor repository tersebut.
-3. Vercel mendeteksi Vite otomatis (`vercel.json` sudah mengatur build, output `dist`, dan header keamanan). Klik **Deploy**.
+### Tech stack
 
-**Lewat Vercel CLI**
+- **Vite**, **React 19**, dan **TypeScript**
+- **CSS biasa** dengan token desain di `src/styles/tokens.css` (neobrutalism modern: blok warna, border tebal, bayangan keras)
+- **JetBrains Mono** (variable) lewat Fontsource, di-host sendiri tanpa Google Fonts
+- **Vitest** untuk tes logika konverter
+
+Panduan visual ada di [`docs/DESIGN.md`](docs/DESIGN.md).
+
+### Kustomisasi
+
+- **Warna, font, dan geometri:** ubah `src/styles/tokens.css`. Komponen hanya memakai token, jadi tidak ada warna yang di-hardcode di CSS maupun JSX.
+- **Teks halaman:** `src/components/Converter.tsx`, `Header.tsx`, dan `Footer.tsx`.
+- **Nilai `Scaling` dan warna kulit bawaan:** konstanta `SCALING` dan `DEFAULT_SKIN_TONE` di `converter.ts`. Bila diubah, perbarui `golden.json` karena output ikut berubah.
+- **Aset PNG** (`og-image.png`, `apple-touch-icon.png`): dirender ulang dari desain yang sama dengan `python docs/export-assets.py` (membutuhkan Pillow dan fontTools).
+
+## Deploy ke Vercel
+
+Hubungkan repo ini ke Vercel Dashboard, atau deploy dari terminal:
 
 ```bash
-npx vercel          # deploy pratinjau
-npx vercel --prod   # deploy produksi
+npx vercel          # pratinjau
+npx vercel --prod   # produksi
 ```
 
-<details>
-<summary><b>Memakai domain sendiri</b></summary>
-
-<br>
-
-Tambahkan domain di **Project → Settings → Domains**, lalu atur environment variable agar canonical, Open Graph, `robots.txt`, dan `sitemap.xml` memakai domain itu:
-
-```text
-SITE_URL = https://domainkamu.com
-```
-
-Tanpa variable ini, build memakai URL produksi Vercel (`VERCEL_PROJECT_PRODUCTION_URL`), atau `http://localhost:5173` saat pengembangan lokal. `robots.txt` dan `sitemap.xml` dibuat saat build oleh plugin `siteMeta` di `vite.config.ts`.
-
-</details>
-
-<details>
-<summary><b>Struktur proyek</b></summary>
-
-<br>
-
-```text
-src/
-  App.tsx                 # Susunan halaman tunggal: Header + Converter + Footer
-  main.tsx                # Entry point React
-  components/
-    Converter.tsx         # Alat utama: input, output, tombol aksi
-    Header.tsx            # Nama produk + tombol tema
-    Footer.tsx            # Disclaimer merek dagang + catatan privasi
-    Icon.tsx              # Set ikon SVG sendiri
-  hooks/
-    useTheme.ts           # Tema terang/gelap, tersimpan di localStorage
-  lib/
-    converter.ts          # Parser + generator Lua (inti konverter)
-    converter.test.ts     # Tes snapshot + tes perilaku template
-    __fixtures__/
-      golden.json         # Snapshot 26 kasus uji (input, output Lua)
-    sample.ts             # Data contoh untuk tombol "Contoh Data"
-  styles/
-    tokens.css            # Token warna dan font (terang + gelap)
-    base.css              # Gaya dasar
-    site.css              # Gaya halaman dan komponen
-public/
-  favicon.svg             # Favicon
-  apple-touch-icon.png    # Ikon iOS
-  og-image.png            # Gambar pratinjau tautan (Open Graph)
-docs/
-  DESIGN.md               # Dokumentasi desain
-  banner.svg              # Banner README
-  screenshot-*.png        # Tangkapan layar README
-vite.config.ts            # Plugin React + siteMeta (SITE_URL, robots, sitemap)
-vercel.json               # Konfigurasi build dan header keamanan di Vercel
-LICENSE                   # Lisensi MIT
-```
-
-</details>
-
-## Kustomisasi
-
-- **Warna dan font:** `src/styles/tokens.css`. Palet blok (`--c-yellow/pink/mint/blue/orange/red`), border tebal (`--bw` 3px, `--bw-lg` 4px), radius kartu 14px / kontrol 10px (`--radius-card/--radius-ctl`), bayangan keras (`--shadow-card/--shadow-ctl`, berwarna di mode malam); varian terang dan gelap ada di blok `:root` dan `[data-theme='dark']`. Detail peran tiap token ada di `docs/DESIGN.md`.
-- **Teks halaman:** `src/components/Converter.tsx`, `Header.tsx`, `Footer.tsx`.
-- **Nilai `Scaling`** (`BodyType`, `Depth`, `Height`, dst.) dan warna kulit bawaan (`Pastel orange`) ditulis tetap di `converter.ts` (konstanta `SCALING` dan `DEFAULT_SKIN_TONE`). Jika diubah, perbarui `golden.json` karena output ikut berubah.
-- **Gambar pratinjau tautan** (`public/og-image.png`) bisa diganti dengan desain sendiri.
+`vercel.json` sudah mengatur framework Vite, perintah build, folder output `dist`, `cleanUrls`, header keamanan, dan cache jangka panjang untuk `/assets`. Aplikasi dilayani dari akar domain (`base: '/'` di `vite.config.ts`).
 
 ## Kontribusi
 
-1. Fork repo ini dan buat branch dari `main`.
-2. Lakukan perubahan, lalu jalankan `npm test` dan `npm run typecheck`.
-3. Buka pull request dengan penjelasan singkat tentang perubahan dan alasannya.
+Masukan dan perbaikan sangat diterima. Baca [CONTRIBUTING.md](CONTRIBUTING.md) untuk alur kerja, standar kode, dan cara melaporkan bug. Riwayat perubahan ada di [CHANGELOG.md](CHANGELOG.md).
 
-Menemukan bug? Laporkan di [halaman issues](https://github.com/akndrn000/rigforge/issues).
+## Lisensi
 
-## Lisensi dan Disclaimer
+Dirilis di bawah [Lisensi MIT](LICENSE).
 
-Dirilis di bawah **Lisensi MIT**. Lihat [LICENSE](./LICENSE).
+---
 
-"Roblox" adalah merek dagang Roblox Corporation. Proyek ini alat independen dan tidak berafiliasi dengan Roblox Corporation. Data yang ditempel diproses langsung di browser — tanpa server, tanpa analytics, tanpa pelacak.
+<div align="center">
+<sub>RigForge. Alat independen untuk pembuat game dan avatar Roblox. Diproses lokal di browser.</sub>
+</div>
