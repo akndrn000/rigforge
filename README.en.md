@@ -4,7 +4,7 @@
 
 <br>
 
-[![Live demo](https://img.shields.io/badge/demo-rigforge--lemon.vercel.app-ffd60a?style=for-the-badge&labelColor=111111)](https://rigforge-lemon.vercel.app/)
+[![Live demo](https://img.shields.io/badge/demo-rigforge--lemon.vercel.app-ffd60a?style=for-the-badge&labelColor=111111)](https://rigforge-mocha.vercel.app/)
 
 ![Vite](https://img.shields.io/badge/Vite-646cff?style=flat-square&logo=vite&logoColor=white)
 ![React](https://img.shields.io/badge/React_19-20232a?style=flat-square&logo=react&logoColor=61dafb)
@@ -17,7 +17,7 @@
 **Turn raw Roblox avatar data into a Lua script for Roblox Studio.**
 Runs in your browser. Pasted data never passes through a server.
 
-[Try it now](https://rigforge-lemon.vercel.app/) ·
+[Try it now](https://rigforge-mocha.vercel.app/) ·
 [Features](#features) ·
 [How to use](#how-to-use) ·
 [Input format](#input-format) ·
@@ -69,7 +69,7 @@ Three principles guide the tool:
 
 <img src="docs/images/workflow.svg" alt="RigForge workflow: paste, convert, review, copy" width="100%">
 
-1. **Open** [rigforge-lemon.vercel.app](https://rigforge-lemon.vercel.app/). The page loads with sample data and the result is already shown.
+1. **Open** [rigforge-lemon.vercel.app](https://rigforge-mocha.vercel.app/). The page loads with sample data and the result is already shown.
 2. **Paste** raw avatar data into the **Data mentah** (raw data) panel. Click **Reset** first to start from empty.
 3. **Check the result** in the **Hasil Lua** (Lua output) panel. Conversion runs automatically whenever the data changes.
 4. Click **Generate Paksa** (force generate) to re-run the conversion right away.
